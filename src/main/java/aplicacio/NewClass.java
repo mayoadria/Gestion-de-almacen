@@ -9,6 +9,8 @@ package aplicacio;
  *
  * @author chris
  */
-public class NewClass {
-    
+public class NewClass extends dades.MysqlConnection{
+    public static void main(String[] args) {
+       connection();
+    }
 }

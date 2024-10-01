@@ -17,7 +17,7 @@ import java.util.Scanner;
  * @author chris
  */
 public class MysqlConnection {
-    public static void connection() {
+    public static Connection connection() {
         Scanner sc = new Scanner(System.in);
         
         System.out.print("Introdueix contrasenya de base de dades:");
@@ -28,7 +28,7 @@ public class MysqlConnection {
         props.setProperty("password", contrasenya);
         props.setProperty("useSSL", "true");
         
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/database", props);) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/projecte1db", props);) {
             System.out.println("Connexió feta a la base de dades database");
             // codi per fer operacions a la base de dades
 
@@ -36,6 +36,7 @@ public class MysqlConnection {
     } catch (SQLException e) {
             e.printStackTrace();
         } // ja no cal el bloc finally per tancar recursos   
+        return null;
     }
     
 }
