@@ -11,7 +11,7 @@ import java.sql.SQLException;
  *
  * @author Anna
  */
-public class ProveidorDAO extends DataLayer implements DAOInterface<Proveidor>{
+public class ProveidorDAO extends DataLayer implements DAOInteerface<Proveidor>{
     
     public ProveidorDAO() throws SQLException() {
         //Aquest mètode recull els errors de connexió que es puguin donar en la connexió amb la BBDD.
