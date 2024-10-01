@@ -9,7 +9,7 @@ package aplicacio.model;
  * @author Anna
  */
 public class Proveidor {
-    
+
     String nom;
     String cif;
     EstatProveidor Estat;
@@ -48,11 +48,9 @@ public class Proveidor {
     public String toString() {
         return "Proveidor{" + "nom=" + nom + ", cif=" + cif + ", Estat=" + Estat + '}';
     }
-    
-    
-}
 
+    public enum EstatProveidor {
+        ACTIU, INACTIU
+    }
 
-public enum Estat{
-    ACTIU,INACTIU
 }

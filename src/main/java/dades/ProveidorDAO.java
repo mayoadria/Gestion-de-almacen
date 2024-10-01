@@ -4,7 +4,9 @@
  */
 package dades;
 
+import aplicacio.model.Proveidor;
 import java.sql.SQLException;
+import java.util.List;
 
 
 /**
@@ -13,9 +15,34 @@ import java.sql.SQLException;
  */
 public class ProveidorDAO extends DataLayer implements DAOInteerface<Proveidor>{
     
-    public ProveidorDAO() throws SQLException() {
+    public ProveidorDAO() throws SQLException {
         //Aquest mètode recull els errors de connexió que es puguin donar en la connexió amb la BBDD.
         
         super();
+    }
+
+    @Override
+    public List<Proveidor> getAll() throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void insert(Proveidor t) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void update(Proveidor t) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void delete(Proveidor t) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Proveidor get(Proveidor t) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
