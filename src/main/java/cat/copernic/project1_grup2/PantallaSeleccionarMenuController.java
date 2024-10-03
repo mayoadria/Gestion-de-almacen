@@ -49,7 +49,7 @@ public class PantallaSeleccionarMenuController implements Initializable {
     private void AbrirReferencia(ActionEvent event) {
          try {
             // Cargo la vista
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PantallaReferenciaController.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PantallaReferencias.fxml"));
 
             // Cargo el padre
             Parent root = loader.load();
@@ -74,3 +74,4 @@ public class PantallaSeleccionarMenuController implements Initializable {
     }
     
 }
+

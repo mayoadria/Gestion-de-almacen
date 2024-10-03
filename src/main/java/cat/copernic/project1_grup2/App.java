@@ -19,7 +19,7 @@ public class App extends Application {
         try {
             //Cargo la vista
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(App.class.getResource("/fxml/PantallaSeleccionarMenu.fxml"));
+            loader.setLocation(App.class.getResource("/fxml/PantallaSeleccionaMenus.fxml"));
 
             // Cargo la ventana
             Pane ventana = (Pane) loader.load();
