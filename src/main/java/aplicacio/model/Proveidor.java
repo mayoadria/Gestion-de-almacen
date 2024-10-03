@@ -4,20 +4,74 @@
  */
 package aplicacio.model;
 
+import java.sql.Date;
+
 /**
  *
  * @author Anna
  */
 public class Proveidor {
 
-    String nom;
-    String cif;
-    EstatProveidor Estat;
+    private String nom;
+    private String cif;
+    private EstatProveidor Estat;
+    private int id_proveidor;
+    private String motiu_inactiu;
+    private Date data_creacio;
+    private String correu_electronic;
+    private float rating_proveidor;
+    private int mesos_de_colaboracio;
 
-    public Proveidor(String nom, String cif, EstatProveidor Estat) {
-        this.nom = nom;
-        this.cif = cif;
-        this.Estat = Estat;
+    public Proveidor() {
+        
+    }
+
+    public int getId_proveidor() {
+        return id_proveidor;
+    }
+
+    public void setId_proveidor(int id_proveidor) {
+        this.id_proveidor = id_proveidor;
+    }
+
+    public String getMotiu_inactiu() {
+        return motiu_inactiu;
+    }
+
+    public void setMotiu_inactiu(String motiu_inactiu) {
+        this.motiu_inactiu = motiu_inactiu;
+    }
+
+    public Date getData_creacio() {
+        return data_creacio;
+    }
+
+    public void setData_creacio(Date data_creacio) {
+        this.data_creacio = data_creacio;
+    }
+
+    public String getCorreu_electronic() {
+        return correu_electronic;
+    }
+
+    public void setCorreu_electronic(String correu_electronic) {
+        this.correu_electronic = correu_electronic;
+    }
+
+    public float getRating_proveidor() {
+        return rating_proveidor;
+    }
+
+    public void setRating_proveidor(float rating_proveidor) {
+        this.rating_proveidor = rating_proveidor;
+    }
+
+    public int getMesos_de_colaboracio() {
+        return mesos_de_colaboracio;
+    }
+
+    public void setMesos_de_colaboracio(int mesos_de_colaboracio) {
+        this.mesos_de_colaboracio = mesos_de_colaboracio;
     }
 
     public String getNom() {
