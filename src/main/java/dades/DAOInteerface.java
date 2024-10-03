@@ -17,6 +17,7 @@ public interface DAOInteerface<T> {
     
     public List<T> getAll() throws SQLException;
     
+    
     /***
      * Desa un nou element a la taula
      * @param t
