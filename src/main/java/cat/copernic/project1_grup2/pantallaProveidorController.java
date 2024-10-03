@@ -4,7 +4,6 @@
  */
 package cat.copernic.project1_grup2;
 
-import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -16,11 +15,9 @@ import javafx.scene.control.TextField;
  * @author Anna
  */
 public class pantallaProveidorController {
-    @FXML
     
-    private void switchToPrimary() throws IOException {
-        App.setRoot("primary");
-    }
+    
+    
     
     @FXML
     private TextField tf_motiuProv;
