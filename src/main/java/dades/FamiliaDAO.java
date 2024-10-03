@@ -4,6 +4,7 @@
  */
 package dades;
 
+import dao.DAOInteerface;
 import aplicacio.model.Familia;
 import java.sql.SQLException;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author oriol
  */
-public class FamiliaDAO extends DataLayer implements DAOInteerface<Familia>{
+public class FamiliaDAO implements DAOInteerface<Familia>{
 
     public FamiliaDAO() throws SQLException {
         super();

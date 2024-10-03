@@ -16,11 +16,7 @@ import javafx.scene.control.TextField;
  * @author Anna
  */
 public class pantallaProveidorController {
-    @FXML
     
-    private void switchToPrimary() throws IOException {
-        App.setRoot("primary");
-    }
     
     @FXML
     private TextField tf_motiuProv;
