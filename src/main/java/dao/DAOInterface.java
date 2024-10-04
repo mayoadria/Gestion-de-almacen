@@ -13,7 +13,7 @@ import java.util.List;
  * @author mayoa
  * @param <T>
  */
-public interface DAOInteerface<T> {
+public interface DAOInterface<T> {
     
     public List<T> getAll() throws SQLException;
     
