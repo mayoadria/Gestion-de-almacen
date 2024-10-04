@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cat.copernic.project1_grup2.PantallaSeleccionarMenuController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="3.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="35.0" prefWidth="214.0" text="Seleccionar Menu">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Label text="Families" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnFamilia1" mnemonicParsing="false" onAction="#AbrirFamilia" text="Button" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Button>
+            <Label text="Proveïdors" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="15.0" top="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnProveidor" mnemonicParsing="false" onAction="#AbrirProveidor" text="Button" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Button>
+            <Label text="Referencies" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="15.0" top="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnReferencia" mnemonicParsing="false" onAction="#AbrirReferencia" text="Button" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Button>
+         </children>
+         <VBox.margin>
+            <Insets bottom="15.0" />
+         </VBox.margin>
+      </VBox>
+   </children>
+</VBox>

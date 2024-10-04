@@ -7,14 +7,39 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import javafx.scene.layout.Pane;
 
 /**
  * JavaFX App
  */
 public class App extends Application {
 
-    private static Scene scene;
+    @Override
+    public void start(Stage stage) throws IOException {
+        try {
+            //Cargo la vista
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(App.class.getResource("/fxml/PantallaSeleccionaMenus.fxml"));
 
+            // Cargo la ventana
+            Pane ventana = (Pane) loader.load();
+
+            // Cargo el scene
+            Scene scene = new Scene(ventana);
+
+            // Seteo la scene y la muestro
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+   
+    public static void main(String[] args) {
+        launch();
+    }
+    /*
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"), 640, 480);
@@ -33,6 +58,6 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
-    }
+    }*/
 
 }

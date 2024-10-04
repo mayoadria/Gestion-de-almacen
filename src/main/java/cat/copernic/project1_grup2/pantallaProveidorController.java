@@ -17,8 +17,6 @@ import javafx.scene.control.TextField;
 public class pantallaProveidorController {
     
     
-    
-    
     @FXML
     private TextField tf_motiuProv;
     

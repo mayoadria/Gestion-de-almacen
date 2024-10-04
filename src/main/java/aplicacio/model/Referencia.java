@@ -23,18 +23,8 @@ public class Referencia {
     private int id_fam;
     private int id_proveidor;
 
-    public Referencia(int id, String nom, double quantitat, String unitat_mida, Date data_alta, Date data_fabricacio, String descripcio, float preu, int unitats_venudes, int id_fam, int id_proveidor) {
-        this.id = id;
-        this.nom = nom;
-        this.quantitat = quantitat;
-        this.unitat_mida = unitat_mida;
-        this.data_alta = data_alta;
-        this.data_fabricacio = data_fabricacio;
-        this.descripcio = descripcio;
-        this.preu = preu;
-        this.unitats_venudes = unitats_venudes;
-        this.id_fam = id_fam;
-        this.id_proveidor = id_proveidor;
+    public Referencia() {
+        
     }
 
     public int getId() {

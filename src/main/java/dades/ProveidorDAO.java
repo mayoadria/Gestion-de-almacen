@@ -76,8 +76,13 @@ public class ProveidorDAO extends DataLayer implements DAOInteerface<Proveidor> 
     @Override
     public void insert(Proveidor t) throws SQLException {
         //Aquest mètode crea un nou proveïdor.
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        String consultaInsert = "INSERT INTO proveidors VALUES (id_proveidor=?,nom_proveidor=?,cif=?,estat_proveidor=?"
+                + ",motiu_inactiu=?,data_creacio=?,correu_electronic=?,rating_proveidor=?,mesos_de_colaboracio=?) ";
+        
+        
+       
         /*Primer recollir dades i inserir-les a les variables.*/
     }
 
