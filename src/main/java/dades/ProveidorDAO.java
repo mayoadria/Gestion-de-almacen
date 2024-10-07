@@ -5,19 +5,27 @@
 package dades;
 
 import aplicacio.model.Proveidor;
+import dao.DAOInterface;
 import aplicacio.model.Proveidor.EstatProveidor;
+import dao.MyDataSource;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import cat.copernic.project1_grup2.pantallaProveidorController;
 
 /**
  * *
  *
  * @author Anna
  */
-public class ProveidorDAO extends DataLayer implements DAOInteerface<Proveidor> {
+public class ProveidorDAO implements DAOInterface<Proveidor> {
+
+    ObservableList<Proveidor> llistaObservableProveidor;
 
     //Creem una llista de proveïdors per a poder treballar el CRUD.
     /**
@@ -44,48 +52,55 @@ public class ProveidorDAO extends DataLayer implements DAOInteerface<Proveidor> 
 
         //Comanda en SQL per al select de tots els proveïdors.
         String consulta = "select * from proveidors";
-        PreparedStatement sentencia = this.getCon().prepareStatement(consulta);
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement pstm = conn.prepareStatement(consulta)) {
+            ResultSet res = pstm.executeQuery();
 
-        ResultSet res = sentencia.executeQuery();
+            //Bucle per a recollir les dades dels diferents proveïdors
+            while (res.next()) {
 
-        //Bucle per a recollir les dades dels diferents proveïdors
-        while (res.next()) {
+                Proveidor p = new Proveidor();
+                p.setId_proveidor(res.getInt("id_proveidor"));
+                p.setNom_proveidor(res.getString("nom_proveidor"));
+                p.setCif(res.getString("cif"));
 
-            Proveidor p = new Proveidor();
-            p.setId_proveidor(res.getInt("id_proveidor"));
-            p.setNom(res.getString("nom_proveidor"));
-            p.setCif(res.getString("cif"));
+                int estat = res.getInt("actiu");
 
-            // EstatProveidor és una enum, però com no hi ha cap mètode "getEnum", l'hem de castejar a String. 
-            String estat = res.getString("estat_proveidor");
-            p.setEstat(EstatProveidor.valueOf(estat.toUpperCase()));
+                if (estat == 1) {
+                    p.setEstat(EstatProveidor.ACTIU);
+                } else {
+                    p.setEstat(EstatProveidor.INACTIU);
+                }
 
-            p.setMotiu_inactiu(res.getString("motiu_inactiu"));
-            p.setData_creacio(res.getDate("data_creacio"));
-            p.setCorreu_electronic(res.getString("correu_electronic"));
-            p.setRating_proveidor(res.getFloat("rating_proveidor"));
-            p.setMesos_de_colaboracio(res.getInt("mesos_de_colaboracio"));
+                p.setMotiu_inactiu(res.getString("motiu_inactiu"));
+                p.setData_creacio(res.getDate("data_creacio"));
+                p.setCorreu_electronic(res.getString("correu_electronic"));
+                p.setRating_proveidor(res.getFloat("rating_proveidor"));
+                p.setMesos_de_colaboracio(res.getInt("mesos_de_colaboracio"));
 
-            ret.add(p);
+                ret.add(p);
+            }
+
+            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
         return ret;
-
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void insert(Proveidor t) throws SQLException {
         //Aquest mètode crea un nou proveïdor.
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        
-        String consultaInsert = "INSERT INTO proveidors VALUES (id_proveidor=?,nom_proveidor=?,cif=?,estat_proveidor=?"
-                + ",motiu_inactiu=?,data_creacio=?,correu_electronic=?,rating_proveidor=?,mesos_de_colaboracio=?) ";
-        
-        
-       
-        /*Primer recollir dades i inserir-les a les variables.*/
+
+        String consultaInsert = "INSERT INTO proveidors(id_proveidor,nom_proveidor,cif,actiu"
+                + ",motiu_inactiu,data_creacio,correu_electronic,rating_proveidor,mesos_de_colaboracio) VALUES (?,?,?,?,?,?,?,?,?)";
+
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement pstm = conn.prepareStatement(consultaInsert)) {
+
+            //Bucle per a recollir les dades dels diferents proveïdors
+            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
     }
 
+    /*Primer recollir dades i inserir-les a les variables.*/
     @Override
     public void update(Proveidor t) throws SQLException {
         //Aquest mètode ens permet modificar un proveïdor.

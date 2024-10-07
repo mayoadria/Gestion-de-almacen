@@ -12,7 +12,7 @@ import java.sql.Date;
  */
 public class Proveidor {
 
-    private String nom;
+    private String nom_proveidor;
     private String cif;
     private EstatProveidor Estat;
     private int id_proveidor;
@@ -21,9 +21,18 @@ public class Proveidor {
     private String correu_electronic;
     private float rating_proveidor;
     private int mesos_de_colaboracio;
-
+    private boolean actiu; 
+    
     public Proveidor() {
-        
+
+    }
+
+    public boolean isActiu() {
+        return actiu;
+    }
+
+    public void setActiu(boolean actiu) {
+        this.actiu = actiu;
     }
 
     public int getId_proveidor() {
@@ -74,13 +83,15 @@ public class Proveidor {
         this.mesos_de_colaboracio = mesos_de_colaboracio;
     }
 
-    public String getNom() {
-        return nom;
+    public String getNom_proveidor() {
+        return nom_proveidor;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setNom_proveidor(String nom_proveidor) {
+        this.nom_proveidor = nom_proveidor;
     }
+
+   
 
     public String getCif() {
         return cif;
@@ -100,11 +111,26 @@ public class Proveidor {
 
     @Override
     public String toString() {
-        return "Proveidor{" + "nom=" + nom + ", cif=" + cif + ", Estat=" + Estat + '}';
+        return "Proveidor{" + "nom_proveidor=" + nom_proveidor + ", cif=" + cif + ", Estat=" + Estat + ", id_proveidor=" + id_proveidor + ", motiu_inactiu=" + motiu_inactiu + ", data_creacio=" + data_creacio + ", correu_electronic=" + correu_electronic + ", rating_proveidor=" + rating_proveidor + ", mesos_de_colaboracio=" + mesos_de_colaboracio + ", actiu=" + actiu + '}';
     }
 
-    public enum EstatProveidor {
+    /*public enum EstatProveidor {
         ACTIU, INACTIU
+    }*/
+    public enum EstatProveidor {
+        ACTIU("ACTIU"), 
+        INACTIU("INACTIU");
+    
+
+    private String value;
+
+    private EstatProveidor(String value) {
+        this.value = value;
     }
 
+    @Override
+    public String toString() {
+        return value;
+    }
+     }
 }
