@@ -12,7 +12,7 @@ import java.io.IOException;
  *
  * @author chris
  */
-public class Autenticacio {
+public class Autenticacio extends Mensajes{
     // Método para verificar si un usuario y rol coinciden con un registro en el archivo
     public boolean verificarUsuario(String usuario, String rol) {
         String archivo = "usuaris.txt"; // Ubicación del archivo
@@ -37,7 +37,7 @@ public class Autenticacio {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error al leer el archivo: " + e.getMessage());
+           mostrarMensajeError("Error al leer el archivo: " + e.getMessage());
         }
         
         return encontrado;

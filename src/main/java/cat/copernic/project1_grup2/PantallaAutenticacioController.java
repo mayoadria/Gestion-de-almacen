@@ -20,12 +20,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logica.Autenticacio;
+import logica.Mensajes;
 
 /**
  *
  * @author chris
  */
-public class PantallaAutenticacioController implements Initializable{
+public class PantallaAutenticacioController extends Mensajes implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -59,11 +60,11 @@ public class PantallaAutenticacioController implements Initializable{
         // Verificar autenticación
         if (autenticacio.verificarUsuario(usuario, rol)) {
             // Abrir la nueva pantalla si la autenticación es correcta
-            System.out.println("Usuario autenticado correctamente.");
+            mostrarMensaje("Usuario autenticado correctamente.");
             abrirNuevaPantalla();
         } else {
             // Mostrar mensaje de error
-            System.out.println("Usuario o rol incorrecto.");
+            mostrarMensaje("Usuario o rol incorrecto.");
         }
     }
     
