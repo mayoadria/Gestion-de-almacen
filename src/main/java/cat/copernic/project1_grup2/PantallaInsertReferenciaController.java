@@ -68,13 +68,21 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
 
     @FXML
     private TextField txtnomProducte;
-    
+
     private ReferenciaDAO referenciaDAO;
+
+    private PantallaReferenciaController referenciaController;
+
+    // Este método se usará para pasar la referencia del controlador principal
+    public void setReferenciaController(PantallaReferenciaController controller) {
+        this.referenciaController = controller;
+    }
 
     @FXML
     private void AfegirPersona(ActionEvent event) {
         try {
             // Obtener los datos del formulario
+            referenciaDAO = new ReferenciaDAO();
             String nomProducte = txtnomProducte.getText();
             int quantitat = Integer.parseInt(txtQuantitatReferencia.getText());
             String unitatMida = txtUnitatMida.getText();
@@ -85,8 +93,7 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
             int unitatsVenudes = Integer.parseInt(txtUnitVen.getText());
             int idFamilia = Integer.parseInt(txtIdFam.getText());
             int idProveidor = Integer.parseInt(txtIdProv.getText());
-            
-            
+
             // Validar que la familia existe en la base de datos
             if (!referenciaDAO.existeFamilia(idFamilia)) {
                 mostrarMensajeError("La familia introducida no existe. Por favor, introduce un ID de familia válido.");
@@ -112,9 +119,13 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
             novaReferencia.setId_proveidor(idProveidor);
 
             //Llamar al método insert() del DAO para insertar la referencia en la base de datos
-
             referenciaDAO.insert(novaReferencia);
+            // Actualizar la tabla en el controlador principal
+            referenciaController.actualizarTablaConNuevaReferencia(novaReferencia);
 
+            // Cerrar la ventana de añadir referencia
+            Stage stage = (Stage) btnSortir.getScene().getWindow();
+            stage.close();
             //Chivato por consola para saber si se ha hecho el insert
             mostrarMensaje("Referencia insertada correctamente.");
 
@@ -138,7 +149,5 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
         stage.close();
 
     }
-    
-    
 
 }

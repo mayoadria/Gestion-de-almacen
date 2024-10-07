@@ -133,9 +133,17 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
     private TableColumn<Referencia, String> unitatMida;
 
     private ReferenciaDAO referenciaDAO;
+
     //Poner que el valor por defecto de cada columna sea el correspondiente
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        try {
+            referenciaDAO = new ReferenciaDAO();
+        } catch (SQLException ex) {
+            Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         this.idReferencia.setCellValueFactory(new PropertyValueFactory<>("id"));
         this.nombre.setCellValueFactory(new PropertyValueFactory<>("nom"));
         this.cantidad.setCellValueFactory(new PropertyValueFactory<>("quantitat"));
@@ -160,9 +168,10 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
         tblReferencia.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 // Actualizar los TextFields con la información del elemento seleccionado
+                
                 txtNom.setText(newSelection.getNom());
                 txtReferencia.setText(String.valueOf(newSelection.getId()));
-                txtCantidad.setText(Double.toString(newSelection.getQuantitat()));
+                txtCantidad.setText(String.valueOf(newSelection.getQuantitat()));
                 txtUnitatMida.setText(newSelection.getUnitat_mida());
                 txtDataAlta.setText(newSelection.getData_alta().toString());
                 txtDataFabricacio.setText(newSelection.getData_fabricacio().toString());
@@ -184,7 +193,11 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
             // Cargo el padre
             Parent root = loader.load();
 
-            
+            // Obtengo el controlador de la nueva ventana
+            PantallaInsertReferenciaController controladorInsert = loader.getController();
+
+            // Paso la referencia de la tabla y de la lista observable al controlador de la nueva ventana
+            controladorInsert.setReferenciaController(this);
             // Creo la scene y el stage
             Scene scene = new Scene(root);
             Stage stage = new Stage();
@@ -197,6 +210,12 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
             Logger.getLogger(PantallaSeleccionarMenuController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    // Método para añadir una referencia directamente a la tabla
+
+    public void actualizarTablaConNuevaReferencia(Referencia nuevaReferencia) {
+        tblReferencia.getItems().add(nuevaReferencia);
+        tblReferencia.refresh();  // Refrescar la tabla para que se vea la nueva entrada
+    }
 
     @FXML
     void Eliminar(ActionEvent event) {
@@ -205,7 +224,7 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
 
         if (referenciaSeleccionada != null) {
             try {
-                
+
                 // Llamar al método delete en la referencia seleccionada
                 referenciaDAO.delete(referenciaSeleccionada);
 

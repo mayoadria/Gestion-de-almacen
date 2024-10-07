@@ -64,7 +64,7 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
             abrirNuevaPantalla();
         } else {
             // Mostrar mensaje de error
-            mostrarMensaje("Usuario o rol incorrecto.");
+            mostrarMensajeError("Usuario o rol incorrecto.");
         }
     }
     
