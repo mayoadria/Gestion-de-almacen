@@ -2,9 +2,9 @@
      * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
      * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package cat.copernic.project1_grup2;
+package presentacio;
 
-import aplicacio.model.Referencia;
+import logica.Referencia;
 import dades.ReferenciaDAO;
 import java.net.URL;
 import java.sql.SQLException;
@@ -17,6 +17,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logica.Mensajes;
+import logica.ReferenciaLogica;
 
 /**
  * FXML Controller class
@@ -70,6 +71,8 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
     private TextField txtnomProducte;
 
     private ReferenciaDAO referenciaDAO;
+    
+    private ReferenciaLogica referenciaLogica;
 
     private PantallaReferenciaController referenciaController;
 
@@ -119,7 +122,7 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
             novaReferencia.setId_proveidor(idProveidor);
 
             //Llamar al método insert() del DAO para insertar la referencia en la base de datos
-            referenciaDAO.insert(novaReferencia);
+            referenciaLogica.afegirReferencia(novaReferencia);
             // Actualizar la tabla en el controlador principal
             referenciaController.actualizarTablaConNuevaReferencia(novaReferencia);
 

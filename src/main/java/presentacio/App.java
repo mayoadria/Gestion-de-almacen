@@ -1,4 +1,4 @@
-package cat.copernic.project1_grup2;
+package presentacio;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

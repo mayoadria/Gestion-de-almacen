@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dao;
+package dades;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -24,7 +24,7 @@ public class MyDataSource {
     static {
         config.setJdbcUrl("jdbc:mysql://localhost/projecte1db?useUnicode=true&serverTimezone=Europe/Madrid&allowPublicKeyRetrieval=true&useSSL=false");
         config.setUsername("root");
-        config.setPassword("21102005");
+        config.setPassword("560104jv");
         config.addDataSourceProperty("maximumPoolSize", 1); //al pool només tindrem 1 connexió
         //altres propietats indicades a https://github.com/brettwooldridge/HikariCP#rocket-initialization
         config.addDataSourceProperty("cachePrepStmts", "true");
@@ -34,7 +34,7 @@ public class MyDataSource {
     }
 
     //constructor privat perquè no el puguem cridar i no es puguin crear instancies d'aquesta classe.
-    private MyDataSource() {
+    public MyDataSource(String projecte1db, String root, String jv) {
     }
 
     

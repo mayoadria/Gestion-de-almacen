@@ -4,10 +4,8 @@
  */
 package dades;
 
-import aplicacio.model.Proveidor;
-import dao.DAOInterface;
-import aplicacio.model.Proveidor.EstatProveidor;
-import dao.MyDataSource;
+import logica.Proveidor;
+import logica.Proveidor.EstatProveidor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
