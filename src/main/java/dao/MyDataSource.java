@@ -22,7 +22,7 @@ public class MyDataSource {
     static {
         config.setJdbcUrl("jdbc:mysql://localhost/projecte1db?useUnicode=true&serverTimezone=Europe/Madrid&allowPublicKeyRetrieval=true&useSSL=false");
         config.setUsername("root");
-        config.setPassword("560104jv");
+        config.setPassword("21102005");
         config.addDataSourceProperty("maximumPoolSize", 1); //al pool només tindrem 1 connexió
         //altres propietats indicades a https://github.com/brettwooldridge/HikariCP#rocket-initialization
         config.addDataSourceProperty("cachePrepStmts", "true");

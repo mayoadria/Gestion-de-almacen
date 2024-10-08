@@ -87,7 +87,7 @@
                               <Insets right="39.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="txtReferencia2" prefHeight="26.0" prefWidth="160.0" />
+                        <TextField fx:id="txtCantidad" prefHeight="26.0" prefWidth="160.0" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="10.0" left="10.0" />
@@ -221,32 +221,22 @@
                   </Button>
                </children>
             </VBox>
-            <VBox prefHeight="50.0" prefWidth="287.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <Button fx:id="btnEliminarReferencia" mnemonicParsing="false" onAction="#Eliminar" prefHeight="26.0" prefWidth="288.0" text="Eliminar">
-                     <VBox.margin>
-                        <Insets bottom="15.0" left="15.0" right="15.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button fx:id="btnModificarReferencia" mnemonicParsing="false" onAction="#Modificar" prefHeight="26.0" prefWidth="300.0" text="Modificar">
-                     <VBox.margin>
-                        <Insets left="15.0" right="15.0" />
-                     </VBox.margin>
-                  </Button>
-               </children>
-            </VBox>
             <VBox prefHeight="50.0" prefWidth="324.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button fx:id="btnExportar" mnemonicParsing="false" onAction="#Exportar" prefHeight="26.0" prefWidth="375.0" text="Exportar">
-                     <VBox.margin>
-                        <Insets bottom="15.0" left="15.0" right="15.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button fx:id="btnImportar" mnemonicParsing="false" onAction="#Importar" prefHeight="26.0" prefWidth="402.0" text="Importar">
-                     <VBox.margin>
-                        <Insets left="15.0" right="15.0" />
-                     </VBox.margin>
-                  </Button>
+                  <VBox prefHeight="50.0" prefWidth="287.0">
+                     <children>
+                        <Button fx:id="btnEliminarReferencia" mnemonicParsing="false" onAction="#Eliminar" prefHeight="26.0" prefWidth="288.0" text="Eliminar">
+                           <VBox.margin>
+                              <Insets bottom="15.0" left="15.0" right="15.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="btnModificarReferencia" mnemonicParsing="false" onAction="#Modificar" prefHeight="26.0" prefWidth="300.0" text="Modificar">
+                           <VBox.margin>
+                              <Insets left="15.0" right="15.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
                </children>
             </VBox>
          </children>
