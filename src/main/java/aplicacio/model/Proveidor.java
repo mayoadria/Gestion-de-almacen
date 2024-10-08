@@ -14,7 +14,7 @@ public class Proveidor {
 
     private String nom_proveidor;
     private String cif;
-    private EstatProveidor Estat;
+    //private EstatProveidor Estat;
     private int id_proveidor;
     private String motiu_inactiu;
     private Date data_creacio;
@@ -101,18 +101,18 @@ public class Proveidor {
         this.cif = cif;
     }
 
-    public EstatProveidor getEstat() {
+    /*public EstatProveidor getEstat() {
         return Estat;
     }
 
     public void setEstat(EstatProveidor Estat) {
         this.Estat = Estat;
     }
-
-    @Override
+*/
+    /*@Override
     public String toString() {
         return "Proveidor{" + "nom_proveidor=" + nom_proveidor + ", cif=" + cif + ", Estat=" + Estat + ", id_proveidor=" + id_proveidor + ", motiu_inactiu=" + motiu_inactiu + ", data_creacio=" + data_creacio + ", correu_electronic=" + correu_electronic + ", rating_proveidor=" + rating_proveidor + ", mesos_de_colaboracio=" + mesos_de_colaboracio + ", actiu=" + actiu + '}';
-    }
+    }*/
 
     /*public enum EstatProveidor {
         ACTIU, INACTIU

@@ -13,7 +13,7 @@ import java.sql.Date;
 public class Referencia {
     private int id;
     private String nom;
-    private double quantitat;
+    private int quantitat;
     private String unitat_mida;
     private Date data_alta;
     private Date data_fabricacio;
@@ -43,11 +43,11 @@ public class Referencia {
         this.nom = nom;
     }
 
-    public double getQuantitat() {
+    public int getQuantitat() {
         return quantitat;
     }
 
-    public void setQuantitat(double quantitat) {
+    public void setQuantitat(int quantitat) {
         this.quantitat = quantitat;
     }
 

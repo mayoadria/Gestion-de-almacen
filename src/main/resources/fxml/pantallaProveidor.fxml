@@ -89,12 +89,12 @@
                                 </HBox>
                                 <HBox prefHeight="36.0" prefWidth="308.0" VBox.vgrow="ALWAYS">
                                     <children>
-                                        <Label fx:id="label_cifProv1" contentDisplay="CENTER" prefHeight="31.0" prefWidth="63.0" text="Estat" />
-                              <ComboBox fx:id="cb_estatProv" prefHeight="25.0" prefWidth="284.0">
+                                        <Label fx:id="label_cifProv1" contentDisplay="CENTER" prefHeight="31.0" prefWidth="63.0" text="Estat" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="tf_EstatProv" prefHeight="25.0" prefWidth="283.0" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets top="5.0" />
                                  </HBox.margin>
-                              </ComboBox>
+                              </TextField>
                                     </children>
                                     <VBox.margin>
                                         <Insets left="35.0" top="5.0" />

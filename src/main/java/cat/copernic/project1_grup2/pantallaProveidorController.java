@@ -10,10 +10,8 @@ import dades.ProveidorDAO;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,7 +21,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -94,7 +91,7 @@ public class pantallaProveidorController implements Initializable {
 
     @FXML
     private ComboBox<EstatProveidor> cb_estatProv;
-    
+
     @FXML
     private TableColumn<?, ?> col_nomProv;
 
@@ -110,8 +107,11 @@ public class pantallaProveidorController implements Initializable {
     @FXML
     private TableColumn<?, ?> col_motiuProv;
 
+    @FXML
+    private TextField tf_EstatProv;
+
     private ProveidorDAO proveidorDAO;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -121,16 +121,12 @@ public class pantallaProveidorController implements Initializable {
         this.col_cifProv.setCellValueFactory(new PropertyValueFactory<>("cif"));
 
         //this.cb_estatProv.getItems().setAll(EstatProveidor.values());
-        
-
-        
         this.col_estatProv.setCellValueFactory(new PropertyValueFactory<>("actiu"));
         this.col_motiuProv.setCellValueFactory(new PropertyValueFactory<>("motiu_inactiu"));
         this.col_creacioProv.setCellValueFactory(new PropertyValueFactory<>("data_creacio"));
         this.col_correuProv.setCellValueFactory(new PropertyValueFactory<>("correu_electronic"));
         this.col_renkingProv.setCellValueFactory(new PropertyValueFactory<>("rating_proveidor"));
         this.col_mesosProv.setCellValueFactory(new PropertyValueFactory<>("mesos_de_colaboracio"));
-        
 
         try {
             cargarProveidors();  //Cridem les dades
@@ -140,25 +136,20 @@ public class pantallaProveidorController implements Initializable {
 
     }
 
-    public void initialize() {
-
-        
-
-    }
-
     private void recollirDadesProveidor() throws SQLException {
 
         Proveidor p = new Proveidor();
         p.setId_proveidor(Integer.parseInt(tf_idProv.getText()));
         p.setNom_proveidor(tf_nomProv.getText());
         p.setCif(tf_cifProv.getText());
-        
-        p.setEstat(cb_estatProv.getValue());
-        
-        
+        String valorEstat = cb_estatProv.getValue().toString();
 
-        //p.setEstat(Proveidor.EstatProveidor.valueOf(this.tf_estatProv.getText().toUpperCase()));
-        // EstatProveidor és una enum, però com no hi ha cap mètode "getEnum", l'hem de castejar a String. 
+        if (valorEstat.equals("ACTIU")) {
+            p.setActiu(true);
+        } else {
+            p.setActiu(false);
+        }
+
         p.setMotiu_inactiu(tf_motiuProv.getText());
         String data = tf_creacioProv.getText();
 
@@ -167,7 +158,6 @@ public class pantallaProveidorController implements Initializable {
             p.setData_creacio(dataCreacio);
         } catch (IllegalArgumentException e) {
             System.out.println("El format de la data és incorrecte.");
-            // Aquí puedes mostrar un mensaje de error al usuario o manejar el error como necesites
         }
         p.setCorreu_electronic(tf_correuProv.getText());
         p.setRating_proveidor(Float.parseFloat(tf_valoracioProv.getText()));
@@ -190,37 +180,22 @@ public class pantallaProveidorController implements Initializable {
         ObservableList<Proveidor> observableProveidors = FXCollections.observableArrayList(proveidors);
         tb_prov.setItems(observableProveidors);
 
+        tb_prov.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+
+                //Aquí passem el contingut de les taules als camps inferiors.
+                tf_nomProv.setText(newSelection.getNom_proveidor());
+                tf_idProv.setText(String.valueOf(newSelection.getId_proveidor()));
+                tf_correuProv.setText(newSelection.getCorreu_electronic());
+                tf_valoracioProv.setText(String.valueOf(newSelection.getRating_proveidor()));
+                tf_cifProv.setText(newSelection.getCif());
+                tf_creacioProv.setText(newSelection.getData_creacio().toString());
+                tf_motiuProv.setText(newSelection.getMotiu_inactiu());
+                tf_colabProv.setText(String.valueOf(newSelection.getMesos_de_colaboracio()));
+                tf_EstatProv.setText(newSelection.isActiu() ? "Actiu" : "Inactiu");
+            }
+        });
+
     }
 
-    /*public void initialize(TextField tf_motiuProv, Button btn_nouProv, TextField tf_correuProv, TextField tf_cifProv, Button btn_modProv, TextField tf_idProv, TextField tf_nomProv, Button btn_eliProv, TextField tf_estatProv, Button btn_sorProv, TextField tf_creacioProv, Button btn_expProv, TextField tf_valoracioProv, TextField tf_colabProv, Button btn_impProv, TableColumn<?, ?> col_renkingProv, TableColumn<?, ?> col_cifProv, TableColumn<?, ?> col_estatProv, TableColumn<?, ?> col_correuProv, TableColumn<?, ?> col_mesosProv, TableColumn<?, ?> col_nomProv, TableView<?> tb_prov, TableColumn<?, ?> col_idProv, TableColumn<?, ?> col_creacioProv, TableColumn<?, ?> col_motiuProv) {
-        this.tf_motiuProv = tf_motiuProv;
-        this.btn_nouProv = btn_nouProv;
-        this.tf_correuProv = tf_correuProv;
-        this.tf_cifProv = tf_cifProv;
-        this.btn_modProv = btn_modProv;
-        this.tf_idProv = tf_idProv;
-        this.tf_nomProv = tf_nomProv;
-        this.btn_eliProv = btn_eliProv;
-        this.tf_estatProv = tf_estatProv;
-        this.btn_sorProv = btn_sorProv;
-        this.tf_creacioProv = tf_creacioProv;
-        this.btn_expProv = btn_expProv;
-        this.tf_valoracioProv = tf_valoracioProv;
-        this.tf_colabProv = tf_colabProv;
-        this.btn_impProv = btn_impProv;
-        this.col_renkingProv = col_renkingProv;
-        this.col_cifProv = col_cifProv;
-        this.col_estatProv = col_estatProv;
-        this.col_correuProv = col_correuProv;
-        this.col_mesosProv = col_mesosProv;
-        this.col_nomProv = col_nomProv;
-        this.tb_prov = tb_prov;
-        this.col_idProv = col_idProv;
-        this.col_creacioProv = col_creacioProv;
-        this.col_motiuProv = col_motiuProv;
-    
-    
-}*/
-
-    
 }
