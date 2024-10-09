@@ -4,9 +4,10 @@
  */
 package logica;
 
-import dades.MyDataSource;
+
 import dades.ReferenciaDAO;
 import java.sql.SQLException;
+import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -21,8 +22,6 @@ public class ReferenciaLogica {
     
     ObservableList<Referencia> llistaObservable;
 
-//    public ReferenciaLogica(ReferenciaDAO dataLayer, ObservableList<Referencia> llistaObservable) {
-//    }
 
     public ReferenciaLogica() throws SQLException {
         this.dataLayer = new ReferenciaDAO();
@@ -35,10 +34,8 @@ public class ReferenciaLogica {
     }
     
     public void afegirReferencia(Referencia r) throws SQLException{
-        Referencia ref = new Referencia();
-        
-        dataLayer.insert(ref);
-        llistaObservable.add(ref);
+        dataLayer.insert(r);
+        llistaObservable.add(r);
     }
     
     public void eliminarReferencia(Referencia ref) throws SQLException{
@@ -55,5 +52,33 @@ public class ReferenciaLogica {
     }
     
     
+    public static boolean FechaValida(String fecha) {
+        // Expresión regular para yyyy-MM-dd
+        Boolean ret = false;
+        Pattern patronFecha = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+        // Crear patrón
+        if (patronFecha.matcher(fecha).find()) {ret = true;}
+       
+        return ret;
+    }
+    
+    public static boolean PreuValid(String preu) {
+        // Expresión regular para yyyy-MM-dd
+        Boolean ret = false;
+        Pattern patronPreu = Pattern.compile("^\\d+(\\.\\d{1,2})?$");
+        // Crear patrón
+        if (patronPreu.matcher(preu).find()) {ret = true;}
+       
+        return ret;
+    }
+    public static boolean unitatMidaValid(String unitat) {
+        // Expresión regular para yyyy-MM-dd
+        Boolean ret = false;
+        Pattern patronPreu = Pattern.compile("^unitats$");
+        // Crear patrón
+        if (patronPreu.matcher(unitat).find()) {ret = true;}
+       
+        return ret;
+    }
     
 }
