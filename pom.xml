@@ -46,7 +46,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.4</version>
                 <configuration>
-                    <mainClass>cat.copernic.project1_grup2.App</mainClass>
+                    <mainClass>presentacio.App</mainClass>
                 </configuration>
                 <executions>
                     <execution>

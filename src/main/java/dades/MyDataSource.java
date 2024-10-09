@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dao;
+package dades;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -32,7 +32,7 @@ public class MyDataSource {
     }
 
     //constructor privat perquè no el puguem cridar i no es puguin crear instancies d'aquesta classe.
-    private MyDataSource() {
+    public MyDataSource(String projecte1db, String root, String jv) {
     }
 
     

@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="783.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cat.copernic.project1_grup2.pantallaProveidorController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="783.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacio.pantallaProveidorController">
     <children>
         <HBox alignment="CENTER" prefHeight="51.0" prefWidth="665.0" VBox.vgrow="ALWAYS">
             <children>
@@ -225,7 +225,7 @@
                                 <Insets top="5.0" />
                             </VBox.margin>
                         </Button>
-                        <Button fx:id="btn_sorProv" mnemonicParsing="false" prefHeight="43.0" prefWidth="93.0" text="Sortir" VBox.vgrow="ALWAYS">
+                        <Button fx:id="btn_sorProv" mnemonicParsing="false" onAction="#handlerButtonSortir" prefHeight="43.0" prefWidth="93.0" text="Sortir" VBox.vgrow="ALWAYS">
                             <font>
                                 <Font size="13.0" />
                             </font>

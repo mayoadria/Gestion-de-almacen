@@ -4,8 +4,7 @@
  */
 package dades;
 
-import dao.DAOInterface;
-import aplicacio.model.Familia;
+import logica.Familia;
 import java.sql.SQLException;
 import java.util.List;
 

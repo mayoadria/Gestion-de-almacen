@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package cat.copernic.project1_grup2;
+package presentacio;
 
-import aplicacio.model.Referencia;
+import logica.Referencia;
 import dades.ReferenciaDAO;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -31,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import logica.Mensajes;
+import logica.ReferenciaLogica;
 
 /**
  * FXML Controller class
@@ -133,13 +134,15 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
     private TableColumn<Referencia, String> unitatMida;
 
     private ReferenciaDAO referenciaDAO;
+    
+    private ReferenciaLogica referenciaLogica;
 
     //Poner que el valor por defecto de cada columna sea el correspondiente
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         try {
-            referenciaDAO = new ReferenciaDAO();
+            this.referenciaLogica = new ReferenciaLogica(); 
         } catch (SQLException ex) {
             Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -156,13 +159,9 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
         this.idFam.setCellValueFactory(new PropertyValueFactory<>("id_fam"));
         this.idProv.setCellValueFactory(new PropertyValueFactory<>("id_proveidor"));
 
-        try {
-            // Obtener la lista de referencias desde ReferenciaDAO
-            ObservableList<Referencia> item = FXCollections.observableArrayList(referenciaDAO.getAll());
-            this.tblReferencia.setItems(item);
-        } catch (SQLException ex) {
-            Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        // Obtener la lista de referencias desde ReferenciaDAO
+        this.tblReferencia.setItems(referenciaLogica.getListObservableReferencia());
 
         // Añadir el listener a la tabla para que se actualicen los TextFields cuando cambie la selección
         tblReferencia.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -226,7 +225,7 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
             try {
 
                 // Llamar al método delete en la referencia seleccionada
-                referenciaDAO.delete(referenciaSeleccionada);
+                referenciaLogica.eliminarReferencia(referenciaSeleccionada);
 
                 // Remover la referencia eliminada de la tabla
                 tblReferencia.getItems().remove(referenciaSeleccionada);
@@ -257,7 +256,7 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
 
             // Actualizar la tabla visualmente
             tblReferencia.refresh();
-            referenciaDAO.update(referenciaSeleccionada);
+            referenciaLogica.modificarReferencia(referenciaSeleccionada);
         } else {
             mostrarMensajeError("No se ha seleccionado ninguna referencia.");
         }

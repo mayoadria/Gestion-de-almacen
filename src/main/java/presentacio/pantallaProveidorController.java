@@ -2,26 +2,34 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package cat.copernic.project1_grup2;
+package presentacio;
 
-import aplicacio.model.Proveidor;
-import aplicacio.model.Proveidor.EstatProveidor;
+
 import dades.ProveidorDAO;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import logica.Proveidor;
 
 /**
  *
@@ -90,9 +98,6 @@ public class pantallaProveidorController implements Initializable {
     private TableColumn<?, ?> col_mesosProv;
 
     @FXML
-    private ComboBox<EstatProveidor> cb_estatProv;
-
-    @FXML
     private TableColumn<?, ?> col_nomProv;
 
     @FXML
@@ -142,7 +147,7 @@ public class pantallaProveidorController implements Initializable {
         p.setId_proveidor(Integer.parseInt(tf_idProv.getText()));
         p.setNom_proveidor(tf_nomProv.getText());
         p.setCif(tf_cifProv.getText());
-        String valorEstat = cb_estatProv.getValue().toString();
+        String valorEstat = tf_estatProv.getText();
 
         if (valorEstat.equals("ACTIU")) {
             p.setActiu(true);
@@ -196,6 +201,34 @@ public class pantallaProveidorController implements Initializable {
             }
         });
 
+    }
+    
+    @FXML
+    private void handlerButtonSortir(ActionEvent ev) throws IOException {
+        //btn_sorProv
+        
+        // Es carrega la vista de la pantalla SeleccionaMenus.
+            /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PantallaSeleccionaMenus.fxml"));
+
+            // Cargo el padre
+            Parent root = loader.load();
+            
+            // Creo la scene y el stage
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+
+            // Asocio el stage con el scene
+            stage.setScene(scene);
+            stage.show();*/
+            Stage stage = (Stage) this.btn_sorProv.getScene().getWindow();
+
+            stage.close();
+
+    }
+    
+    @FXML 
+    private void handlerButtonNou(ActionEvent ev) throws IOException {
+        
     }
 
 }

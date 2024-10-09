@@ -4,9 +4,7 @@
  */
 package dades;
 
-import aplicacio.model.Referencia;
-import dao.DAOInterface;
-import dao.MyDataSource;
+import logica.Referencia;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
