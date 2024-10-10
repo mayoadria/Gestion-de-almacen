@@ -246,14 +246,14 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
             referenciaSeleccionada.setNom(txtNom.getText());
             referenciaSeleccionada.setQuantitat(Integer.parseInt(txtCantidad.getText()));
             referenciaSeleccionada.setUnitat_mida(txtUnitatMida.getText());
-            referenciaSeleccionada.setData_alta(Date.valueOf(txtDataAlta.getText()));  // Asegúrate de que esté en formato correcto
-            referenciaSeleccionada.setData_fabricacio(Date.valueOf(txtDataFabricacio.getText()));
+            referenciaSeleccionada.setData_alta(txtDataAlta.getText());  // Asegúrate de que esté en formato correcto
+            referenciaSeleccionada.setData_fabricacio(txtDataFabricacio.getText());
             referenciaSeleccionada.setDescripcio(txtAreaDescripcio.getText());
-            referenciaSeleccionada.setPreu(Float.parseFloat(txtPreu.getText()));
+            referenciaSeleccionada.setPreu(txtPreu.getText());
             referenciaSeleccionada.setUnitats_venudes(Integer.parseInt(txtUnitatVenudes.getText()));
             referenciaSeleccionada.setId_fam(Integer.parseInt(txtIdFamilia.getText()));
             referenciaSeleccionada.setId_proveidor(Integer.parseInt(txtIdProveidor.getText()));
-
+            
             // Actualizar la tabla visualmente
             tblReferencia.refresh();
             referenciaLogica.modificarReferencia(referenciaSeleccionada);
