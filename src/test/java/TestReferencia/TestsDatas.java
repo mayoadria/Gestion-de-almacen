@@ -20,10 +20,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import com.github.javafaker.Faker;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 import logica.ReferenciaLogica;
 import junit.framework.Assert;
+import org.junit.Test;
 
 /**
  *
@@ -63,7 +62,7 @@ public class TestsDatas {
 
         // Fechas incorrectas
         for (String s : incorrectes) {
-            assertFalse(ReferenciaLogica.FechaValida(s), "Fecha incorrecta pasada: " + s);
+            Assert.assertFalse(ReferenciaLogica.FechaValida(s));
         }
     }
 }
