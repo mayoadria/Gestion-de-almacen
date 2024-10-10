@@ -224,7 +224,7 @@ public class pantallaProveidorController implements Initializable {
     }
 
     @FXML
-    private void handlerButtonEsborrar(ActionEvent ev) {
+    private void handlerButtonEsborrar(ActionEvent ev) throws SQLException {
 
         //Primer seleccionem el proveïdor a esborrar.
         Proveidor proveidorSeleccionat = tb_prov.getSelectionModel().getSelectedItem();
@@ -244,23 +244,23 @@ public class pantallaProveidorController implements Initializable {
         alertConfirmacio.setTitle("Confirmació d'esborrat");
         alertConfirmacio.setHeaderText(null);
         alertConfirmacio.setContentText("Segur que vols esborrar el proveïdor seleccionat?");
+        ProveidorLogic proveidorLogic = new ProveidorLogic();
 
         Optional<ButtonType> resultat = alertConfirmacio.showAndWait();
         if (resultat.isPresent() && resultat.get() == ButtonType.OK) {
             try {
 
-                ProveidorLogic proveidorLogic = new ProveidorLogic();
 
                 //Cridem a la capa lògica per a que faci d'intermediària amb el DAO.
                 proveidorLogic.esborrarProveidor(proveidorSeleccionat);
                 //Actualitzaem la taula una vegada el proveïdor seleccionat ha estat esborrat.
-                tb_prov.getItems().remove(proveidorSeleccionat);
+                tb_prov.refresh();
 
             } catch (Exception e) {
                 Alert alertError = new Alert(Alert.AlertType.ERROR);
                 alertError.setTitle("Error");
                 alertError.setHeaderText(null);
-                alertError.setContentText("Hi ha hagut un error en esborrar el proveïdor.");
+                alertError.setContentText("No es pot esborrar un proveïdor actiu.");
                 alertError.showAndWait();
             }
         }
