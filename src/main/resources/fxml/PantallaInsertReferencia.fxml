@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacio.PantallaInsertReferenciaController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0">
+         <children>
+            <Label text="Afegir una Referencia">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox prefHeight="346.0" prefWidth="600.0">
+         <children>
+            <VBox prefHeight="345.0" prefWidth="262.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Nom del Producte">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="txtnomProducte" prefHeight="26.0" prefWidth="196.0">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Quantitat">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="txtQuantitatReferencia" prefHeight="26.0" prefWidth="196.0">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Unitat de Mida">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="txtUnitatMida" prefHeight="26.0" prefWidth="196.0">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Data d'alta">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="txtDataAlta" prefHeight="26.0" prefWidth="196.0">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Data de Fabricació">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="txtDataFab" prefHeight="26.0" prefWidth="196.0">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Preu">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="txtPreu" prefHeight="26.0" prefWidth="196.0">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Unitats Venudes">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="txtUnitVen" prefHeight="26.0" prefWidth="196.0">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox prefHeight="345.0" prefWidth="262.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="ID de familia" />
+                  <TextField fx:id="txtIdFam" prefHeight="26.0" prefWidth="196.0" />
+                  <Label text="ID de proveïdor" />
+                  <TextField fx:id="txtIdProv" prefHeight="26.0" prefWidth="196.0" />
+                  <Label text="Descripció" />
+                  <TextArea fx:id="txtDescripcio" prefHeight="129.0" prefWidth="262.0" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="btnAfegir" mnemonicParsing="false" onAction="#AfegirPersona" text="Afegir Referencia">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="btnSortir" mnemonicParsing="false" onAction="#TornarMenu" text="Sortir">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets right="15.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>

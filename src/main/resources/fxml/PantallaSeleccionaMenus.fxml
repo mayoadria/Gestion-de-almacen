@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cat.copernic.project1_grup2.PantallaSeleccionarMenuController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacio.PantallaSeleccionarMenuController">
    <children>
       <HBox alignment="CENTER" prefHeight="3.0" prefWidth="600.0">
          <children>
@@ -28,7 +28,7 @@
                   <Font size="27.0" />
                </font>
             </Label>
-            <Button fx:id="btnFamilia1" mnemonicParsing="false" onAction="#AbrirFamilia" text="Button" VBox.vgrow="ALWAYS">
+            <Button fx:id="btnFamilia1" mnemonicParsing="false" onAction="#AbrirFamilia" text="Obrir Familia" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="19.0" />
                </font>
@@ -41,7 +41,7 @@
                   <Font size="27.0" />
                </font>
             </Label>
-            <Button fx:id="btnProveidor" mnemonicParsing="false" onAction="#AbrirProveidor" text="Button" VBox.vgrow="ALWAYS">
+            <Button fx:id="btnProveidor" mnemonicParsing="false" onAction="#AbrirProveidor" text="Obrir Proveïdor" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="19.0" />
                </font>
@@ -54,7 +54,7 @@
                   <Font size="27.0" />
                </font>
             </Label>
-            <Button fx:id="btnReferencia" mnemonicParsing="false" onAction="#AbrirReferencia" text="Button" VBox.vgrow="ALWAYS">
+            <Button fx:id="btnReferencia" mnemonicParsing="false" onAction="#AbrirReferencia" text="Obrir Referencies" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="19.0" />
                </font>
