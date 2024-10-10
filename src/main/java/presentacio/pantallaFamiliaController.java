@@ -103,6 +103,8 @@ public class pantallaFamiliaController implements Initializable{
     private ObservableList<Familia> families;
   
     private FamiliaDAO familiaDAO;
+    
+    private String rol;
 
      @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -137,9 +139,25 @@ public class pantallaFamiliaController implements Initializable{
                     txt_areaObservacions.setText(newSelection.getObservacions());
                 }
             });
-                    
+                 
         
     }
+     public void setRol(String rol) {
+        this.rol = rol;
+        configurarBotonesPorRol(); // Llamar para aplicar la configuración de botones al establecer el rol
+    }
+
+    // Método para habilitar o deshabilitar botones según el rol
+    private void configurarBotonesPorRol() {
+        if (rol != null) {
+             if (rol.equals("Venedor")) {
+                // Deshabilitar botones para usuarios regulares
+                btn_nova.setDisable(true);
+                btn_eliminar.setDisable(true);
+                btn_modificar.setDisable(true);
+            }
+        }
+    }  
     /* private int id_fam;
     private String nom_familia;
     private String descripcio;

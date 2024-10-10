@@ -104,7 +104,8 @@ public class PantallaSeleccionarMenuController implements Initializable {
 
             // Cargo el padre
             Parent root = loader.load();
-            
+            pantallaFamiliaController controllerFamilia = loader.getController();
+            controllerFamilia.setRol(this.rol);
             // Creo la scene y el stage
             Scene scene = new Scene(root);
             Stage stage = new Stage();
