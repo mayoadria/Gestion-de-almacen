@@ -20,14 +20,20 @@ import logica.Mensajes;
 import logica.ReferenciaLogica;
 
 /**
- * FXML Controller class
- *
+ * Controlador de la pantalla para insertar referencias de producto.
+ * Esta clase se encarga de gestionar la lógica de la interfaz de usuario 
+ * relacionada con la inserción de nuevas referencias y la validación de datos.
+ * Extiende la clase Mensajes para utilizar métodos de manejo de mensajes.
+ * 
  * @author mayoa
  */
 public class PantallaInsertReferenciaController extends Mensajes implements Initializable {
 
     /**
-     * Initializes the controller class.
+     * Inicializa el controlador de la clase.
+     * 
+     * @param url URL de localización para el recurso.
+     * @param rb Recurso que contiene las propiedades de la clase.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,11 +82,20 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
 
     private PantallaReferenciaController referenciaController;
 
-    // Este método se usará para pasar la referencia del controlador principal
+    /**
+     * Establece el controlador de la pantalla de referencia.
+     * 
+     * @param controller El controlador de la pantalla de referencia principal.
+     */
     public void setReferenciaController(PantallaReferenciaController controller) {
         this.referenciaController = controller;
     }
-
+    
+    /**
+     * Agrega una nueva referencia utilizando los datos del formulario.
+     * 
+     * @param event El evento de acción que desencadena la inserción.
+     */
     @FXML
     private void AfegirPersona(ActionEvent event) {
         try {
@@ -145,7 +160,11 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
         }
     }
 
-    //Fer que quan es pulsi, la finestra es tanqui, però el programa segueix funcionant
+    /**
+     * Cierra la ventana actual sin cerrar la aplicación.
+     * 
+     * @param event El evento de acción que desencadena el cierre de la ventana.
+     */
     @FXML
     private void TornarMenu(ActionEvent event) {
         Stage stage = (Stage) this.btnSortir.getScene().getWindow();

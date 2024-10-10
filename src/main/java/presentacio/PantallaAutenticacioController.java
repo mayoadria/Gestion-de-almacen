@@ -23,11 +23,25 @@ import logica.Autenticacio;
 import logica.Mensajes;
 
 /**
- *
+ * Controlador para la interfaz de autenticación de usuario. La clase 
+ * PantallaAutenticacioController gestiona la lógica de autenticación de usuarios
+ * y la transición a la siguiente pantalla en caso de autenticación exitosa. 
+ * Extiende la clase Mensajes para mostrar mensajes de información y error.
+ * Implementa Initializable para inicializar los componentes de la interfaz.
+ * 
  * @author chris
+ * @version 1.0
+ * @since 2024
  */
 public class PantallaAutenticacioController extends Mensajes implements Initializable{
-
+    
+    /**
+     * Método de inicialización para configurar cualquier lógica o datos necesarios
+     * al momento de cargar la interfaz. Actualmente sin implementación.
+     * 
+     * @param url la URL de la interfaz cargada.
+     * @param rb el recurso de localización para internacionalización.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
@@ -52,6 +66,14 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
     @FXML
     private Button btnIniciarSessio;
     
+    /**
+     * Maneja el evento de autenticación del usuario cuando se presiona el botón
+     * "Iniciar Sesión". Verifica si el usuario y rol introducidos son correctos y,
+     * en caso afirmativo, muestra un mensaje de éxito y abre una nueva pantalla.
+     * En caso contrario, muestra un mensaje de error.
+     * 
+     * @param event el evento de acción que dispara el inicio de sesión.
+     */
     @FXML
     void iniciarSessio(ActionEvent event) {
         String usuario = txtUsuari.getText();
@@ -68,6 +90,11 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
         }
     }
     
+    /**
+     * Carga y abre una nueva pantalla de selección de menús después de una
+     * autenticación exitosa. Si ocurre un error durante la carga, se registra y 
+     * muestra un mensaje de error en el log.
+     */
     @FXML
     void abrirNuevaPantalla() {
         try {
