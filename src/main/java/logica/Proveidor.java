@@ -10,8 +10,12 @@ import java.sql.Date;
  * Classe que representa un proveïdor amb totes les seves propietats. Inclou
  * atributs per al nom, CIF, id, estat, data de creació, correu electrònic,
  * valoració i altres dades relacionades amb el proveïdor.
+ * Clase que representa un proveedor en el sistema. Contiene información
+ * detallada sobre el proveedor, como su nombre, CIF, estado, ID, motivo de
+ * inactividad, fecha de creación, correo electrónico, calificación y tiempo de
+ * colaboración.
  *
- * @author Anna
+ * @autor Anna
  */
 public class Proveidor {
 
@@ -27,11 +31,13 @@ public class Proveidor {
 
     /**
      * Constructor buit per defecte.
+     * Constructor vacío de la clase Proveidor. Inicializa un proveedor sin
+     * datos específicos.
      */
     public Proveidor() {
     }
 
-    /**
+    /** 
      * Constructor que inicialitza un proveïdor amb els valors proporcionats.
      *
      * @param i Identificador del proveïdor.
@@ -52,6 +58,7 @@ public class Proveidor {
      * Obté l'identificador del proveïdor.
      *
      * @return Identificador del proveïdor.
+     *
      */
     public int getId_proveidor() {
         return id_proveidor;
@@ -61,6 +68,7 @@ public class Proveidor {
      * Estableix l'identificador del proveïdor.
      *
      * @param id_proveidor Identificador del proveïdor.
+     *
      */
     public void setId_proveidor(int id_proveidor) {
         this.id_proveidor = id_proveidor;
@@ -70,6 +78,7 @@ public class Proveidor {
      * Obté el motiu d'inactivitat del proveïdor.
      *
      * @return Motiu d'inactivitat del proveïdor.
+     *
      */
     public String getMotiu_inactiu() {
         return motiu_inactiu;
@@ -79,6 +88,7 @@ public class Proveidor {
      * Estableix el motiu d'inactivitat del proveïdor.
      *
      * @param motiu_inactiu Motiu d'inactivitat.
+     *
      */
     public void setMotiu_inactiu(String motiu_inactiu) {
         this.motiu_inactiu = motiu_inactiu;
@@ -88,6 +98,7 @@ public class Proveidor {
      * Obté la data de creació del proveïdor.
      *
      * @return Data de creació del proveïdor.
+     *
      */
     public Date getData_creacio() {
         return data_creacio;
@@ -97,6 +108,7 @@ public class Proveidor {
      * Estableix la data de creació del proveïdor.
      *
      * @param data_creacio Data de creació del proveïdor.
+     *
      */
     public void setData_creacio(Date data_creacio) {
         this.data_creacio = data_creacio;
@@ -106,6 +118,7 @@ public class Proveidor {
      * Obté el correu electrònic del proveïdor.
      *
      * @return Correu electrònic del proveïdor.
+     *
      */
     public String getCorreu_electronic() {
         return correu_electronic;
@@ -115,6 +128,7 @@ public class Proveidor {
      * Estableix el correu electrònic del proveïdor.
      *
      * @param correu_electronic Correu electrònic del proveïdor.
+     *
      */
     public void setCorreu_electronic(String correu_electronic) {
         this.correu_electronic = correu_electronic;
@@ -124,6 +138,7 @@ public class Proveidor {
      * Obté la valoració del proveïdor.
      *
      * @return Valoració del proveïdor.
+     *
      */
     public float getRating_proveidor() {
         return rating_proveidor;
@@ -133,6 +148,7 @@ public class Proveidor {
      * Estableix la valoració del proveïdor.
      *
      * @param rating_proveidor Valoració del proveïdor.
+     *
      */
     public void setRating_proveidor(float rating_proveidor) {
         this.rating_proveidor = rating_proveidor;
@@ -142,6 +158,7 @@ public class Proveidor {
      * Obté els mesos de col·laboració del proveïdor.
      *
      * @return Mesos de col·laboració del proveïdor.
+     *
      */
     public int getMesos_de_colaboracio() {
         return mesos_de_colaboracio;
@@ -151,15 +168,16 @@ public class Proveidor {
      * Estableix els mesos de col·laboració del proveïdor.
      *
      * @param mesos_de_colaboracio Mesos de col·laboració del proveïdor.
+     *
      */
     public void setMesos_de_colaboracio(int mesos_de_colaboracio) {
         this.mesos_de_colaboracio = mesos_de_colaboracio;
     }
 
     /**
-     * Obté el CIF del proveïdor.
+     * Obtiene el CIF del proveedor.
      *
-     * @return CIF del proveïdor.
+     * @return CIF del proveedor.
      */
     public String getCif() {
         return cif;
@@ -169,16 +187,16 @@ public class Proveidor {
      * Estableix el CIF del proveïdor.
      *
      * @param cif CIF del proveïdor.
+     *
      */
     public void setCif(String cif) {
         this.cif = cif;
     }
 
     /**
-     * Retorna una representació en forma de cadena de l'objecte Proveïdor.
+     * Representación en forma de cadena de la instancia de Proveidor.
      *
-     * @return Una cadena que representa el proveïdor amb tots els seus
-     * atributs.
+     * @return Cadena con el nombre, CIF y estado del proveedor.
      */
     @Override
     public String toString() {
@@ -187,6 +205,7 @@ public class Proveidor {
 
     /**
      * Enum que defineix els possibles estats d'un proveïdor (actiu o inactiu).
+     * Enum que define los posibles estados de un proveedor: ACTIU o INACTIU.
      */
     public enum EstatProveidor {
         ACTIU, INACTIU

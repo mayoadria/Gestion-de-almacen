@@ -9,11 +9,26 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- *
- * @author chris
+ * La clase Autenticacio se utiliza para verificar si un usuario con un rol específico
+ * coincide con un registro en un archivo de texto que almacena los datos de usuarios.
+ * Extiende la clase Mensajes, que contiene métodos para mostrar mensajes de error u otros.
+ * 
+ * @autor chris
+ * @version 1.0
+ * @since 2024
  */
 public class Autenticacio extends Mensajes{
-    // Método para verificar si un usuario y rol coinciden con un registro en el archivo
+    
+    /**
+     * Verifica si un usuario y su rol coinciden con un registro en el archivo "usuaris.txt".
+     * Lee el archivo línea por línea, donde cada línea contiene un usuario y su rol separados
+     * por un espacio. Si encuentra una coincidencia exacta de usuario y rol, devuelve true.
+     * En caso de error de lectura, muestra un mensaje de error.
+     * 
+     * @param usuario el nombre de usuario a verificar.
+     * @param rol el rol del usuario a verificar.
+     * @return true si el usuario y el rol coinciden con un registro en el archivo; false en caso contrario.
+     */
     public boolean verificarUsuario(String usuario, String rol) {
         String archivo = "usuaris.txt"; // Ubicación del archivo
         boolean encontrado = false;
@@ -30,7 +45,7 @@ public class Autenticacio extends Mensajes{
                     String rolArchivo = partes[1].trim();
 
                     // Comparar usuario y rol
-                    if (usuarioArchivo.equals(usuario) && rolArchivo.equals(rol)) {
+                    if (usuarioArchivo.equalsIgnoreCase(usuario) && rolArchivo.equalsIgnoreCase(rol)) {
                         encontrado = true;
                         break; // Si encuentra coincidencia, termina la búsqueda
                     }

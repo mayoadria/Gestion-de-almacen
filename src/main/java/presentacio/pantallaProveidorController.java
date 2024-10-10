@@ -391,5 +391,7 @@ public class pantallaProveidorController implements Initializable {
             ex.printStackTrace();
         }
     }
+    
+    
 
 }

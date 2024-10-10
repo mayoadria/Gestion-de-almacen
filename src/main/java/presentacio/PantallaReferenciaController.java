@@ -35,15 +35,18 @@ import logica.Mensajes;
 import logica.ReferenciaLogica;
 
 /**
- * FXML Controller class
- *
+ * Controlador de la interfaz gráfica para gestionar referencias en una base de datos.
+ * Proporciona funcionalidades para añadir, modificar, eliminar y seleccionar referencias.
+ * Extiende la clase Mensajes para mostrar mensajes informativos y de error, e implementa
+ * Initializable para la configuración inicial de la interfaz.
+ * 
  * @author mayoa
+ * @version 1.0
+ * @since 2024
  */
 public class PantallaReferenciaController extends Mensajes implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+    
     @FXML
     private Label Descripcio;
 
@@ -139,7 +142,15 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
     private ReferenciaLogica referenciaLogica;
     private String rol;
 
-    //Poner que el valor por defecto de cada columna sea el correspondiente
+    /**
+     * Inicializa la clase del controlador configurando la lógica de negocio, el modelo de datos
+     * y la visualización de la tabla de referencias. Establece la configuración de las columnas
+     * de la tabla y añade un listener para actualizar los campos de texto con los datos de la 
+     * referencia seleccionada.
+     * 
+     * @param url la URL de la ubicación de los recursos.
+     * @param rb el conjunto de recursos para localización.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -203,6 +214,14 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
         }
     }
 
+    
+    /**
+     * Abre la interfaz para añadir una nueva referencia. Este método configura una nueva ventana
+     * donde se puede crear una nueva referencia, y pasa la referencia de la tabla y lista 
+     * observable al nuevo controlador.
+     * 
+     * @param event el evento de acción que dispara la creación de una nueva referencia.
+     */
     @FXML
     void Afegir(ActionEvent event) {
         try {
@@ -229,13 +248,23 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
             Logger.getLogger(PantallaSeleccionarMenuController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    // Método para añadir una referencia directamente a la tabla
-
+    
+    /**
+     * Añade una nueva referencia a la tabla visualizando directamente en la interfaz.
+     * 
+     * @param nuevaReferencia la nueva referencia a añadir en la tabla.
+     */
     public void actualizarTablaConNuevaReferencia(Referencia nuevaReferencia) {
         tblReferencia.getItems().add(nuevaReferencia);
         tblReferencia.refresh();  // Refrescar la tabla para que se vea la nueva entrada
     }
-
+    
+    /**
+     * Elimina la referencia seleccionada en la tabla. Si no hay ninguna referencia seleccionada,
+     * se muestra un mensaje de error.
+     * 
+     * @param event el evento de acción que dispara la eliminación de la referencia.
+     */
     @FXML
     void Eliminar(ActionEvent event) {
         // Obtener la referencia seleccionada en la tabla
@@ -258,7 +287,14 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
             mostrarMensajeError("No se ha seleccionado ninguna referencia para eliminar.");
         }
     }
-
+    
+    /**
+     * Modifica los datos de la referencia seleccionada en la tabla de acuerdo a los valores
+     * introducidos en los campos de texto.
+     * 
+     * @param event el evento de acción que dispara la modificación de la referencia.
+     * @throws SQLException si ocurre un error al intentar actualizar la referencia en la base de datos.
+     */
     @FXML
     void Modificar(ActionEvent event) throws SQLException {
         Referencia referenciaSeleccionada = tblReferencia.getSelectionModel().getSelectedItem();
@@ -283,7 +319,11 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
 
     }
 
-    //Volver a la pantalla anterior sin cerrar el programa
+    /**
+     * Cierra la ventana actual y regresa a la pantalla anterior sin cerrar el programa.
+     * 
+     * @param event el evento de acción que dispara la acción de volver.
+     */
     @FXML
     void VolverAtras(ActionEvent event) {
         Stage stage = (Stage) this.btnSalir.getScene().getWindow();

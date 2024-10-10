@@ -13,15 +13,28 @@ import java.util.ArrayList;
 import logica.Mensajes;
 
 /**
- *
- * @author mayoa
+ * Clase para gestionar el acceso a datos de Referencia en la base de datos.
+ * Implementa operaciones CRUD para la entidad Referencia.
+ * 
+ * @autor mayoa
  */
 public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> {
-
+    
+    /**
+     * Constructor de ReferenciaDAO. Establece la conexión inicial a la base de datos.
+     *
+     * @throws SQLException en caso de errores de conexión.
+     */
     public ReferenciaDAO() throws SQLException {
         super();
     }
-
+    
+    /**
+     * Obtiene todas las referencias de la base de datos.
+     * 
+     * @return una lista de todas las referencias almacenadas.
+     * @throws SQLException en caso de error al ejecutar la consulta.
+     */
     @Override
     public List<Referencia> getAll() throws SQLException {
         //Crear una llista per poder obtenir totes les referencies existents a la base de dades
@@ -50,7 +63,13 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
         }
         return ret;
     }
-
+    
+    /**
+     * Inserta una nueva referencia en la base de datos.
+     * 
+     * @param t referencia a insertar en la base de datos.
+     * @throws SQLException en caso de error al ejecutar la sentencia SQL.
+     */
     @Override
     public void insert(Referencia t) throws SQLException {
         //Hacer la sentencia del insert
@@ -76,7 +95,13 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
             throw e;
         }
     }
-
+    
+    /**
+     * Actualiza los datos de una referencia existente en la base de datos.
+     * 
+     * @param t referencia con los datos actualizados.
+     * @throws SQLException en caso de error al ejecutar la sentencia SQL.
+     */
     @Override
     public void update(Referencia t) throws SQLException {
         //Hacer la sentencia del update
@@ -108,7 +133,13 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
             throw e;
         }
     }
-
+    
+    /**
+     * Elimina una referencia de la base de datos.
+     * 
+     * @param t referencia a eliminar.
+     * @throws SQLException en caso de error al ejecutar la sentencia SQL.
+     */
     @Override
     public void delete(Referencia t) throws SQLException {
         //Hacer la conexion con la base y marcar de donde tienen que obtener los datos        
@@ -130,7 +161,14 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
             throw e;
         }
     }
-
+    
+    /**
+     * Obtiene una referencia específica de la base de datos según su ID.
+     * 
+     * @param t referencia con el ID a buscar.
+     * @return la referencia encontrada, o null si no existe.
+     * @throws SQLException en caso de error al ejecutar la consulta.
+     */
     @Override
     public Referencia get(Referencia t) throws SQLException {
         //Metodo el cual, según la fila que este seleccionada muestra en los textFields la informacion de la base de datos
@@ -164,7 +202,14 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
         return r; // Devolver la referencia encontrada o null si no existe    }
 
     }
-
+    
+    /**
+     * Comprueba si existe una familia con el ID especificado en la base de datos.
+     * 
+     * @param idFamilia ID de la familia a verificar.
+     * @return true si existe la familia, false si no.
+     * @throws SQLException en caso de error al ejecutar la consulta.
+     */
     public boolean existeFamilia(int idFamilia) throws SQLException {
         String selectFamilia = "SELECT COUNT(*) FROM Families WHERE id_familia = ?";
         try (PreparedStatement stmt = MyDataSource.getConnection().prepareStatement(selectFamilia)) {
@@ -176,7 +221,14 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
         }
         return false;
     }
-
+    
+    /**
+     * Comprueba si existe un proveedor con el ID especificado en la base de datos.
+     * 
+     * @param idProveedor ID del proveedor a verificar.
+     * @return true si existe el proveedor, false si no.
+     * @throws SQLException en caso de error al ejecutar la consulta.
+     */
     public boolean existeProveedor(int idProveedor) throws SQLException {
         String selectProveidor = "SELECT COUNT(*) FROM Proveidors WHERE id_proveidor = ?";
         try (PreparedStatement stmt = MyDataSource.getConnection().prepareStatement(selectProveidor)) {
