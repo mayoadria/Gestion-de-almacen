@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cat.copernic.project1_grup2.PantallaInsertFamiliaController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label text="Afegir una família">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox prefHeight="395.0" prefWidth="600.0">
+         <children>
+            <VBox prefHeight="348.0" prefWidth="284.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="nom família">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="nom_familia_insfam">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="descripció">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextArea fx:id="descripcio_insfam" prefHeight="166.0" prefWidth="298.0">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </TextArea>
+                  <Label text="data d'alta">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="data_alta_insfam">
+                     <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox prefHeight="348.0" prefWidth="298.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="id proveïdor" />
+                  <TextField fx:id="id_proveidor_insfam" />
+                  <Label text="observacions" />
+                  <TextArea fx:id="observacions_insfam" prefHeight="200.0" prefWidth="200.0" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="btn_afegir_familia" mnemonicParsing="false" onAction="#inserirFam" prefHeight="38.0" prefWidth="150.0" text="afegir família">
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btn_sortir_insfam" mnemonicParsing="false" prefHeight="38.0" prefWidth="107.0" text="sortir ">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets right="15.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>
