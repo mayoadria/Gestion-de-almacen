@@ -260,7 +260,7 @@ public class pantallaProveidorController implements Initializable {
                 Alert alertError = new Alert(Alert.AlertType.ERROR);
                 alertError.setTitle("Error");
                 alertError.setHeaderText(null);
-                alertError.setContentText("Hi ha hagut un error en esborrar el proveïdor.");
+                alertError.setContentText("No es pot esborrar un proveïdor actiu.");
                 alertError.showAndWait();
             }
         }

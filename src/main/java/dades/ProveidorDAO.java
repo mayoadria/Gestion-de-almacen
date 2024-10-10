@@ -152,16 +152,12 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             sentencia.setInt(1, t.getId_proveidor());
 
             int rowsDeleted = sentencia.executeUpdate();
-            if (rowsDeleted > 0) {
-                //missatgeExepcio("El proveïdor ha estat esborrat exitosament.");
-            } else {
-                //missatgeExepcio("No s'ha trobat cap proveïdor amb l'ID proporcionat.");
+            if (rowsDeleted == 0) {
+                throw new SQLException("No s'ha trobat cap proveïdor amb l'ID proporcionat.");
             }
         } catch (SQLException e) {
-            //missatgeExcepcio("Error en insertar el proveïdor: " + e.getMessage());
-            throw e;
+            throw new SQLException("Error en esborrar el proveïdor: " + e.getMessage());
         }
-
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
