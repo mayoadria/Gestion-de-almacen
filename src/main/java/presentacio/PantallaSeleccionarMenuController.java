@@ -98,6 +98,26 @@ public class PantallaSeleccionarMenuController implements Initializable {
 
     @FXML
     private void AbrirFamilia(ActionEvent event) {
+          try {
+            // Cargo la vista
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PantallaFamilia.fxml"));
+
+            // Cargo el padre
+            Parent root = loader.load();
+            
+            // Creo la scene y el stage
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+
+            // Asocio el stage con el scene
+            stage.setScene(scene);
+            stage.show();
+
+           
+
+        } catch (IOException ex) {
+            Logger.getLogger(PantallaSeleccionarMenuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

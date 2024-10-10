@@ -28,17 +28,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import logica.Proveidor;
 import logica.ProveidorLogic;
 
 /**
+ * Classe controladora per gestionar la pantalla de proveïdors. Implementa la
+ * interfície Initializable per a inicialitzar els elements.
  *
  * @author Anna
  */
@@ -125,10 +125,21 @@ public class pantallaProveidorController implements Initializable {
     private ProveidorDAO proveidorDAO;
     private String rol;
 
+    /**
+     * Getter per la taula de proveïdors.
+     *
+     * @return la taula de proveïdors.
+     */
     public TableView<Proveidor> getTb_prov() {
         return tb_prov;
     }
 
+    /**
+     * Inicialitza la pantalla i carrega els proveïdors de la base de dades.
+     *
+     * @param url URL de localització del fitxer FXML.
+     * @param rb ResourceBundle per localització.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -172,6 +183,12 @@ public class pantallaProveidorController implements Initializable {
         }
     }
 
+    /**
+     * Recull les dades del proveïdor introduïdes a la interfície.
+     *
+     * @throws SQLException si hi ha un error en la connexió amb la base de
+     * dades.
+     */
     private void recollirDadesProveidor() throws SQLException {
 
         Proveidor p = new Proveidor();
@@ -203,6 +220,11 @@ public class pantallaProveidorController implements Initializable {
 
     }
 
+    /**
+     * Carrega els proveïdors des de la base de dades i els mostra a la taula.
+     *
+     * @throws SQLException si hi ha un error en obtenir les dades.
+     */
     private void cargarProveidors() throws SQLException {
         ProveidorDAO proveidorDAO = new ProveidorDAO();
         List<Proveidor> proveidors = new ArrayList<>();
@@ -234,6 +256,12 @@ public class pantallaProveidorController implements Initializable {
 
     }
 
+    /**
+     * Tanca la finestra actual quan es fa clic al botó de sortir.
+     *
+     * @param ev l'event de l'acció.
+     * @throws IOException si hi ha un error en tancar la finestra.
+     */
     @FXML
     private void handlerButtonSortir(ActionEvent ev) throws IOException {
 
@@ -243,8 +271,14 @@ public class pantallaProveidorController implements Initializable {
 
     }
 
+    /**
+     * Esborra el proveïdor seleccionat després de confirmar l'acció.
+     *
+     * @param ev l'event de l'acció.
+     * @throws SQLException si hi ha un error en la base de dades.
+     */
     @FXML
-    private void handlerButtonEsborrar(ActionEvent ev) {
+    private void handlerButtonEsborrar(ActionEvent ev) throws SQLException {
 
         //Primer seleccionem el proveïdor a esborrar.
         Proveidor proveidorSeleccionat = tb_prov.getSelectionModel().getSelectedItem();
@@ -264,29 +298,33 @@ public class pantallaProveidorController implements Initializable {
         alertConfirmacio.setTitle("Confirmació d'esborrat");
         alertConfirmacio.setHeaderText(null);
         alertConfirmacio.setContentText("Segur que vols esborrar el proveïdor seleccionat?");
+        ProveidorLogic proveidorLogic = new ProveidorLogic();
 
         Optional<ButtonType> resultat = alertConfirmacio.showAndWait();
         if (resultat.isPresent() && resultat.get() == ButtonType.OK) {
             try {
 
-                ProveidorLogic proveidorLogic = new ProveidorLogic();
-
                 //Cridem a la capa lògica per a que faci d'intermediària amb el DAO.
                 proveidorLogic.esborrarProveidor(proveidorSeleccionat);
                 //Actualitzaem la taula una vegada el proveïdor seleccionat ha estat esborrat.
-                tb_prov.getItems().remove(proveidorSeleccionat);
+                tb_prov.refresh();
 
             } catch (Exception e) {
                 Alert alertError = new Alert(Alert.AlertType.ERROR);
                 alertError.setTitle("Error");
                 alertError.setHeaderText(null);
-                alertError.setContentText("Hi ha hagut un error en esborrar el proveïdor.");
+                alertError.setContentText("No es pot esborrar un proveïdor actiu.");
                 alertError.showAndWait();
             }
         }
 
     }
 
+    /**
+     * Modifica el proveïdor seleccionat amb les noves dades introduïdes.
+     *
+     * @throws SQLException si hi ha un error en la base de dades.
+     */
     @FXML
     private void handlerButtonModificar() throws SQLException {
 
@@ -324,6 +362,13 @@ public class pantallaProveidorController implements Initializable {
         }
     }
 
+    /**
+     * Gestiona l'acció de crear un nou proveïdor. Aquest mètode carrega una
+     * nova pantalla per a introduir les dades del nou proveïdor.
+     *
+     * @param ev l'event de l'acció del botó.
+     * @throws IOException si hi ha un error en carregar la nova pantalla.
+     */
     @FXML
     private void handlerButtonNou(ActionEvent ev) throws IOException {
         try {

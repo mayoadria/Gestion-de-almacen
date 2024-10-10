@@ -27,6 +27,10 @@ public class Familia {
         this.Observacions = Observacions;
     }
 
+    public Familia() {
+    }
+    
+
     public void setId_fam(int id_fam) {
         this.id_fam = id_fam;
     }
