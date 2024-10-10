@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package cat.copernic.project1_grup2;
+package presentacio;
 
 import java.io.IOException;
 import java.net.URL;
@@ -43,6 +43,26 @@ public class PantallaSeleccionarMenuController implements Initializable {
 
     @FXML
     private void AbrirProveidor(ActionEvent event) {
+        try {
+            // Cargo la vista
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/pantallaProveidor.fxml"));
+
+            // Cargo el padre
+            Parent root = loader.load();
+            
+            // Creo la scene y el stage
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+
+            // Asocio el stage con el scene
+            stage.setScene(scene);
+            stage.show();
+
+           
+
+        } catch (IOException ex) {
+            Logger.getLogger(PantallaSeleccionarMenuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -71,7 +91,7 @@ public class PantallaSeleccionarMenuController implements Initializable {
 
     @FXML
     private void AbrirFamilia(ActionEvent event) {
-      try {
+          try {
             // Cargo la vista
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PantallaFamilia.fxml"));
 
@@ -90,7 +110,7 @@ public class PantallaSeleccionarMenuController implements Initializable {
 
         } catch (IOException ex) {
             Logger.getLogger(PantallaSeleccionarMenuController.class.getName()).log(Level.SEVERE, null, ex);
-        }  
+        }
     }
     
 }

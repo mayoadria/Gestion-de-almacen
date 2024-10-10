@@ -2,9 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package aplicacio.model;
-
-import java.sql.Date;
+package logica;
 
 /**
  *
@@ -15,10 +13,10 @@ public class Referencia {
     private String nom;
     private int quantitat;
     private String unitat_mida;
-    private Date data_alta;
-    private Date data_fabricacio;
+    private String data_alta;
+    private String data_fabricacio;
     private String descripcio;
-    private float preu;
+    private String preu;
     private int unitats_venudes;
     private int id_fam;
     private int id_proveidor;
@@ -59,19 +57,19 @@ public class Referencia {
         this.unitat_mida = unitat_mida;
     }
 
-    public Date getData_alta() {
+    public String getData_alta() {
         return data_alta;
     }
 
-    public void setData_alta(Date data_alta) {
+    public void setData_alta(String data_alta) {
         this.data_alta = data_alta;
     }
 
-    public Date getData_fabricacio() {
+    public String getData_fabricacio() {
         return data_fabricacio;
     }
 
-    public void setData_fabricacio(Date data_fabricacio) {
+    public void setData_fabricacio(String data_fabricacio) {
         this.data_fabricacio = data_fabricacio;
     }
 
@@ -83,11 +81,11 @@ public class Referencia {
         this.descripcio = descripcio;
     }
 
-    public float getPreu() {
+    public String getPreu() {
         return preu;
     }
 
-    public void setPreu(float preu) {
+    public void setPreu(String preu) {
         this.preu = preu;
     }
 

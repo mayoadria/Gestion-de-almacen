@@ -4,18 +4,12 @@
  */
 package dades;
 
-import aplicacio.model.Referencia;
-import dao.DAOInterface;
-import dao.MyDataSource;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import logica.Referencia;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
 import java.util.ArrayList;
-import javafx.scene.control.Alert;
 import logica.Mensajes;
 
 /**
@@ -43,10 +37,10 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
             r.setNom(rs.getString("nom_producte"));
             r.setQuantitat((int) rs.getDouble("quantitat"));
             r.setUnitat_mida(rs.getString("unitat_mida"));
-            r.setData_alta(rs.getDate("data_alta"));
-            r.setData_fabricacio(rs.getDate("data_fabricacio"));
+            r.setData_alta(rs.getString("data_alta"));
+            r.setData_fabricacio(rs.getString("data_fabricacio"));
             r.setDescripcio(rs.getString("descripcio_producte"));
-            r.setPreu(rs.getFloat("preu"));
+            r.setPreu(rs.getString("preu"));
             r.setUnitats_venudes(rs.getInt("unitats_venudes"));
             r.setId_fam(rs.getInt("id_familia"));
             r.setId_proveidor(rs.getInt("id_proveidor"));
@@ -66,10 +60,10 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
             sentencia.setString(1, t.getNom());
             sentencia.setInt(2, (int) t.getQuantitat());
             sentencia.setString(3, t.getUnitat_mida());
-            sentencia.setDate(4, t.getData_alta());
-            sentencia.setDate(5, t.getData_fabricacio());
+            sentencia.setString(4, t.getData_alta());
+            sentencia.setString(5, t.getData_fabricacio());
             sentencia.setString(6, t.getDescripcio());
-            sentencia.setFloat(7, t.getPreu());
+            sentencia.setString(7, t.getPreu());
             sentencia.setInt(8, t.getUnitats_venudes());
             sentencia.setInt(9, t.getId_fam());
             sentencia.setInt(10, t.getId_proveidor());
@@ -93,10 +87,10 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
             sentencia.setString(1, t.getNom());
             sentencia.setInt(2, (int) t.getQuantitat());
             sentencia.setString(3, t.getUnitat_mida());
-            sentencia.setDate(4, t.getData_alta());
-            sentencia.setDate(5, t.getData_fabricacio());
+            sentencia.setString(4, t.getData_alta());
+            sentencia.setString(5, t.getData_fabricacio());
             sentencia.setString(6, t.getDescripcio());
-            sentencia.setFloat(7, t.getPreu());
+            sentencia.setString(7, t.getPreu());
             sentencia.setInt(8, t.getUnitats_venudes());
             sentencia.setInt(9, t.getId_fam());
             sentencia.setInt(10, t.getId_proveidor());
@@ -153,10 +147,10 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
                     r.setNom(rs.getString("nom_producte"));
                     sentencia.setInt(2, (int) t.getQuantitat());
                     r.setUnitat_mida(rs.getString("unitat_mida"));
-                    r.setData_alta(rs.getDate("data_alta"));
-                    r.setData_fabricacio(rs.getDate("data_fabricacio"));
+                    r.setData_alta(rs.getString("data_alta"));
+                    r.setData_fabricacio(rs.getString("data_fabricacio"));
                     r.setDescripcio(rs.getString("descripcio_producte"));
-                    r.setPreu(rs.getFloat("preu"));
+                    r.setPreu(rs.getString("preu"));
                     r.setUnitats_venudes(rs.getInt("unitats_venudes"));
                     r.setId_fam(rs.getInt("id_familia"));
                     r.setId_proveidor(rs.getInt("id_proveidor"));

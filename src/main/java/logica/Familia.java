@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package aplicacio.model;
+package logica;
 
 import java.sql.Date;
 
@@ -29,7 +29,8 @@ public class Familia {
 
     public Familia() {
     }
-       
+    
+
     public void setId_fam(int id_fam) {
         this.id_fam = id_fam;
     }

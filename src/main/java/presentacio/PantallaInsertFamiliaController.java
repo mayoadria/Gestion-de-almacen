@@ -3,13 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package cat.copernic.project1_grup2;
+package presentacio;
 
 /**
  *
  * @author oriol
  */
-import aplicacio.model.Familia;
+import presentacio.pantallaFamiliaController;
+import logica.Familia;
 import dades.FamiliaDAO;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;

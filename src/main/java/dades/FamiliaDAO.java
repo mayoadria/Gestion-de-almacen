@@ -4,12 +4,9 @@
  */
 package dades;
 
-import dao.DAOInterface;
-import aplicacio.model.Familia;
-import dao.MyDataSource;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import logica.Familia;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
