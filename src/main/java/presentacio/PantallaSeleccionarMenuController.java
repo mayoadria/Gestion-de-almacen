@@ -32,14 +32,21 @@ public class PantallaSeleccionarMenuController implements Initializable {
     @FXML
     private Button btnFamilia1;
 
+    private String rol;
+    private PantallaReferenciaController r;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
 
+    }
+
+    // Método para establecer el rol
+    public void setRol(String rol) {
+        this.rol = rol; // Almacena el rol recibido
+    }
 
     @FXML
     private void AbrirProveidor(ActionEvent event) {
@@ -49,7 +56,9 @@ public class PantallaSeleccionarMenuController implements Initializable {
 
             // Cargo el padre
             Parent root = loader.load();
-            
+
+            pantallaProveidorController controllerProveidor = loader.getController();
+            controllerProveidor.setRol(this.rol);
             // Creo la scene y el stage
             Scene scene = new Scene(root);
             Stage stage = new Stage();
@@ -57,8 +66,6 @@ public class PantallaSeleccionarMenuController implements Initializable {
             // Asocio el stage con el scene
             stage.setScene(scene);
             stage.show();
-
-           
 
         } catch (IOException ex) {
             Logger.getLogger(PantallaSeleccionarMenuController.class.getName()).log(Level.SEVERE, null, ex);
@@ -67,13 +74,15 @@ public class PantallaSeleccionarMenuController implements Initializable {
 
     @FXML
     private void AbrirReferencia(ActionEvent event) {
-         try {
+        try {
             // Cargo la vista
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PantallaReferencias.fxml"));
 
             // Cargo el padre
             Parent root = loader.load();
-            
+            PantallaReferenciaController controllerReferencia = loader.getController();
+            controllerReferencia.setRol(this.rol);
+
             // Creo la scene y el stage
             Scene scene = new Scene(root);
             Stage stage = new Stage();
@@ -81,8 +90,6 @@ public class PantallaSeleccionarMenuController implements Initializable {
             // Asocio el stage con el scene
             stage.setScene(scene);
             stage.show();
-
-           
 
         } catch (IOException ex) {
             Logger.getLogger(PantallaSeleccionarMenuController.class.getName()).log(Level.SEVERE, null, ex);
@@ -92,6 +99,5 @@ public class PantallaSeleccionarMenuController implements Initializable {
     @FXML
     private void AbrirFamilia(ActionEvent event) {
     }
-    
-}
 
+}

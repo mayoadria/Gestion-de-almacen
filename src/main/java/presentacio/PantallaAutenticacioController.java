@@ -61,7 +61,7 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
         if (autenticacio.verificarUsuario(usuario, rol)) {
             // Abrir la nueva pantalla si la autenticación es correcta
             mostrarMensaje("Usuario autenticado correctamente.");
-            abrirNuevaPantalla();
+            abrirNuevaPantalla(txtRol.getText());
         } else {
             // Mostrar mensaje de error
             mostrarMensajeError("Usuario o rol incorrecto.");
@@ -69,7 +69,7 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
     }
     
     @FXML
-    void abrirNuevaPantalla() {
+    void abrirNuevaPantalla(String rol) {
         try {
             // Cargo la vista
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PantallaSeleccionaMenus.fxml"));
@@ -77,7 +77,8 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
             // Cargo el padre
             Parent root = loader.load();
             
-            
+            PantallaSeleccionarMenuController controller = loader.getController();
+            controller.setRol(rol);  // Pasar el rol al controlador de seleccionar menú
             // Creo la scene y el stage
             Scene scene = new Scene(root);
             Stage stage = new Stage();

@@ -30,6 +30,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import logica.Autenticacio;
 import logica.Mensajes;
 import logica.ReferenciaLogica;
 
@@ -136,11 +137,13 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
     private ReferenciaDAO referenciaDAO;
     
     private ReferenciaLogica referenciaLogica;
+    private String rol;
 
     //Poner que el valor por defecto de cada columna sea el correspondiente
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
+       
         try {
             this.referenciaLogica = new ReferenciaLogica(); 
         } catch (SQLException ex) {
@@ -180,7 +183,24 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
                 txtIdFamilia.setText(String.valueOf(newSelection.getId_fam()));
                 txtIdProveidor.setText(String.valueOf(newSelection.getId_proveidor()));
             }
+            configurarBotonesPorRol();
         });
+    }
+    public void setRol(String rol) {
+        this.rol = rol;
+        configurarBotonesPorRol(); // Llamar para aplicar la configuración de botones al establecer el rol
+    }
+
+    // Método para habilitar o deshabilitar botones según el rol
+    private void configurarBotonesPorRol() {
+        if (rol != null) {
+             if (rol.equals("Venedor")) {
+                // Deshabilitar botones para usuarios regulares
+                btnNovaReferencia.setDisable(true);
+                btnModificarReferencia.setDisable(true);
+                btnEliminarReferencia.setDisable(true);
+            }
+        }
     }
 
     @FXML

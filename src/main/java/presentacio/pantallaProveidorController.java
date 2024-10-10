@@ -123,6 +123,7 @@ public class pantallaProveidorController implements Initializable {
     private TextField tf_EstatProv;
 
     private ProveidorDAO proveidorDAO;
+    private String rol;
 
     public TableView<Proveidor> getTb_prov() {
         return tb_prov;
@@ -150,6 +151,25 @@ public class pantallaProveidorController implements Initializable {
             e.printStackTrace();
         }
 
+    }
+    
+    public void setRol(String rol) {
+        this.rol = rol;
+        configurarBotonesPorRol(); // Llamar para aplicar la configuración de botones al establecer el rol
+    }
+
+    // Método para habilitar o deshabilitar botones según el rol
+    private void configurarBotonesPorRol() {
+        if (rol != null) {
+             if (rol.equals("Venedor")) {
+                // Deshabilitar botones para usuarios regulares
+                btn_nouProv.setDisable(true);
+                btn_modProv.setDisable(true);
+                btn_eliProv.setDisable(true);
+                btn_impProv.setDisable(true);
+                btn_expProv.setDisable(true);
+            }
+        }
     }
 
     private void recollirDadesProveidor() throws SQLException {
