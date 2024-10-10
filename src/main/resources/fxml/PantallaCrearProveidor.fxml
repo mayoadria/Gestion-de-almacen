@@ -17,8 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cat.copernic.project1_grup2.PantallaCrearProveidorController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacio.PantallaCrearProveidorController">
    <children>
       <VBox alignment="CENTER" prefHeight="46.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
          <children>
@@ -77,11 +76,7 @@
                         <HBox prefHeight="36.0" prefWidth="308.0" VBox.vgrow="ALWAYS">
                            <children>
                               <Label fx:id="label_cifProv1" contentDisplay="CENTER" prefHeight="31.0" prefWidth="63.0" text="Estat" />
-                              <ComboBox fx:id="cb_estatNouProv" prefHeight="25.0" prefWidth="284.0">
-                                 <HBox.margin>
-                                    <Insets top="5.0" />
-                                 </HBox.margin>
-                              </ComboBox>
+                              <CheckBox fx:id="cb_estatNouProv" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="275.0" text="Actiu" textAlignment="CENTER" />
                            </children>
                            <VBox.margin>
                               <Insets left="35.0" top="5.0" />
@@ -194,10 +189,10 @@
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="124.0" prefWidth="420.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button fx:id="btn_conNouProv" alignment="CENTER" mnemonicParsing="false" prefHeight="73.0" prefWidth="127.0" text="Confirmar" VBox.vgrow="ALWAYS" />
+                  <Button fx:id="btn_conNouProv" alignment="CENTER" mnemonicParsing="false" onAction="#CrearProveidorNou" prefHeight="73.0" prefWidth="127.0" text="Confirmar" VBox.vgrow="ALWAYS" />
                   <VBox alignment="TOP_CENTER" prefHeight="99.0" prefWidth="322.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Button fx:id="btn_canNouProv" alignment="CENTER" mnemonicParsing="false" prefHeight="54.0" prefWidth="127.0" text="Cancel·lar" VBox.vgrow="ALWAYS">
+                        <Button fx:id="btn_canNouProv" alignment="CENTER" mnemonicParsing="false" onAction="#handlerButtonNouSortir" prefHeight="54.0" prefWidth="127.0" text="Cancel·lar" VBox.vgrow="ALWAYS">
                            <padding>
                               <Insets top="5.0" />
                            </padding>

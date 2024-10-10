@@ -194,7 +194,7 @@
             <children>
                 <VBox alignment="TOP_CENTER" prefHeight="139.0" prefWidth="244.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Button fx:id="btn_nouProv" mnemonicParsing="false" prefHeight="43.0" prefWidth="93.0" text="Nou" VBox.vgrow="ALWAYS">
+                        <Button fx:id="btn_nouProv" mnemonicParsing="false" onAction="#handlerButtonNou" prefHeight="43.0" prefWidth="93.0" text="Nou" VBox.vgrow="ALWAYS">
                             <font>
                                 <Font size="13.0" />
                             </font>
@@ -202,7 +202,7 @@
                                 <Insets top="5.0" />
                             </VBox.margin>
                         </Button>
-                        <Button fx:id="btn_modProv" mnemonicParsing="false" prefHeight="43.0" prefWidth="93.0" text="Modificar" VBox.vgrow="ALWAYS">
+                        <Button fx:id="btn_modProv" mnemonicParsing="false" onAction="#handlerButtonModificar" prefHeight="43.0" prefWidth="93.0" text="Modificar" VBox.vgrow="ALWAYS">
                             <font>
                                 <Font size="13.0" />
                             </font>
@@ -217,7 +217,7 @@
                 </VBox>
                 <VBox alignment="TOP_CENTER" prefHeight="127.0" prefWidth="289.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Button fx:id="btn_eliProv" mnemonicParsing="false" prefHeight="43.0" prefWidth="93.0" text="Eliminar" VBox.vgrow="ALWAYS">
+                        <Button fx:id="btn_eliProv" mnemonicParsing="false" onAction="#handlerButtonEsborrar" prefHeight="43.0" prefWidth="93.0" text="Eliminar" VBox.vgrow="ALWAYS">
                             <font>
                                 <Font size="13.0" />
                             </font>

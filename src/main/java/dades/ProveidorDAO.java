@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.ObservableList;
 
-
 /**
  * *
  *
@@ -73,8 +72,6 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
 
                 ret.add(p);
             }
-
-            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
         return ret;
     }
@@ -82,7 +79,6 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
     @Override
     public void insert(Proveidor t) throws SQLException {
         //Aquest mètode crea un nou proveïdor.
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
 
         //Fem el mòdel de consulta per inserir nous proveïdors.
         String consultaInsert = "INSERT INTO proveidors(nom_proveidor,cif,actiu"
@@ -93,7 +89,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
 
             sentencia.setString(1, t.getNom_proveidor());
             sentencia.setString(2, t.getCif());
-            /*sentencia.setBoolean(3, t.getEstat().);*/
+            sentencia.setBoolean(3, t.isActiu());  // Camp booleà 'actiu'
             sentencia.setString(4, t.getMotiu_inactiu());
             sentencia.setDate(5, t.getData_creacio());
             sentencia.setString(6, t.getCorreu_electronic());
@@ -101,10 +97,9 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             sentencia.setInt(8, t.getMesos_de_colaboracio());
 
             //Executem l'insert, modificant les dades del nou proveïdor.
-            sentencia.executeUpdate();  // Ejecutar la consulta
+            sentencia.executeUpdate();
 
         } catch (SQLException e) {
-            //missatgeExcepcio("Error al insertar la referencia: " + e.getMessage());
             throw e;
         }
     }
@@ -116,19 +111,20 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
 
         //Fem el mòdel de consulta general per a modificar un proveïdor ja existent.
         String consultaUpdate = "UPDATE Proveidors SET  nom_proveidor = ?,cif = ?,actiu = ?"
-                + ",motiu_inactiu = ?,data_creacio = ?,correu_electronic = ?,rating_proveidor = ?,mesos_de_colaboracio = ?";
+                + ",motiu_inactiu = ?,data_creacio = ?,correu_electronic = ?,rating_proveidor = ?,mesos_de_colaboracio = ? WHERE id_proveidor = ?";
 
         //Fem la connexió amb la BBDD.
         try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaUpdate)) {
 
             sentencia.setString(1, t.getNom_proveidor());
             sentencia.setString(2, t.getCif());
-            /*sentencia.setBoolean(3, t.get);*/
+            sentencia.setBoolean(3, t.isActiu());
             sentencia.setString(4, t.getMotiu_inactiu());
             sentencia.setDate(5, t.getData_creacio());
             sentencia.setString(6, t.getCorreu_electronic());
             sentencia.setFloat(7, t.getRating_proveidor());
             sentencia.setInt(8, t.getMesos_de_colaboracio());
+            sentencia.setInt(9, t.getId_proveidor());
 
             //Executem l'insert, modificant les dades del nou proveïdor.
             int rowsUpdated = sentencia.executeUpdate();
@@ -142,7 +138,6 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             //missatgeExcepcio("Error en insertar el proveïdor: " + e.getMessage());
             throw e;
         }
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -206,20 +201,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             }
         } catch (SQLException e) {
             //missatgeExcepcio("Error en obtenir el proveïdor: " + e.getMessage());
-
-            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
         return p;
     }
 }
-
-/* 
-    VARIABLES JAVA FX PROVEÏDOR 
-    - ID       : tf_idProv 
-    - Nom      : tf_nomProv
-    - cif      : tf_cifProv
-    - estat    : chb_estatProv
-    - motiu    : tf_motiuInaProv
-    - dataCrea : dp_creacioProv
-    - correu   : tf_correuProv 
- */

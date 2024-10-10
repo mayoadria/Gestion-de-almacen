@@ -4,16 +4,19 @@
  */
 package presentacio;
 
-
 import dades.ProveidorDAO;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,14 +25,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import logica.Proveidor;
+import logica.ProveidorLogic;
 
 /**
  *
@@ -117,6 +124,10 @@ public class pantallaProveidorController implements Initializable {
 
     private ProveidorDAO proveidorDAO;
 
+    public TableView<Proveidor> getTb_prov() {
+        return tb_prov;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -202,33 +213,118 @@ public class pantallaProveidorController implements Initializable {
         });
 
     }
-    
+
     @FXML
     private void handlerButtonSortir(ActionEvent ev) throws IOException {
-        //btn_sorProv
-        
-        // Es carrega la vista de la pantalla SeleccionaMenus.
-            /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PantallaSeleccionaMenus.fxml"));
 
-            // Cargo el padre
-            Parent root = loader.load();
-            
-            // Creo la scene y el stage
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
+        Stage stage = (Stage) this.btn_sorProv.getScene().getWindow();
 
-            // Asocio el stage con el scene
-            stage.setScene(scene);
-            stage.show();*/
-            Stage stage = (Stage) this.btn_sorProv.getScene().getWindow();
-
-            stage.close();
+        stage.close();
 
     }
-    
-    @FXML 
+
+    @FXML
+    private void handlerButtonEsborrar(ActionEvent ev) {
+
+        //Primer seleccionem el proveïdor a esborrar.
+        Proveidor proveidorSeleccionat = tb_prov.getSelectionModel().getSelectedItem();
+
+        if (proveidorSeleccionat == null) {
+            // Mostrar missatge d'error si no s'ha seleccionat cap proveïdor
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Selecció requerida");
+            alert.setHeaderText(null);
+            alert.setContentText("Selecciona un proveïdor per poder-lo esborrar");
+            alert.showAndWait();
+            return;
+        }
+
+        // Demanem confirmació per a esborrar el proveïdor. 
+        Alert alertConfirmacio = new Alert(Alert.AlertType.CONFIRMATION);
+        alertConfirmacio.setTitle("Confirmació d'esborrat");
+        alertConfirmacio.setHeaderText(null);
+        alertConfirmacio.setContentText("Segur que vols esborrar el proveïdor seleccionat?");
+
+        Optional<ButtonType> resultat = alertConfirmacio.showAndWait();
+        if (resultat.isPresent() && resultat.get() == ButtonType.OK) {
+            try {
+
+                ProveidorLogic proveidorLogic = new ProveidorLogic();
+
+                //Cridem a la capa lògica per a que faci d'intermediària amb el DAO.
+                proveidorLogic.esborrarProveidor(proveidorSeleccionat);
+                //Actualitzaem la taula una vegada el proveïdor seleccionat ha estat esborrat.
+                tb_prov.getItems().remove(proveidorSeleccionat);
+
+            } catch (Exception e) {
+                Alert alertError = new Alert(Alert.AlertType.ERROR);
+                alertError.setTitle("Error");
+                alertError.setHeaderText(null);
+                alertError.setContentText("Hi ha hagut un error en esborrar el proveïdor.");
+                alertError.showAndWait();
+            }
+        }
+
+    }
+
+    @FXML
+    private void handlerButtonModificar() throws SQLException {
+
+        ProveidorLogic proveidorLogic = new ProveidorLogic();  // Instància de la lògica
+
+        Proveidor proveidorSeleccionat = tb_prov.getSelectionModel().getSelectedItem();
+
+        proveidorSeleccionat.setNom_proveidor(tf_nomProv.getText());
+        //proveidorSeleccionat.setQuantitat(Integer.parseInt(txtCantidad.getText()));
+        proveidorSeleccionat.setCorreu_electronic(tf_correuProv.getText());
+        proveidorSeleccionat.setRating_proveidor(Float.parseFloat(tf_valoracioProv.getText()));
+        proveidorSeleccionat.setCif(tf_cifProv.getText());
+        proveidorSeleccionat.setData_creacio(Date.valueOf(tf_creacioProv.getText()));
+        proveidorSeleccionat.setMotiu_inactiu(tf_motiuProv.getText());
+        proveidorSeleccionat.setMesos_de_colaboracio(Integer.parseInt(tf_colabProv.getText()));
+        proveidorSeleccionat.setActiu(Boolean.parseBoolean(tf_EstatProv.getText()));
+
+        Alert alertConfirmacio = new Alert(Alert.AlertType.CONFIRMATION);
+        alertConfirmacio.setTitle("Confirmació de modificació");
+        alertConfirmacio.setHeaderText(null);
+        alertConfirmacio.setContentText("Segur que vols modificar el proveïdor seleccionat?");
+
+        Optional<ButtonType> resultatConfirmacio = alertConfirmacio.showAndWait();
+        if (resultatConfirmacio.isPresent() && resultatConfirmacio.get() == ButtonType.OK) {
+            try {
+                proveidorLogic.modificarProveidor(proveidorSeleccionat);  // Crida a la capa lògica
+                tb_prov.refresh();  // Refresca la taula amb les dades modificades
+            } catch (Exception e) {
+                Alert alertError = new Alert(Alert.AlertType.ERROR);
+                alertError.setTitle("Error");
+                alertError.setHeaderText(null);
+                alertError.setContentText("Hi ha hagut un error en modificar el proveïdor.");
+                alertError.showAndWait();
+            }
+        }
+    }
+
+    @FXML
     private void handlerButtonNou(ActionEvent ev) throws IOException {
-        
+        try {
+            // Carreguem la pantalla de crear un nou proveïdor.
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PantallaCrearProveidor.fxml"));
+
+            Parent root = loader.load();
+
+            //Amb aquesta línia estem accedint al controlador de la nova finestra.
+            PantallaCrearProveidorController controladorCrear = loader.getController();
+
+            controladorCrear.setPantallaProveidorController(this);  // Passem l'actual controlador a la nova pantalla
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException ex) {
+            Logger.getLogger(PantallaSeleccionarMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
     }
 
 }
