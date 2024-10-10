@@ -10,8 +10,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- *
+ * Clase MyDataSource para gestionar el acceso a la base de datos mediante un pool de conexiones
+ * configurado con HikariCP. Esta clase implementa un patrón de diseño singleton, manteniendo 
+ * un único pool de conexiones que se puede reutilizar. Proporciona métodos estáticos para 
+ * obtener y cerrar conexiones de manera eficiente.
+ * 
  * @author chris
+ * @version 1.0
+ * @since 2024
  */
 public class MyDataSource {
     //té dues referències privades i estàtiques perquè només hi puguem accedir des de dins d'aquesta classe.
@@ -31,16 +37,27 @@ public class MyDataSource {
         dataSource = new HikariDataSource(config); //ja tenim el pool de connexions
     }
 
-    //constructor privat perquè no el puguem cridar i no es puguin crear instancies d'aquesta classe.
+    /**
+     * Constructor privado para evitar la creación de instancias de esta clase.
+     * La configuración de conexión se maneja a través del bloque estático.
+     */
     public MyDataSource(String projecte1db, String root, String jv) {
     }
 
-    
+    /**
+     * Obtiene una conexión disponible del pool de conexiones configurado.
+     * 
+     * @return una instancia de Connection disponible en el pool.
+     * @throws SQLException si ocurre un error al intentar obtener una conexión.
+     */
     public static Connection getConnection() throws SQLException {
         //retornarà una connexió disponible del pool de connexions
         return dataSource.getConnection();
     }
     
+    /**
+     * Cierra el pool de conexiones si está activo, liberando los recursos utilizados.
+     */
      public static void close() {
         if (dataSource != null) {
             dataSource.close();
