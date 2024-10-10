@@ -11,14 +11,12 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -26,6 +24,8 @@ import logica.Proveidor;
 import logica.ProveidorLogic;
 
 /**
+ * Controlador per gestionar la creació de nous proveïdors.
+ * Aquest controlador maneja les accions relacionades amb la interfície de creació de proveïdors.
  *
  * @author Anna
  */
@@ -86,19 +86,43 @@ public class PantallaCrearProveidorController {
 
     private ProveidorDAO proveidorDAO;
 
+   /**
+     * Obté el controlador de la pantalla de proveïdors.
+     *
+     * @return Retorna el controlador de la pantalla de proveïdors.
+     */
     public pantallaProveidorController getPantallaProveidorController() {
         return pantallaProveidorController;
     }
 
+    /**
+     * Estableix el controlador de la pantalla de proveïdors.
+     *
+     * @param pantallaProveidorController El controlador a establir.
+     */
     public void setPantallaProveidorController(pantallaProveidorController pantallaProveidorController) {
         this.pantallaProveidorController = pantallaProveidorController;
     }
 
+    /**
+     * Inicialitza el controlador quan es carrega la vista.
+     *
+     * @param url L'URL d'inicialització.
+     * @param rb El conjunt de recursos.
+     */
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
 
     }
 
+    /**
+     * Crea un nou proveïdor basant-se en les dades introduïdes en el formulari.
+     *
+     * @param ev L'esdeveniment d'acció.
+     * @throws IOException Si es produeix un error d'entrada/sortida.
+     * @throws SQLException Si es produeix un error en la consulta SQL.
+     * @throws Exception Si es produeix qualsevol altra excepció.
+     */
     @FXML
     private void CrearProveidorNou(ActionEvent ev) throws IOException, SQLException, Exception {
 
@@ -177,6 +201,12 @@ public class PantallaCrearProveidorController {
 
     }
 
+    /**
+     * Tanca la finestra de creació de proveïdors.
+     *
+     * @param ev L'esdeveniment d'acció.
+     * @throws IOException Si es produeix un error d'entrada/sortida.
+     */
     @FXML
     private void handlerButtonNouSortir(ActionEvent ev) throws IOException {
 
