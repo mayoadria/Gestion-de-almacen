@@ -17,7 +17,7 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="tv_familia" onMouseClicked="#seleccionar" prefHeight="269.0" prefWidth="600.0">
+            <TableView fx:id="tv_familia" prefHeight="269.0" prefWidth="600.0">
               <columns>
                 <TableColumn fx:id="tc_id" prefWidth="58.40002363920212" text="ID" />
                 <TableColumn fx:id="tc_nom" prefWidth="76.79999160766602" text="Nom" />
@@ -27,7 +27,7 @@
                   <TableColumn fx:id="tc_observacions" prefWidth="122.4000244140625" text="Observacions" />
               </columns>
             </TableView>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
                   <VBox prefHeight="148.0" prefWidth="386.0">
                      <children>
@@ -38,7 +38,7 @@
                                     <Insets top="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="txt_id" prefHeight="26.0" prefWidth="230.0" />
+                              <TextField fx:id="txt_id" disable="true" prefHeight="26.0" prefWidth="230.0" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="5.0" />
@@ -89,14 +89,14 @@
                         <Insets top="10.0" />
                      </HBox.margin>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="90.0">
+                  <VBox prefHeight="200.0" prefWidth="90.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Label fx:id="lb_descripcio" text="Descripció" />
                         <TextArea fx:id="txt_areaDescripcio" prefHeight="90.0" prefWidth="100.0" />
                      </children>
                   </VBox>
                   <Separator orientation="VERTICAL" prefHeight="122.0" prefWidth="10.0" visible="false" />
-                  <VBox prefHeight="122.0" prefWidth="90.0">
+                  <VBox prefHeight="122.0" prefWidth="90.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Label fx:id="lb_observacions" text="Observacions" />
                         <TextArea fx:id="txt_areaObservacions" prefHeight="90.0" prefWidth="100.0" />
@@ -138,10 +138,6 @@
                   <Button fx:id="btn_eliminar" mnemonicParsing="false" onAction="#eliminar" prefHeight="26.0" prefWidth="200.0" text="Eliminar">
                      <VBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" />
-                     </VBox.margin></Button>
-                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Button">
-                     <VBox.margin>
-                        <Insets left="15.0" right="15.0" />
                      </VBox.margin></Button>
                </children>
             </VBox>
