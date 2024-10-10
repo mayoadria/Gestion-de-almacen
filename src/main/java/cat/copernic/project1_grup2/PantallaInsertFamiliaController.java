@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -74,7 +75,7 @@ public class PantallaInsertFamiliaController {
             familiaDAO.insert(familiaAfegir);
             
             familiaController.actualizarTaulaFamilia(familiaAfegir);
-            
+                      
             System.out.println("Familia inserida correctament");
         
         }catch(SQLException e){
@@ -104,3 +105,4 @@ public class PantallaInsertFamiliaController {
 //public class PantallaInsertFamiliaController {
 //    
 //}
+
