@@ -19,10 +19,10 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 /**
- * Controlador FXML para la pantalla de selección de menú. Gestiona la
- * navegación hacia otras secciones de la aplicación como Proveedor, Referencia,
- * y Familia. Implementa la interfaz Initializable.
- *
+ * Controlador FXML para la pantalla de selección de menú.
+ * Gestiona la navegación hacia otras secciones de la aplicación como Proveedor, Referencia, y Familia.
+ * Implementa la interfaz Initializable.
+ * 
  * @autor mayoa
  */
 public class PantallaSeleccionarMenuController implements Initializable {
@@ -39,7 +39,7 @@ public class PantallaSeleccionarMenuController implements Initializable {
 
     /**
      * Inicializa el controlador de la clase.
-     *
+     * 
      * @param url ubicación para inicializar, o null si no se usa.
      * @param rb recursos para internacionalización, o null si no se usa.
      */
@@ -52,7 +52,7 @@ public class PantallaSeleccionarMenuController implements Initializable {
         this.rol = rol; // Almacena el rol recibido
     }
 
-
+    
     @FXML
     private void AbrirProveidor(ActionEvent event) {
         try {
@@ -76,12 +76,11 @@ public class PantallaSeleccionarMenuController implements Initializable {
             Logger.getLogger(PantallaSeleccionarMenuController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     /**
-     * Abre la pantalla de Referencia cuando se hace clic en el botón
-     * correspondiente. Carga y muestra la vista de la pantalla de Referencias
-     * en una nueva ventana.
-     *
+     * Abre la pantalla de Referencia cuando se hace clic en el botón correspondiente.
+     * Carga y muestra la vista de la pantalla de Referencias en una nueva ventana.
+     * 
      * @param event evento de acción asociado al botón btnReferencia.
      */
     @FXML
