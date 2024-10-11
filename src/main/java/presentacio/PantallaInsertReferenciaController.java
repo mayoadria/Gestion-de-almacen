@@ -1,14 +1,16 @@
 /*
-     * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-     * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+         * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+         * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package presentacio;
 
-import logica.Referencia;
+import model.Referencia;
 import dades.ReferenciaDAO;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logica.Mensajes;
 import logica.ReferenciaLogica;
+import logica.ValidarCamposInsertReferencia;
 
 /**
  * Controlador de la pantalla para insertar referencias de producto.
@@ -37,7 +40,11 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try {
+            referenciaLogica = new ReferenciaLogica();
+        } catch (SQLException ex) {
+            Logger.getLogger(PantallaInsertReferenciaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -77,7 +84,7 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
     private TextField txtnomProducte;
 
     private ReferenciaDAO referenciaDAO;
-    
+
     private ReferenciaLogica referenciaLogica;
 
     private PantallaReferenciaController referenciaController;
@@ -97,32 +104,23 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
      * @param event El evento de acción que desencadena la inserción.
      */
     @FXML
-    private void AfegirPersona(ActionEvent event) {
+    private void AfegirPersona(ActionEvent event) throws Exception {
         try {
             // Obtener los datos del formulario
             referenciaDAO = new ReferenciaDAO();
             String nomProducte = txtnomProducte.getText();
             int quantitat = Integer.parseInt(txtQuantitatReferencia.getText());
-            String unitatMida = txtUnitatMida.getText();
-            java.sql.Date dataAlta = java.sql.Date.valueOf(txtDataAlta.getText());
-            java.sql.Date dataFabricacio = java.sql.Date.valueOf(txtDataFab.getText());
+            String unitatMida = txtUnitatMida.getText().toLowerCase();
+            String dataAlta = (txtDataAlta.getText());
+            String dataFabricacio = (txtDataFab.getText());
             String descripcioProducte = txtDescripcio.getText();
-            float preu = Float.parseFloat(txtPreu.getText());
+            String preu = txtPreu.getText();
             int unitatsVenudes = Integer.parseInt(txtUnitVen.getText());
             int idFamilia = Integer.parseInt(txtIdFam.getText());
             int idProveidor = Integer.parseInt(txtIdProv.getText());
 
-            // Validar que la familia existe en la base de datos
-            if (!referenciaDAO.existeFamilia(idFamilia)) {
-                mostrarMensajeError("La familia introducida no existe. Por favor, introduce un ID de familia válido.");
-                return; // Detener el flujo si la familia no existe
-            }
+            ValidarCamposInsertReferencia.validarDatos(referenciaLogica, referenciaDAO, unitatMida, dataAlta, dataFabricacio, preu, quantitat, idFamilia, idProveidor);
 
-            // Validar que el proveedor existe en la base de datos
-            if (!referenciaDAO.existeProveedor(idProveidor)) {
-                mostrarMensajeError("El proveedor introducido no existe. Por favor, introduce un ID de proveedor válido.");
-                return; // Detener el flujo si el proveedor no existe
-            }
             // Crear una instancia de Referencia con los datos del formulario
             Referencia novaReferencia = new Referencia();
             novaReferencia.setNom(nomProducte);
@@ -144,19 +142,20 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
             // Cerrar la ventana de añadir referencia
             Stage stage = (Stage) btnSortir.getScene().getWindow();
             stage.close();
-            //Chivato por consola para saber si se ha hecho el insert
+            //Mensaje para saber si se ha hecho el insert
             mostrarMensaje("Referencia insertada correctamente.");
 
         } catch (SQLException e) {
-            e.printStackTrace();
             // Muestra un mensaje de error si hay problemas con la inserción de una nueva referencia
             mostrarMensajeError("Error al insertar la referencia: " + e.getMessage());
 
         } catch (NumberFormatException e) {
             //Comprovar si els camps a on s'han d'introduir numeros siguin correctes com per exemple 
             //(como Quantitat, Preu, etc.)
-            e.printStackTrace();
             mostrarMensajeError("Escribe de forma correcta los valores numerales: " + e.getMessage());
+        } catch (Exception e) {
+            // Capturar las excepciones propias (ValidacionException y DatabaseException)
+            mostrarMensajeError(e.getMessage());
         }
     }
 

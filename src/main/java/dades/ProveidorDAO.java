@@ -4,7 +4,7 @@
  */
 package dades;
 
-import logica.Proveidor;
+import model.Proveidor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +16,9 @@ import java.util.Set;
 import javafx.collections.ObservableList;
 
 /**
- * *
+ * Classe per a gestionar les operacions CRUD (Crear, Llegir, Actualitzar,
+ * Esborrar) de proveïdors a la BBDD. Implementa la interfície DAOInterface per
+ * aplicar el patró DAO.
  *
  * @author Anna
  */
@@ -24,11 +26,11 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
 
     ObservableList<Proveidor> llistaObservableProveidor;
 
-    //Creem una llista de proveïdors per a poder treballar el CRUD.
     /**
-     * *
+     * Constructor que inicialitza la connexió a la BBDD i prepara les
+     * estructures de dades necessàries.
      *
-     * @throws SQLException
+     * @throws SQLException Si hi ha un error en la connexió a la BBDD.
      */
     public ProveidorDAO() throws SQLException {
         //Aquest mètode recull els errors de connexió que es puguin donar en la connexió amb la BBDD.
@@ -37,13 +39,14 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
     }
 
     /**
-     * *
-     * @return @throws SQLException
-     * @throws java.sql.SQLException
+     * Obté una llista amb tots els proveïdors de la base de dades.
+     *
+     * @return Una llista de proveïdors.
+     * @throws SQLException Si hi ha un error en la connexió o l'execució de la
+     * consulta.
      */
     @Override
     public List<Proveidor> getAll() throws SQLException {
-        //Aquest mètode ens retorna una llista amb tots els proveïdors.
 
         List<Proveidor> ret = new ArrayList<>();
 
@@ -78,6 +81,13 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
         return ret;
     }
 
+    /**
+     * Insereix un nou proveïdor a la base de dades.
+     *
+     * @param t L'objecte Proveidor a inserir.
+     * @throws SQLException Si hi ha un error en la connexió o l'execució de la
+     * consulta.
+     */
     @Override
     public void insert(Proveidor t) throws SQLException {
         //Aquest mètode crea un nou proveïdor.
@@ -106,10 +116,15 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
         }
     }
 
-    /*Primer recollir dades i inserir-les a les variables.*/
+    /**
+     * Actualitza un proveïdor existent a la BBDD.
+     *
+     * @param t L'objecte Proveidor amb les noves dades.
+     * @throws SQLException Si hi ha un error en la connexió o l'execució de la
+     * consulta.
+     */
     @Override
     public void update(Proveidor t) throws SQLException {
-        //Aquest mètode ens permet modificar un proveïdor.
 
         //Fem el mòdel de consulta general per a modificar un proveïdor ja existent.
         String consultaUpdate = "UPDATE Proveidors SET  nom_proveidor = ?,cif = ?,actiu = ?"
@@ -131,20 +146,25 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             //Executem l'insert, modificant les dades del nou proveïdor.
             int rowsUpdated = sentencia.executeUpdate();
             if (rowsUpdated > 0) {
-                //missatgeExcepcio("El proveïdor ha estat actualitzat exitosament.");
+                throw new SQLException("S'ha actualitzat el proveïdor exitosament.");
             } else {
-                //missatgeExcepcio("No s'ha trobat cap proveïdor amb l'ID proporcionat.");
+                throw new SQLException("No s'ha trobat cap proveïdor amb l'ID proporcionat.");
             }
 
         } catch (SQLException e) {
-            //missatgeExcepcio("Error en insertar el proveïdor: " + e.getMessage());
             throw e;
         }
     }
 
+    /**
+     * Esborra un proveïdor existent de la BBDD.
+     *
+     * @param t L'objecte Proveidor a esborrar.
+     * @throws SQLException Si hi ha un error en la connexió o l'execució de la
+     * consulta.
+     */
     @Override
     public void delete(Proveidor t) throws SQLException {
-        //Aquest mètode esborra un proveïdor.
 
         //Fem el mòdel de consulta general per a esborrar un proveïdor ja existent.
         String consultaDelete = "Delete FROM Proveidors WHERE id_proveidor = ?";
@@ -154,22 +174,25 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             sentencia.setInt(1, t.getId_proveidor());
 
             int rowsDeleted = sentencia.executeUpdate();
-            if (rowsDeleted > 0) {
-                //missatgeExepcio("El proveïdor ha estat esborrat exitosament.");
-            } else {
-                //missatgeExepcio("No s'ha trobat cap proveïdor amb l'ID proporcionat.");
+            if (rowsDeleted == 0) {
+                throw new SQLException("No s'ha trobat cap proveïdor amb l'ID proporcionat.");
             }
         } catch (SQLException e) {
-            //missatgeExcepcio("Error en insertar el proveïdor: " + e.getMessage());
-            throw e;
+            throw new SQLException("Error en esborrar el proveïdor: " + e.getMessage());
         }
-
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    /**
+     * Obté un proveïdor específic de la base de dades segons el seu
+     * identificador.
+     *
+     * @param t L'objecte Proveidor amb l'ID per buscar.
+     * @return El proveïdor corresponent o null si no existeix.
+     * @throws SQLException Si hi ha un error en la connexió o l'execució de la
+     * consulta.
+     */
     @Override
     public Proveidor get(Proveidor t) throws SQLException {
-        //Aquest mètode ens permet seleccionar un proveïdor.
 
         //Fem la consulta que ens permet seleccionar un proveïdor a partir d'un ID.
         String consultaSeleccionar = "SELECT * FROM Proveidors WHERE id_proveidor = ?";
@@ -202,11 +225,25 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
                 }
             }
         } catch (SQLException e) {
-            //missatgeExcepcio("Error en obtenir el proveïdor: " + e.getMessage());
+            throw new SQLException("Error en obtenir el proveïdor");
         }
         return p;
     }
 
+    /**
+     * Obtiene un conjunto de todos los IDs de proveedores existentes en la base
+     * de datos.
+     *
+     * Este método realiza una consulta a la base de datos para recuperar todos
+     * los IDs de la tabla de proveedores y los almacena en un conjunto. Si
+     * ocurre un error durante la consulta, lanza una excepción de tipo
+     * SQLException.
+     *
+     * @return Un conjunto (`Set<Integer>`) que contiene los IDs de todos los
+     * proveedores en la base de datos.
+     * @throws SQLException Si ocurre un error al intentar conectar o consultar
+     * la base de datos.
+     */
     public Set<Integer> getAllIds() throws SQLException {
         Set<Integer> idsExistents = new HashSet<>();
         String sql = "SELECT id_proveidor FROM proveidors"; // Cambia 'proveidors' por el nombre real de tu tabla
@@ -225,4 +262,5 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
 
         return idsExistents;
     }
+
 }

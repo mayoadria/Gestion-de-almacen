@@ -1,0 +1,4 @@
+ID,Nom,CIF,Estat,Correu Electrònic,Data Creació,Rating,Mesos de Colaboració,Motiu Inactiu
+1,Proveedor 1,CIF1,Actiu,proveedor1@example.com,2023-01-01,4,50,12,
+2,Proveedor 2,CIF2,Actiu,proveedor2@example.com,2023-01-02,4,00,6,
+3,Yamaha Motors,C45678901,Actiu,sales@yamaha.com,2019-11-11,4,70,48,

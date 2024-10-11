@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -46,10 +47,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logica.Mensajes;
-import logica.Proveidor;
+import model.Proveidor;
 import logica.ProveidorLogic;
 
 /**
+ * Controlador para la pantalla de gestión de proveedores.
+ * Esta clase se encarga de gestionar la interacción del usuario con la 
+ * interfaz gráfica de la pantalla de proveedores. Permite agregar, 
+ * modificar, eliminar y exportar proveedores, así como configurar la 
+ * interfaz según el rol del usuario.
  *
  * @author Anna
  */
@@ -135,11 +141,25 @@ public class pantallaProveidorController implements Initializable {
 
     private ProveidorDAO proveidorDAO;
     private Mensajes mensajes = new Mensajes();
-
+    private String rol;
+    
+    /**
+     * Obtiene la tabla de proveedores.
+     *
+     * @return La tabla de proveedores (TableView).
+     */
     public TableView<Proveidor> getTb_prov() {
         return tb_prov;
     }
-
+    
+    /**
+     * Inicializa la pantalla de proveedores, vinculando columnas de la 
+     * tabla con los atributos del objeto Proveidor y cargando los 
+     * proveedores desde la base de datos.
+     *
+     * @param url La URL para la ubicación de los recursos.
+     * @param rb  El recurso que contiene el objeto.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -163,7 +183,42 @@ public class pantallaProveidorController implements Initializable {
         }
 
     }
+    
+    /**
+     * Establece el rol del usuario y configura los botones de acuerdo 
+     * a este rol.
+     *
+     * @param rol El rol del usuario que se va a establecer.
+     */
+    public void setRol(String rol) {
+        this.rol = rol;
+        configurarBotonesPorRol(); // Llamar para aplicar la configuración de botones al establecer el rol
+    }
+    
+    /**
+     * Configura la habilitación o deshabilitación de los botones 
+     * según el rol del usuario.
+     */
+    private void configurarBotonesPorRol() {
+        if (rol != null) {
+             if (rol.equals("Venedor")) {
+                // Deshabilitar botones para usuarios regulares
+                btn_nouProv.setDisable(true);
+                btn_modProv.setDisable(true);
+                btn_eliProv.setDisable(true);
+                btn_impProv.setDisable(true);
+                btn_expProv.setDisable(true);
+            }
+        }
+    }
 
+
+    /**
+     * Recoge los datos del proveedor desde los campos de texto 
+     * y los prepara para ser guardados en la base de datos.
+     *
+     * @throws SQLException Si ocurre un error al acceder a la base de datos.
+     */
     private void recollirDadesProveidor() throws SQLException {
 
         Proveidor p = new Proveidor();
@@ -194,7 +249,13 @@ public class pantallaProveidorController implements Initializable {
         ProveidorDAO dao = new ProveidorDAO();
 
     }
-
+    
+    /**
+     * Carga la lista de proveedores desde la base de datos y la 
+     * muestra en la tabla de proveedores.
+     *
+     * @throws SQLException Si ocurre un error al acceder a la base de datos.
+     */
     private void cargarProveidors() throws SQLException {
         ProveidorDAO proveidorDAO = new ProveidorDAO();
         List<Proveidor> proveidors = new ArrayList<>();
@@ -225,16 +286,30 @@ public class pantallaProveidorController implements Initializable {
         });
 
     }
-
+    
+    /**
+     * Maneja la acción del botón de cerrar la ventana.
+     *
+     * @param ev El evento de acción que activa este método.
+     * @throws IOException Si ocurre un error al cerrar la ventana.
+     */
     @FXML
     private void handlerButtonSortir(ActionEvent ev) throws IOException {
 
         Stage stage = (Stage) this.btn_sorProv.getScene().getWindow();
 
         stage.close();
-
+        
     }
-
+    
+    /**
+     * Maneja la acción del botón de eliminar un proveedor.
+     *
+     * Si no se ha seleccionado un proveedor, se muestra un mensaje de error.
+     * Se solicita confirmación antes de proceder con la eliminación.
+     *
+     * @param ev El evento de acción que activa este método.
+     */
     @FXML
     private void handlerButtonEsborrar(ActionEvent ev) {
 
@@ -278,7 +353,15 @@ public class pantallaProveidorController implements Initializable {
         }
 
     }
-
+    
+    /**
+     * Maneja la acción del botón de modificar un proveedor existente.
+     * Recoge los datos actualizados del proveedor desde los campos de texto 
+     * y los guarda en la base de datos. Se muestra un mensaje de éxito 
+     * o error según corresponda.
+     *
+     * @param ev El evento de acción que activa este método.
+     */
     @FXML
     private void handlerButtonModificar() throws SQLException {
 
@@ -315,7 +398,15 @@ public class pantallaProveidorController implements Initializable {
             }
         }
     }
-
+    
+    /**
+     * Maneja la acción del botón de agregar un nuevo proveedor.
+     * Recoge los datos del nuevo proveedor desde los campos de texto 
+     * y los guarda en la base de datos. Se muestra un mensaje de éxito 
+     * o error según corresponda.
+     *
+     * @param ev El evento de acción que activa este método.
+     */
     @FXML
     private void handlerButtonNou(ActionEvent ev) throws IOException {
         try {
@@ -338,7 +429,15 @@ public class pantallaProveidorController implements Initializable {
             ex.printStackTrace();
         }
     }
-
+    
+    /**
+     * Maneja la acción del botón de exportar proveedores.
+     * Se exporta la lista de proveedores a un archivo especificado.
+     * Se muestra un mensaje de éxito o error según corresponda.
+     *
+     * @param ev El evento de acción que activa este método.
+     * @throws IOException Si ocurre un error al exportar el archivo.
+     */
     @FXML
     private void handlerButtonExportar(ActionEvent ev) {
         try {
@@ -380,7 +479,15 @@ public class pantallaProveidorController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Maneja la acción del botón de importar proveedores.
+     * Se importa la lista de proveedores desde un archivo especificado.
+     * Se muestra un mensaje de éxito o error según corresponda.
+     *
+     * @param ev El evento de acción que activa este método.
+     * @throws IOException Si ocurre un error al importar el archivo.
+     */
     @FXML
     private void handlerButtonImportar(ActionEvent event) {
         // Permitir al usuario seleccionar un archivo CSV
