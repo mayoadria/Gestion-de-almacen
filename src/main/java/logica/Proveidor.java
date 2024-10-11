@@ -16,15 +16,16 @@ import java.sql.Date;
  */
 public class Proveidor {
 
-    private String nom;
+    private String nom_proveidor;
     private String cif;
-    private EstatProveidor Estat;
+    //private EstatProveidor Estat;
     private int id_proveidor;
     private String motiu_inactiu;
     private Date data_creacio;
     private String correu_electronic;
     private float rating_proveidor;
     private int mesos_de_colaboracio;
+    private boolean actiu; 
 
     /**
      * Constructor vacío de la clase Proveidor. Inicializa un proveedor sin
@@ -33,6 +34,21 @@ public class Proveidor {
     public Proveidor() {
 
     }
+
+    public Proveidor(int id_proveidor, String nom_proveidor, String cif, boolean actiu, String correu_electronic, Date data_creacio, float rating_proveidor, int mesos_de_colaboracio, String motiu_inactiu) {
+        this.id_proveidor = id_proveidor;
+        this.nom_proveidor = nom_proveidor;
+        this.cif = cif;
+        this.id_proveidor = id_proveidor;
+        this.motiu_inactiu = motiu_inactiu;
+        this.data_creacio = data_creacio;
+        this.correu_electronic = correu_electronic;
+        this.rating_proveidor = rating_proveidor;
+        this.mesos_de_colaboracio = mesos_de_colaboracio;
+        this.actiu = actiu;
+    }
+    
+    
 
     /**
      * Obtiene el ID único del proveedor.
@@ -143,24 +159,6 @@ public class Proveidor {
     }
 
     /**
-     * Obtiene el nombre del proveedor.
-     *
-     * @return Nombre del proveedor.
-     */
-    public String getNom() {
-        return nom;
-    }
-
-    /**
-     * Establece el nombre del proveedor.
-     *
-     * @param nom Nombre del proveedor.
-     */
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    /**
      * Obtiene el CIF del proveedor.
      *
      * @return CIF del proveedor.
@@ -178,23 +176,6 @@ public class Proveidor {
         this.cif = cif;
     }
 
-    /**
-     * Obtiene el estado del proveedor, que puede ser ACTIU o INACTIU.
-     *
-     * @return Estado del proveedor.
-     */
-    public EstatProveidor getEstat() {
-        return Estat;
-    }
-
-    /**
-     * Establece el estado del proveedor.
-     *
-     * @param Estat Estado del proveedor.
-     */
-    public void setEstat(EstatProveidor Estat) {
-        this.Estat = Estat;
-    }
 
     /**
      * Representación en forma de cadena de la instancia de Proveidor.
@@ -203,8 +184,9 @@ public class Proveidor {
      */
     @Override
     public String toString() {
-        return "Proveidor{" + "nom=" + nom + ", cif=" + cif + ", Estat=" + Estat + '}';
+        return "Proveidor{" + "nom_proveidor=" + nom_proveidor + ", cif=" + cif + ", id_proveidor=" + id_proveidor + ", motiu_inactiu=" + motiu_inactiu + ", data_creacio=" + data_creacio + ", correu_electronic=" + correu_electronic + ", rating_proveidor=" + rating_proveidor + ", mesos_de_colaboracio=" + mesos_de_colaboracio + ", actiu=" + actiu + '}';
     }
+
 
     /**
      * Enum que define los posibles estados de un proveedor: ACTIU o INACTIU.
@@ -212,5 +194,21 @@ public class Proveidor {
     public enum EstatProveidor {
         ACTIU, INACTIU
     }
+    
+    public boolean isActiu() {
+        return actiu;
+    }
 
+    public void setActiu(boolean actiu) {
+        this.actiu = actiu;
+    }
+
+    public String getNom_proveidor() {
+        return nom_proveidor;
+    }
+
+    public void setNom_proveidor(String nom_proveidor) {
+        this.nom_proveidor = nom_proveidor;
+    }
+    
 }
