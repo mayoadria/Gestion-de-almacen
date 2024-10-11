@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="783.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacio.pantallaProveidorController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="783.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacio.pantallaProveidorController">
     <children>
         <HBox alignment="CENTER" prefHeight="51.0" prefWidth="665.0" VBox.vgrow="ALWAYS">
             <children>
@@ -237,7 +239,7 @@
                 </VBox>
                 <VBox alignment="TOP_CENTER" prefHeight="127.0" prefWidth="278.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Button fx:id="btn_expProv" mnemonicParsing="false" prefHeight="43.0" prefWidth="93.0" text="Exportar" VBox.vgrow="ALWAYS">
+                        <Button fx:id="btn_expProv" mnemonicParsing="false" onAction="#handlerButtonExportar" prefHeight="43.0" prefWidth="93.0" text="Exportar" VBox.vgrow="ALWAYS">
                             <font>
                                 <Font size="13.0" />
                             </font>
@@ -245,7 +247,7 @@
                                 <Insets top="5.0" />
                             </VBox.margin>
                         </Button>
-                        <Button fx:id="btn_impProv" mnemonicParsing="false" prefHeight="43.0" prefWidth="93.0" text="Importar" VBox.vgrow="ALWAYS">
+                        <Button fx:id="btn_impProv" mnemonicParsing="false" onAction="#handlerButtonImportar" prefHeight="43.0" prefWidth="93.0" text="Importar" VBox.vgrow="ALWAYS">
                             <font>
                                 <Font size="13.0" />
                             </font>

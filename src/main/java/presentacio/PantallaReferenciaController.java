@@ -4,7 +4,7 @@
  */
 package presentacio;
 
-import logica.Referencia;
+import model.Referencia;
 import dades.ReferenciaDAO;
 import java.awt.event.MouseEvent;
 import java.io.IOException;

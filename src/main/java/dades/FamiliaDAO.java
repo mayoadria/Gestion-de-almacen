@@ -6,7 +6,7 @@ package dades;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import logica.Familia;
+import model.Familia;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

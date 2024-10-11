@@ -5,6 +5,7 @@
 package logica;
 
 
+import model.Referencia;
 import dades.ReferenciaDAO;
 import java.sql.SQLException;
 import java.util.regex.Pattern;

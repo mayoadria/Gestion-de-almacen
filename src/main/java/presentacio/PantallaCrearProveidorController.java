@@ -20,7 +20,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import logica.Proveidor;
+import model.Proveidor;
 import logica.ProveidorLogic;
 
 /**

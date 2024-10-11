@@ -9,7 +9,7 @@ package presentacio;
  * @author oriol
  */
 
-import logica.Familia;
+import model.Familia;
 import dades.FamiliaDAO;
 import java.io.IOException;
 import java.net.URL;

@@ -4,7 +4,7 @@
  */
 package dades;
 
-import logica.Referencia;
+import model.Referencia;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

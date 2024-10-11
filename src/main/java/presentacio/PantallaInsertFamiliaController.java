@@ -10,7 +10,7 @@ package presentacio;
  * @author oriol
  */
 import presentacio.pantallaFamiliaController;
-import logica.Familia;
+import model.Familia;
 import dades.FamiliaDAO;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;

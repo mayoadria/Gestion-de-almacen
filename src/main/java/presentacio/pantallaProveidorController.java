@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -5,10 +6,19 @@
 package presentacio;
 
 import dades.ProveidorDAO;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -28,17 +38,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import logica.Proveidor;
+import logica.Mensajes;
+import model.Proveidor;
 import logica.ProveidorLogic;
 
 /**
- * Classe controladora per gestionar la pantalla de proveïdors. Implementa la
- * interfície Initializable per a inicialitzar els elements.
  *
  * @author Anna
  */
@@ -123,23 +135,13 @@ public class pantallaProveidorController implements Initializable {
     private TextField tf_EstatProv;
 
     private ProveidorDAO proveidorDAO;
+    private Mensajes mensajes = new Mensajes();
     private String rol;
 
-    /**
-     * Getter per la taula de proveïdors.
-     *
-     * @return la taula de proveïdors.
-     */
     public TableView<Proveidor> getTb_prov() {
         return tb_prov;
     }
 
-    /**
-     * Inicialitza la pantalla i carrega els proveïdors de la base de dades.
-     *
-     * @param url URL de localització del fitxer FXML.
-     * @param rb ResourceBundle per localització.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -168,7 +170,7 @@ public class pantallaProveidorController implements Initializable {
         this.rol = rol;
         configurarBotonesPorRol(); // Llamar para aplicar la configuración de botones al establecer el rol
     }
-
+    
     // Método para habilitar o deshabilitar botones según el rol
     private void configurarBotonesPorRol() {
         if (rol != null) {
@@ -183,12 +185,8 @@ public class pantallaProveidorController implements Initializable {
         }
     }
 
-    /**
-     * Recull les dades del proveïdor introduïdes a la interfície.
-     *
-     * @throws SQLException si hi ha un error en la connexió amb la base de
-     * dades.
-     */
+
+
     private void recollirDadesProveidor() throws SQLException {
 
         Proveidor p = new Proveidor();
@@ -220,11 +218,6 @@ public class pantallaProveidorController implements Initializable {
 
     }
 
-    /**
-     * Carrega els proveïdors des de la base de dades i els mostra a la taula.
-     *
-     * @throws SQLException si hi ha un error en obtenir les dades.
-     */
     private void cargarProveidors() throws SQLException {
         ProveidorDAO proveidorDAO = new ProveidorDAO();
         List<Proveidor> proveidors = new ArrayList<>();
@@ -256,12 +249,6 @@ public class pantallaProveidorController implements Initializable {
 
     }
 
-    /**
-     * Tanca la finestra actual quan es fa clic al botó de sortir.
-     *
-     * @param ev l'event de l'acció.
-     * @throws IOException si hi ha un error en tancar la finestra.
-     */
     @FXML
     private void handlerButtonSortir(ActionEvent ev) throws IOException {
 
@@ -271,14 +258,8 @@ public class pantallaProveidorController implements Initializable {
 
     }
 
-    /**
-     * Esborra el proveïdor seleccionat després de confirmar l'acció.
-     *
-     * @param ev l'event de l'acció.
-     * @throws SQLException si hi ha un error en la base de dades.
-     */
     @FXML
-    private void handlerButtonEsborrar(ActionEvent ev) throws SQLException {
+    private void handlerButtonEsborrar(ActionEvent ev) {
 
         //Primer seleccionem el proveïdor a esborrar.
         Proveidor proveidorSeleccionat = tb_prov.getSelectionModel().getSelectedItem();
@@ -298,33 +279,29 @@ public class pantallaProveidorController implements Initializable {
         alertConfirmacio.setTitle("Confirmació d'esborrat");
         alertConfirmacio.setHeaderText(null);
         alertConfirmacio.setContentText("Segur que vols esborrar el proveïdor seleccionat?");
-        ProveidorLogic proveidorLogic = new ProveidorLogic();
 
         Optional<ButtonType> resultat = alertConfirmacio.showAndWait();
         if (resultat.isPresent() && resultat.get() == ButtonType.OK) {
             try {
 
+                ProveidorLogic proveidorLogic = new ProveidorLogic();
+
                 //Cridem a la capa lògica per a que faci d'intermediària amb el DAO.
                 proveidorLogic.esborrarProveidor(proveidorSeleccionat);
                 //Actualitzaem la taula una vegada el proveïdor seleccionat ha estat esborrat.
-                tb_prov.refresh();
+                tb_prov.getItems().remove(proveidorSeleccionat);
 
             } catch (Exception e) {
                 Alert alertError = new Alert(Alert.AlertType.ERROR);
                 alertError.setTitle("Error");
                 alertError.setHeaderText(null);
-                alertError.setContentText("No es pot esborrar un proveïdor actiu.");
+                alertError.setContentText("Hi ha hagut un error en esborrar el proveïdor.");
                 alertError.showAndWait();
             }
         }
 
     }
 
-    /**
-     * Modifica el proveïdor seleccionat amb les noves dades introduïdes.
-     *
-     * @throws SQLException si hi ha un error en la base de dades.
-     */
     @FXML
     private void handlerButtonModificar() throws SQLException {
 
@@ -362,13 +339,6 @@ public class pantallaProveidorController implements Initializable {
         }
     }
 
-    /**
-     * Gestiona l'acció de crear un nou proveïdor. Aquest mètode carrega una
-     * nova pantalla per a introduir les dades del nou proveïdor.
-     *
-     * @param ev l'event de l'acció del botó.
-     * @throws IOException si hi ha un error en carregar la nova pantalla.
-     */
     @FXML
     private void handlerButtonNou(ActionEvent ev) throws IOException {
         try {
@@ -391,7 +361,138 @@ public class pantallaProveidorController implements Initializable {
             ex.printStackTrace();
         }
     }
-    
-    
+
+    @FXML
+    private void handlerButtonExportar(ActionEvent ev) {
+        try {
+            ProveidorLogic proveidorLogic = new ProveidorLogic();
+            List<Proveidor> proveidors = proveidorLogic.getAllProveidors();
+
+            // Crear el nombre del archivo CSV con marca de tiempo
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+            String timestamp = LocalDateTime.now().format(formatter);
+            String fileName = "export_proveidors_" + timestamp + ".csv";
+
+            // Crear el archivo CSV y escribir los datos
+            try (FileWriter writer = new FileWriter(fileName)) {
+                writer.append("ID,Nom,CIF,Estat,Correu Electrònic,Data Creació,Rating,Mesos de Colaboració,Motiu Inactiu\n");
+
+                for (Proveidor proveidor : proveidors) {
+                    writer.append(String.format(
+                            "%d,%s,%s,%s,%s,%s,%.2f,%d,%s\n",
+                            proveidor.getId_proveidor(),
+                            proveidor.getNom_proveidor(),
+                            proveidor.getCif(),
+                            proveidor.isActiu() ? "Actiu" : "Inactiu",
+                            proveidor.getCorreu_electronic(),
+                            proveidor.getData_creacio().toString(),
+                            proveidor.getRating_proveidor(),
+                            proveidor.getMesos_de_colaboracio(),
+                            proveidor.getMotiu_inactiu() != null ? proveidor.getMotiu_inactiu() : ""
+                    ));
+                }
+            }
+
+            mensajes.mostrarMensaje("L'exportació s'ha completat correctament. Fitxer: " + fileName);
+
+        } catch (IOException e) {
+            mensajes.mostrarMensajeError("Hi ha hagut un error en exportar les dades.");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            mensajes.mostrarMensajeError("No s'ha pogut recuperar les dades de la base de dades.");
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handlerButtonImportar(ActionEvent event) {
+        // Permitir al usuario seleccionar un archivo CSV
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Selecciona el fitxer CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile == null) {
+            mensajes.mostrarMensajeError("No s'ha seleccionat cap fitxer.");
+            return;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
+            ProveidorLogic proveidorLogic = new ProveidorLogic();
+            String line;
+            HashSet<Integer> idsExistents = proveidorLogic.obtenerTodosIdsProveidors();  // Lista de IDs ya existentes en BBDD
+
+            // Leer cada línea del archivo CSV (omitir encabezado)
+            reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+
+                // Validar si el número de campos es correcto
+                if (data.length != 8) {
+                    mensajes.mostrarMensajeError("Format de fitxer incorrecte en la línia: " + line);
+                    continue;  // Continuar a la siguiente línea sin terminar el proceso
+                }
+
+                try {
+                    int id = Integer.parseInt(data[0].trim());
+                    String nom = data[1].trim();
+                    String cif = data[2].trim();
+                    boolean estat = data[3].trim().equalsIgnoreCase("Actiu");
+                    String correu = data[4].trim();
+                    LocalDate dataCreacio = LocalDate.parse(data[5].trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    float rating = Float.parseFloat(data[6].trim());
+                    int mesosColaboracio = Integer.parseInt(data[7].trim());
+
+                    Proveidor proveidor = new Proveidor();
+                    proveidor.setId_proveidor(id);
+                    proveidor.setNom_proveidor(nom);
+                    proveidor.setCif(cif);
+                    proveidor.setActiu(estat);
+                    proveidor.setCorreu_electronic(correu);
+                    proveidor.setData_creacio(java.sql.Date.valueOf(dataCreacio));
+                    proveidor.setRating_proveidor(rating);
+                    proveidor.setMesos_de_colaboracio(mesosColaboracio);
+
+                    // Comprobar si el proveedor con el mismo ID ya existe
+                    if (idsExistents.contains(id)) {
+                        // Duplicado: Preguntar al usuario si quiere reemplazar el registro existente
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("ID duplicat");
+                        alert.setHeaderText("L'ID " + id + " ja existeix.");
+                        alert.setContentText("Vols modificar les dades de la BBDD amb les noves dades?");
+                        Optional<ButtonType> result = alert.showAndWait();
+
+                        if (result.isPresent() && result.get() == ButtonType.OK) {
+                            proveidorLogic.modificarProveidor(proveidor);  // Reemplazar datos en la base de datos
+                            mensajes.mostrarMensaje("Les dades de l'proveïdor s'han modificat correctament.");
+                        } else {
+                            continue;  // Omitir esta entrada si no se quiere modificar
+                        }
+                    } else {
+                        // Insertar un nuevo proveedor
+                        proveidorLogic.afegirProveidor(proveidor);
+                        idsExistents.add(id);
+                    }
+
+                } catch (NumberFormatException e) {
+                    mensajes.mostrarMensajeError("Format de nombre incorrecte en el fitxer a la línia: " + line + ". Verifica els valors numèrics.");
+                } catch (DateTimeParseException e) {
+                    mensajes.mostrarMensajeError("Data incorrecta en el fitxer a la línia: " + line + ". Verifica els formats de les dates.");
+                } catch (SQLException e) {
+                    mensajes.mostrarMensajeError("Error d'accés a la base de dades en la línia: " + line);
+                    e.printStackTrace();
+                } catch (Exception ex) {
+                    Logger.getLogger(pantallaProveidorController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            mensajes.mostrarMensaje("Importació completada correctament.");
+        } catch (IOException e) {
+            mensajes.mostrarMensajeError("Error al llegir el fitxer.");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            mensajes.mostrarMensajeError("Error d'accés a la base de dades.");
+            e.printStackTrace();
+        }
+    }
 
 }

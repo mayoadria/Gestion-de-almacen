@@ -4,13 +4,15 @@
  */
 package dades;
 
-import logica.Proveidor;
+import model.Proveidor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javafx.collections.ObservableList;
 
 /**
@@ -179,13 +181,15 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             throw new SQLException("Error en esborrar el proveïdor: " + e.getMessage());
         }
     }
-    
+
     /**
-     * Obté un proveïdor específic de la base de dades segons el seu identificador.
+     * Obté un proveïdor específic de la base de dades segons el seu
+     * identificador.
      *
      * @param t L'objecte Proveidor amb l'ID per buscar.
      * @return El proveïdor corresponent o null si no existeix.
-     * @throws SQLException Si hi ha un error en la connexió o l'execució de la consulta.
+     * @throws SQLException Si hi ha un error en la connexió o l'execució de la
+     * consulta.
      */
     @Override
     public Proveidor get(Proveidor t) throws SQLException {
@@ -224,6 +228,25 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             throw new SQLException("Error en obtenir el proveïdor");
         }
         return p;
+    }
+
+    public Set<Integer> getAllIds() throws SQLException {
+        Set<Integer> idsExistents = new HashSet<>();
+        String sql = "SELECT id_proveidor FROM proveidors"; // Cambia 'proveidors' por el nombre real de tu tabla
+
+        // Obtiene la conexión desde MyDataSource
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            // Itera sobre los resultados y agrega los IDs al conjunto
+            while (rs.next()) {
+                idsExistents.add(rs.getInt("id_proveidor"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error al obtener los IDs de los proveïdors.");
+        }
+
+        return idsExistents;
     }
 
 }

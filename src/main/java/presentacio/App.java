@@ -21,7 +21,6 @@ public class App extends Application {
             //Cargo la vista
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(App.class.getResource("/fxml/PantallaAutenticacio.fxml"));
-            //loader.setLocation(App.class.getResource("/fxml/PantallaSeleccionaMenus.fxml"));
 
             // Cargo la ventana
             Pane ventana = (Pane) loader.load();
