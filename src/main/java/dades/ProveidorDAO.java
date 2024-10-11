@@ -231,33 +231,32 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
     }
 
     /**
-     * Obtiene un conjunto de todos los IDs de proveedores existentes en la base
-     * de datos.
+     * Obté tots els IDs dels proveïdors existents a la base de dades.
      *
-     * Este método realiza una consulta a la base de datos para recuperar todos
-     * los IDs de la tabla de proveedores y los almacena en un conjunto. Si
-     * ocurre un error durante la consulta, lanza una excepción de tipo
-     * SQLException.
+     * Aquest mètode executa una consulta SQL per recuperar tots els valors de
+     * la columna 'id_proveidor' de la taula de proveïdors i els afegeix a un
+     * conjunt d'enters. Utilitza una connexió a la base de dades proporcionada
+     * per MyDataSource.
      *
-     * @return Un conjunto (`Set<Integer>`) que contiene los IDs de todos los
-     * proveedores en la base de datos.
-     * @throws SQLException Si ocurre un error al intentar conectar o consultar
-     * la base de datos.
+     * @return Un conjunt {@code Set<Integer>} que conté tots els IDs dels
+     * proveïdors.
+     * @throws SQLException Si es produeix un error en interactuar amb la base
+     * de dades, com problemes amb la connexió o l'execució de la consulta.
      */
     public Set<Integer> getAllIds() throws SQLException {
         Set<Integer> idsExistents = new HashSet<>();
-        String sql = "SELECT id_proveidor FROM proveidors"; // Cambia 'proveidors' por el nombre real de tu tabla
+        String sql = "SELECT id_proveidor FROM proveidors"; 
 
-        // Obtiene la conexión desde MyDataSource
         try (Connection conn = MyDataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
 
-            // Itera sobre los resultados y agrega los IDs al conjunto
+            
+            // Itera sobre els resultats i afegeix els IDs.
             while (rs.next()) {
                 idsExistents.add(rs.getInt("id_proveidor"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new SQLException("Error al obtener los IDs de los proveïdors.");
+            throw new SQLException("Error al obtenir els IDs dels proveïdors.");
         }
 
         return idsExistents;

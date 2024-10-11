@@ -1,109 +1,136 @@
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package logica;
 
-import model.Proveidor;
 import dades.ProveidorDAO;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import model.Proveidor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- * Clase lógica para la gestión de operaciones relacionadas con los proveedores.
- * 
- * Proporciona métodos para añadir, eliminar, modificar y obtener proveedores, 
- * interactuando con la capa de acceso a datos (DAO) y manteniendo una lista observable 
- * para facilitar la actualización de la interfaz gráfica.
- * 
- * @see ProveidorDAO
- * @see Proveidor
- * @see ObservableList
- * 
- * 
- * @throws SQLException si ocurre un error en la conexión a la base de datos.
- * @throws Exception si se intenta realizar una operación con un proveedor nulo.
- * 
- * 
- * @autor Anna
+ * Classe de la lògica de negoci per gestionar proveïdors. S'encarrega de
+ * manipular la llista de proveïdors i interactuar amb el DAO per dur a terme
+ * operacions de consulta, inserció, modificació i eliminació.
+ *
+ * @author Anna
  */
 public class ProveidorLogic {
 
     private ProveidorDAO proveidorDAO;
     ObservableList<Proveidor> llistaObservable;
-    
+
     /**
-     * Constructor que inicializa el DAO de proveedores y la lista observable de proveedores.
+     * Constructor que inicialitza el DAO de proveïdors i una llista observable.
      *
-     * @throws SQLException si hay un problema al conectar con la base de datos.
+     * @throws SQLException si es produeix un error de base de dades en
+     * inicialitzar el DAO.
      */
     public ProveidorLogic() throws SQLException {
         this.proveidorDAO = new ProveidorDAO();
         this.llistaObservable = FXCollections.observableArrayList();
     }
-    
+
     /**
-     * Elimina un proveedor especificado.
+     * Esborra un proveïdor proporcionat de la base de dades.
      *
-     * @param proveidor El proveedor a eliminar.
-     * @throws Exception si el proveedor es nulo o no existe.
+     * @param proveidor El proveïdor que es vol esborrar.
+     * @throws Exception si el proveïdor proporcionat és null o si es produeix
+     * un error durant l'operació.
      */
     public void esborrarProveidor(Proveidor proveidor) throws Exception {
         if (proveidor == null) {
             throw new Exception("El proveïdor no existeix");
         }
         //Cridem al DAO per esborrar el proveïdor.
-        proveidorDAO.delete(proveidor);  
+        proveidorDAO.delete(proveidor);
     }
-    
+
     /**
-     * Modifica la información de un proveedor existente.
+     * Modifica un proveïdor existent a la base de dades després de validar les
+     * seves dades.
      *
-     * @param proveidor El proveedor con los datos actualizados.
-     * @throws Exception si ocurre un error al actualizar el proveedor.
+     * @param proveidor El proveïdor que es vol modificar amb les noves dades.
+     * @throws Exception Si qualsevol de les validacions falla o si es produeix
+     * un error en l'actualització.
      */
     public void modificarProveidor(Proveidor proveidor) throws Exception {
-      
-        proveidorDAO.update(proveidor);  
+
+        if (!ProveidorValidacions.validarCif(proveidor.getCif())) {
+            throw new Exception("Format de CIF invàlid");
+        }
+        if (!ProveidorValidacions.validarCorreu(proveidor.getCorreu_electronic())) {
+            throw new Exception("Format de correu electrònic invàlid");
+        }
+        if (!ProveidorValidacions.validarData(proveidor.getData_creacio().toString())) {
+            throw new Exception("Format de data invàlid");
+        }
+        if (!ProveidorValidacions.validarValoracio(String.valueOf(proveidor.getRating_proveidor()))) {
+            throw new Exception("Format de valoració invàlid.");
+        }
+        if (!ProveidorValidacions.validarMesos(String.valueOf(proveidor.getMesos_de_colaboracio()))) {
+            throw new Exception("Format de Mesos de col·laboració invàlid");
+        }
+
+        proveidorDAO.update(proveidor);
     }
-    
+
     /**
-     * Añade un proveedor a la lista observable y a la base de datos.
+     * Afegeix un nou proveïdor a la llista observable i a la base de dades
+     * després de validar les seves dades.
      *
-     * @param proveidor El proveedor a añadir.
-     * @throws Exception si ocurre un error al insertar el proveedor.
+     * @param proveidor El proveïdor que es vol afegir.
+     * @throws Exception Si qualsevol de les validacions falla o si es produeix
+     * un error durant l'operació.
      */
     public void afegirProveidor(Proveidor proveidor) throws Exception {
-      
-        
+
+        if (!ProveidorValidacions.validarCif(proveidor.getCif())) {
+            throw new Exception("Format de CIF invàlid");
+        }
+        if (!ProveidorValidacions.validarCorreu(proveidor.getCorreu_electronic())) {
+            throw new Exception("Format de correu electrònic invàlid");
+        }
+        if (!ProveidorValidacions.validarData(proveidor.getData_creacio().toString())) {
+            throw new Exception("Format de data invàlid");
+        }
+        if (!ProveidorValidacions.validarValoracio(String.valueOf(proveidor.getRating_proveidor()))) {
+            throw new Exception("Format de valoració invàlid.");
+        }
+        if (!ProveidorValidacions.validarMesos(String.valueOf(proveidor.getMesos_de_colaboracio()))) {
+            throw new Exception("Format de Mesos de col·laboració invàlid");
+        }
         llistaObservable.add(proveidor);
         // Inserir el proveïdor al DAO
         proveidorDAO.insert(proveidor);
     }
-    
+
     /**
-     * Obtiene una lista de todos los proveedores de la base de datos.
+     * Retorna una llista amb tots els proveïdors emmagatzemats a la base de
+     * dades.
      *
-     * @return Lista de proveedores obtenidos de la base de datos.
-     * @throws SQLException si ocurre un error al obtener los proveedores.
+     * @return Llista de tots els proveïdors.
+     * @throws SQLException Si es produeix un error durant la consulta a la base
+     * de dades.
      */
     public List<Proveidor> getAllProveidors() throws SQLException {
         return proveidorDAO.getAll();
     }
-    
+
     /**
-     * Obtiene un conjunto de todos los IDs de proveedores existentes en la base de datos.
+     * Retorna un conjunt de tots els identificadors (IDs) dels proveïdors
+     * emmagatzemats a la base de dades.
      *
-     * @return Un conjunto con todos los IDs de proveedores.
-     * @throws SQLException si ocurre un error al obtener los IDs.
+     * @return Un conjunt (HashSet) amb els IDs de tots els proveïdors.
+     * @throws SQLException Si es produeix un error durant la consulta a la base
+     * de dades.
      */
     public HashSet<Integer> obtenerTodosIdsProveidors() throws SQLException {
         return new HashSet<>(proveidorDAO.getAllIds());
     }
-    
+
 }

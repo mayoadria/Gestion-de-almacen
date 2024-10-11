@@ -51,11 +51,8 @@ import model.Proveidor;
 import logica.ProveidorLogic;
 
 /**
- * Controlador para la pantalla de gestión de proveedores.
- * Esta clase se encarga de gestionar la interacción del usuario con la 
- * interfaz gráfica de la pantalla de proveedores. Permite agregar, 
- * modificar, eliminar y exportar proveedores, así como configurar la 
- * interfaz según el rol del usuario.
+ * Classe controladora per gestionar la pantalla de proveïdors. Implementa la
+ * interfície Initializable per a inicialitzar els elements.
  *
  * @author Anna
  */
@@ -142,23 +139,21 @@ public class pantallaProveidorController implements Initializable {
     private ProveidorDAO proveidorDAO;
     private Mensajes mensajes = new Mensajes();
     private String rol;
-    
+
     /**
-     * Obtiene la tabla de proveedores.
+     * Getter per la taula de proveïdors.
      *
-     * @return La tabla de proveedores (TableView).
+     * @return la taula de proveïdors.
      */
     public TableView<Proveidor> getTb_prov() {
         return tb_prov;
     }
-    
+
     /**
-     * Inicializa la pantalla de proveedores, vinculando columnas de la 
-     * tabla con los atributos del objeto Proveidor y cargando los 
-     * proveedores desde la base de datos.
+     * Inicialitza la pantalla i carrega els proveïdors de la base de dades.
      *
-     * @param url La URL para la ubicación de los recursos.
-     * @param rb  El recurso que contiene el objeto.
+     * @param url URL de localització del fitxer FXML.
+     * @param rb ResourceBundle per localització.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -183,26 +178,25 @@ public class pantallaProveidorController implements Initializable {
         }
 
     }
-    
+
     /**
-     * Establece el rol del usuario y configura los botones de acuerdo 
-     * a este rol.
+     * Estableis el rol d'usuari i configura els botons d'acord a aquest rol.
      *
-     * @param rol El rol del usuario que se va a establecer.
+     * @param rol El rol de l'usuari que s'establirà.
      */
     public void setRol(String rol) {
         this.rol = rol;
-        configurarBotonesPorRol(); // Llamar para aplicar la configuración de botones al establecer el rol
+        configurarBotonesPorRol(); // Crida per aplicar la configuració de botons depenent del rol.
     }
-    
+
     /**
-     * Configura la habilitación o deshabilitación de los botones 
-     * según el rol del usuario.
+     * Configura l'habilitació o deshabilitació dels botons segons el rol de
+     * l'usuari.
      */
     private void configurarBotonesPorRol() {
         if (rol != null) {
-             if (rol.equals("Venedor")) {
-                // Deshabilitar botones para usuarios regulares
+            if (rol.equals("Venedor")) {
+                // Deshabilitar botons pels usuaris regulars.
                 btn_nouProv.setDisable(true);
                 btn_modProv.setDisable(true);
                 btn_eliProv.setDisable(true);
@@ -212,12 +206,11 @@ public class pantallaProveidorController implements Initializable {
         }
     }
 
-
     /**
-     * Recoge los datos del proveedor desde los campos de texto 
-     * y los prepara para ser guardados en la base de datos.
+     * Recull les dades del proveïdor introduïdes a la interfície.
      *
-     * @throws SQLException Si ocurre un error al acceder a la base de datos.
+     * @throws SQLException si hi ha un error en la connexió amb la base de
+     * dades.
      */
     private void recollirDadesProveidor() throws SQLException {
 
@@ -249,12 +242,11 @@ public class pantallaProveidorController implements Initializable {
         ProveidorDAO dao = new ProveidorDAO();
 
     }
-    
+
     /**
-     * Carga la lista de proveedores desde la base de datos y la 
-     * muestra en la tabla de proveedores.
+     * Carrega els proveïdors des de la base de dades i els mostra a la taula.
      *
-     * @throws SQLException Si ocurre un error al acceder a la base de datos.
+     * @throws SQLException si hi ha un error en obtenir les dades.
      */
     private void cargarProveidors() throws SQLException {
         ProveidorDAO proveidorDAO = new ProveidorDAO();
@@ -286,12 +278,12 @@ public class pantallaProveidorController implements Initializable {
         });
 
     }
-    
+
     /**
-     * Maneja la acción del botón de cerrar la ventana.
+     * Tanca la finestra actual quan es fa clic al botó de sortir.
      *
-     * @param ev El evento de acción que activa este método.
-     * @throws IOException Si ocurre un error al cerrar la ventana.
+     * @param ev l'event de l'acció.
+     * @throws IOException si hi ha un error en tancar la finestra.
      */
     @FXML
     private void handlerButtonSortir(ActionEvent ev) throws IOException {
@@ -299,19 +291,17 @@ public class pantallaProveidorController implements Initializable {
         Stage stage = (Stage) this.btn_sorProv.getScene().getWindow();
 
         stage.close();
-        
+
     }
-    
+
     /**
-     * Maneja la acción del botón de eliminar un proveedor.
+     * Esborra el proveïdor seleccionat després de confirmar l'acció.
      *
-     * Si no se ha seleccionado un proveedor, se muestra un mensaje de error.
-     * Se solicita confirmación antes de proceder con la eliminación.
-     *
-     * @param ev El evento de acción que activa este método.
+     * @param ev l'event de l'acció.
+     * @throws SQLException si hi ha un error en la base de dades.
      */
     @FXML
-    private void handlerButtonEsborrar(ActionEvent ev) {
+    private void handlerButtonEsborrar(ActionEvent ev) throws SQLException {
 
         //Primer seleccionem el proveïdor a esborrar.
         Proveidor proveidorSeleccionat = tb_prov.getSelectionModel().getSelectedItem();
@@ -331,36 +321,32 @@ public class pantallaProveidorController implements Initializable {
         alertConfirmacio.setTitle("Confirmació d'esborrat");
         alertConfirmacio.setHeaderText(null);
         alertConfirmacio.setContentText("Segur que vols esborrar el proveïdor seleccionat?");
+        ProveidorLogic proveidorLogic = new ProveidorLogic();
 
         Optional<ButtonType> resultat = alertConfirmacio.showAndWait();
         if (resultat.isPresent() && resultat.get() == ButtonType.OK) {
             try {
 
-                ProveidorLogic proveidorLogic = new ProveidorLogic();
-
                 //Cridem a la capa lògica per a que faci d'intermediària amb el DAO.
                 proveidorLogic.esborrarProveidor(proveidorSeleccionat);
                 //Actualitzaem la taula una vegada el proveïdor seleccionat ha estat esborrat.
-                tb_prov.getItems().remove(proveidorSeleccionat);
+                tb_prov.refresh();
 
             } catch (Exception e) {
                 Alert alertError = new Alert(Alert.AlertType.ERROR);
                 alertError.setTitle("Error");
                 alertError.setHeaderText(null);
-                alertError.setContentText("Hi ha hagut un error en esborrar el proveïdor.");
+                alertError.setContentText("No es pot esborrar un proveïdor actiu.");
                 alertError.showAndWait();
             }
         }
 
     }
-    
+
     /**
-     * Maneja la acción del botón de modificar un proveedor existente.
-     * Recoge los datos actualizados del proveedor desde los campos de texto 
-     * y los guarda en la base de datos. Se muestra un mensaje de éxito 
-     * o error según corresponda.
+     * Modifica el proveïdor seleccionat amb les noves dades introduïdes.
      *
-     * @param ev El evento de acción que activa este método.
+     * @throws SQLException si hi ha un error en la base de dades.
      */
     @FXML
     private void handlerButtonModificar() throws SQLException {
@@ -398,14 +384,13 @@ public class pantallaProveidorController implements Initializable {
             }
         }
     }
-    
+
     /**
-     * Maneja la acción del botón de agregar un nuevo proveedor.
-     * Recoge los datos del nuevo proveedor desde los campos de texto 
-     * y los guarda en la base de datos. Se muestra un mensaje de éxito 
-     * o error según corresponda.
+     * Gestiona l'acció de crear un nou proveïdor. Aquest mètode carrega una
+     * nova pantalla per a introduir les dades del nou proveïdor.
      *
-     * @param ev El evento de acción que activa este método.
+     * @param ev l'event de l'acció del botó.
+     * @throws IOException si hi ha un error en carregar la nova pantalla.
      */
     @FXML
     private void handlerButtonNou(ActionEvent ev) throws IOException {
@@ -429,11 +414,11 @@ public class pantallaProveidorController implements Initializable {
             ex.printStackTrace();
         }
     }
-    
+
     /**
-     * Maneja la acción del botón de exportar proveedores.
-     * Se exporta la lista de proveedores a un archivo especificado.
-     * Se muestra un mensaje de éxito o error según corresponda.
+     * Maneja la acción del botón de exportar proveedores. Se exporta la lista
+     * de proveedores a un archivo especificado. Se muestra un mensaje de éxito
+     * o error según corresponda.
      *
      * @param ev El evento de acción que activa este método.
      * @throws IOException Si ocurre un error al exportar el archivo.
@@ -479,11 +464,11 @@ public class pantallaProveidorController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
     /**
-     * Maneja la acción del botón de importar proveedores.
-     * Se importa la lista de proveedores desde un archivo especificado.
-     * Se muestra un mensaje de éxito o error según corresponda.
+     * Maneja la acción del botón de importar proveedores. Se importa la lista
+     * de proveedores desde un archivo especificado. Se muestra un mensaje de
+     * éxito o error según corresponda.
      *
      * @param ev El evento de acción que activa este método.
      * @throws IOException Si ocurre un error al importar el archivo.
