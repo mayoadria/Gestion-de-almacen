@@ -1,6 +1,6 @@
 /*
-     * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-     * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+         * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+         * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package presentacio;
 
@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logica.Mensajes;
 import logica.ReferenciaLogica;
+import logica.ValidarCamposInsertReferencia;
 
 /**
  * FXML Controller class
@@ -77,7 +78,7 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
     private TextField txtnomProducte;
 
     private ReferenciaDAO referenciaDAO;
-    
+
     private ReferenciaLogica referenciaLogica;
 
     private PantallaReferenciaController referenciaController;
@@ -88,7 +89,7 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
     }
 
     @FXML
-    private void AfegirPersona(ActionEvent event) {
+    private void AfegirPersona(ActionEvent event) throws Exception {
         try {
             // Obtener los datos del formulario
             referenciaDAO = new ReferenciaDAO();
@@ -103,44 +104,8 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
             int idFamilia = Integer.parseInt(txtIdFam.getText());
             int idProveidor = Integer.parseInt(txtIdProv.getText());
 
-            //Validar que la unitat de mida sigui correcte
-            if(!referenciaLogica.unitatMidaValid(unitatMida)){
-                mostrarMensajeError("La unitat de mida no es valida");
-                return;
-            }
-            //Validar que la data d'alta sigui correcte
-            if(!referenciaLogica.FechaValida(dataAlta)){
-                mostrarMensajeError("La data d'alta no es valida");
-                return;
-            }
-            //Validar que la data de fabricacio sigui correcte
-            if(!referenciaLogica.FechaValida(dataFabricacio)){
-                mostrarMensajeError("La data de fabricació no es valida");
-                return;
-            }
-            //Validar que el preu sigui correcte
-            if(!referenciaLogica.PreuValid(String.valueOf(preu))){
-                mostrarMensajeError("La preu no es valid");
-                return;
-            }
-            //Validar que la quantitat sigui correcte
-            if(!referenciaLogica.PreuValid(String.valueOf(quantitat))){
-                mostrarMensajeError("La quantitat no es valida");
-                return;
-            }
-            // Validar que la familia existe en la base de datos
-            if (!referenciaDAO.existeFamilia(idFamilia)) {
-                mostrarMensajeError("La familia introducida no existe. Por favor, introduce un ID de familia válido.");
-                return; // Detener el flujo si la familia no existe
-            }
+            ValidarCamposInsertReferencia.validarDatos(referenciaLogica, referenciaDAO, unitatMida, dataAlta, dataFabricacio, preu, quantitat, idFamilia, idProveidor);
 
-            // Validar que el proveedor existe en la base de datos
-            if (!referenciaDAO.existeProveedor(idProveidor)) {
-                mostrarMensajeError("El proveedor introducido no existe. Por favor, introduce un ID de proveedor válido.");
-                return; // Detener el flujo si el proveedor no existe
-            }
-            
-            
             // Crear una instancia de Referencia con los datos del formulario
             Referencia novaReferencia = new Referencia();
             novaReferencia.setNom(nomProducte);
@@ -166,15 +131,16 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
             mostrarMensaje("Referencia insertada correctamente.");
 
         } catch (SQLException e) {
-            e.printStackTrace();
             // Muestra un mensaje de error si hay problemas con la inserción de una nueva referencia
             mostrarMensajeError("Error al insertar la referencia: " + e.getMessage());
 
         } catch (NumberFormatException e) {
             //Comprovar si els camps a on s'han d'introduir numeros siguin correctes com per exemple 
             //(como Quantitat, Preu, etc.)
-            e.printStackTrace();
             mostrarMensajeError("Escribe de forma correcta los valores numerales: " + e.getMessage());
+        } catch (Exception e) {
+            // Capturar las excepciones propias (ValidacionException y DatabaseException)
+            mostrarMensajeError(e.getMessage());
         }
     }
 

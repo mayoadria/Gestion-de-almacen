@@ -17,6 +17,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import logica.Excepciones;
+import static logica.Mensajes.mostrarMensajeError;
 
 /**
  * FXML Controller class
@@ -67,8 +69,9 @@ public class PantallaSeleccionarMenuController implements Initializable {
             stage.setScene(scene);
             stage.show();
 
-        } catch (IOException ex) {
-            Logger.getLogger(PantallaSeleccionarMenuController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            // Si ocurre un error, muestra el mensaje de error en lugar de solo registrarlo
+            mostrarMensajeError(e.getMessage());
         }
     }
 
@@ -91,8 +94,9 @@ public class PantallaSeleccionarMenuController implements Initializable {
             stage.setScene(scene);
             stage.show();
 
-        } catch (IOException ex) {
-            Logger.getLogger(PantallaSeleccionarMenuController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            // Si ocurre un error, muestra el mensaje de error en lugar de solo registrarlo
+            mostrarMensajeError(e.getMessage());
         }
     }
 
@@ -116,8 +120,9 @@ public class PantallaSeleccionarMenuController implements Initializable {
 
            
 
-        } catch (IOException ex) {
-            Logger.getLogger(PantallaSeleccionarMenuController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            // Si ocurre un error, muestra el mensaje de error en lugar de solo registrarlo
+            mostrarMensajeError(e.getMessage());
         }
     }
 

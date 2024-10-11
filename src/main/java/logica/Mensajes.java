@@ -11,7 +11,7 @@ import javafx.scene.control.Alert;
  * @author mayoa
  */
 public class Mensajes {
-     public void mostrarMensajeError(String mensaje) {
+     public static void mostrarMensajeError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
@@ -19,7 +19,7 @@ public class Mensajes {
         alert.showAndWait();
     }
 
-    public void mostrarMensaje(String mensaje) {
+    public static void mostrarMensaje(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Mensaje ");
         alert.setHeaderText(null);
