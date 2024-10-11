@@ -44,16 +44,11 @@ public class PantallaCrearProveidorController {
     private TextField tf_creacioNouProv;
 
     @FXML
-    private Label label_cifProv1;
-
-    @FXML
     private CheckBox cb_estatNouProv;
 
     @FXML
     private TextField tf_motiuNouProv;
 
-    @FXML
-    private Label label_cifProv2;
 
     @FXML
     private TextField tf_correuNouProv;
@@ -71,16 +66,11 @@ public class PantallaCrearProveidorController {
     private TextField tf_nomNouProv;
 
     @FXML
-    private Label label_cifProv;
-
-    @FXML
     private Button btn_impProv;
 
     @FXML
     private TextField tf_valoracioNouProv;
 
-    @FXML
-    private Label label_cifProv11;
 
     private pantallaProveidorController pantallaProveidorController;
 

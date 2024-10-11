@@ -7,8 +7,6 @@ package presentacio;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logica.Autenticacio;
+import logica.Excepciones;
 import logica.Mensajes;
 
 /**
@@ -48,14 +47,7 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
     
     private Autenticacio autenticacio = new Autenticacio();
     
-    @FXML
-    private Label lblAutenticacio;
-    
-    @FXML
-    private Label lblUsuari;
-    
-    @FXML
-    private Label lblRol;
+
     
     @FXML
     private TextField txtUsuari;
@@ -75,7 +67,7 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
      * @param event el evento de acción que dispara el inicio de sesión.
      */
     @FXML
-    void iniciarSessio(ActionEvent event) {
+    void iniciarSessio(ActionEvent event) throws Exception {
         String usuario = txtUsuari.getText();
         String rol = txtRol.getText();
 
@@ -83,7 +75,14 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
         if (autenticacio.verificarUsuario(usuario, rol)) {
             // Abrir la nueva pantalla si la autenticación es correcta
             mostrarMensaje("Usuario autenticado correctamente.");
+            try {
             abrirNuevaPantalla(txtRol.getText());
+            // Cerrar la pantalla de autenticación
+            ((Stage) txtUsuari.getScene().getWindow()).close();
+        } catch (IOException e) {
+            // Manejo de la excepción si ocurre al abrir la nueva pantalla
+            mostrarMensajeError(e.getMessage());
+        }
         } else {
             // Mostrar mensaje de error
             mostrarMensajeError("Usuario o rol incorrecto.");
@@ -96,7 +95,7 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
      * muestra un mensaje de error en el log.
      */
     @FXML
-    void abrirNuevaPantalla(String rol) {
+    void abrirNuevaPantalla(String rol) throws Exception {
         try {
             // Cargo la vista
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PantallaSeleccionaMenus.fxml"));
@@ -117,7 +116,7 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
            
 
         } catch (IOException ex) {
-            Logger.getLogger(PantallaAutenticacioController.class.getName()).log(Level.SEVERE, null, ex);
+            Excepciones.Autenticacion(ex.getMessage());
         }
     }
     

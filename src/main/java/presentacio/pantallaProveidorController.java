@@ -255,7 +255,7 @@ public class pantallaProveidorController implements Initializable {
         Stage stage = (Stage) this.btn_sorProv.getScene().getWindow();
 
         stage.close();
-
+        
     }
 
     @FXML
