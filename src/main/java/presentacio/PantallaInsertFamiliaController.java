@@ -96,7 +96,7 @@ public class PantallaInsertFamiliaController {
     }
     
     @FXML
-    private void sortirAMenu(ActionEvent event) {
+    private void sortir(ActionEvent event) {
         Stage stage = (Stage) this.btn_sortir_insfam.getScene().getWindow();
         stage.close();
 

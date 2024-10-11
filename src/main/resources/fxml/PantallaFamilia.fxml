@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacio.pantallaFamiliaController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacio.pantallaFamiliaController">
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -115,7 +115,7 @@
          <children>
             <VBox prefHeight="100.0" prefWidth="238.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button fx:id="btn_sortir" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Sortir">
+                  <Button fx:id="btn_sortir" mnemonicParsing="false" onAction="#sortir" prefHeight="26.0" prefWidth="200.0" text="Sortir">
                      <VBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" />
                      </VBox.margin></Button>
