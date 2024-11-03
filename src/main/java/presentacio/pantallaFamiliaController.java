@@ -105,36 +105,7 @@ public class pantallaFamiliaController implements Initializable{
      @Override
     public void initialize(URL url, ResourceBundle rb) {
     
-        try{
-            familiaDAO = new FamiliaDAO();
-        }catch(SQLException ex){
-            System.out.println("TODO");
-        }
-        //families =  FXCollections.observableArrayList();
-        this.tc_id.setCellValueFactory(new PropertyValueFactory<>("id_fam"));
-        this.tc_nom.setCellValueFactory(new PropertyValueFactory<>("nom_familia"));
-        this.tc_descripcio.setCellValueFactory(new PropertyValueFactory<>("descripcio"));
-        this.tc_dataAlta.setCellValueFactory(new PropertyValueFactory<>("data_alta_fam"));
-        this.tc_idProveidor.setCellValueFactory(new PropertyValueFactory<>("id_proveidor_fam"));
-        this.tc_observacions.setCellValueFactory(new PropertyValueFactory<>("Observacions"));
         
-        
-        try{
-            ObservableList<Familia> itemFam = FXCollections.observableArrayList(familiaDAO.getAll());
-            this.tv_familia.setItems(itemFam);
-            }catch(SQLException ex){
-            System.out.println("TODO");
-            }
-            tv_familia.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-                if (newSelection != null) {
-                    txt_id.setText(String.valueOf(newSelection.getId_fam()));
-                    txt_nom.setText(newSelection.getNom_familia());
-                    txt_areaDescripcio.setText(newSelection.getDescripcio());
-                    txt_dataAlta.setText(newSelection.getData_alta_fam().toString());
-                    txt_idProveidor.setText(String.valueOf(newSelection.getId_proveidor_fam()));
-                    txt_areaObservacions.setText(newSelection.getObservacions());
-                }
-            });
                  
         
     }
@@ -193,42 +164,12 @@ public class pantallaFamiliaController implements Initializable{
 
     @FXML
     void eliminar(ActionEvent event) {
-        Familia familiaSeleccionada = tv_familia.getSelectionModel().getSelectedItem();
-        
-        if (familiaSeleccionada != null) {
-            
-            try{
-                familiaDAO.delete(familiaSeleccionada);
-                tv_familia.getItems().remove(familiaSeleccionada);
-                
-            }catch(SQLException e){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setHeaderText(null);
-                    alert.setTitle("Error");
-                    alert.setContentText("has de seleccionar una família, o bé "
-                            + "estás intentant eliminar una familia associada amb una referència");
-                    alert.showAndWait();
-                }
-        }
+       
     }
    
     @FXML
     void modificar(ActionEvent event) throws SQLException {
-        Familia familiaSeleccionada = tv_familia.getSelectionModel().getSelectedItem();
         
-        if (familiaSeleccionada != null) {
-            
-            familiaSeleccionada.setNom_familia(txt_nom.getText());
-            familiaSeleccionada.setDescripcio(txt_areaDescripcio.getText());
-            familiaSeleccionada.setData_alta_fam(Date.valueOf(txt_dataAlta.getText()));
-            familiaSeleccionada.setId_proveidor_fam(Integer.parseInt(txt_idProveidor.getText()));
-            familiaSeleccionada.setObservacions(txt_areaObservacions.getText());
-            
-            tv_familia.refresh();
-            familiaDAO.update(familiaSeleccionada);
-        }else{
-            System.out.println("TODO error no sha selecionat cap familia");
-        }
     }
 
     @FXML
