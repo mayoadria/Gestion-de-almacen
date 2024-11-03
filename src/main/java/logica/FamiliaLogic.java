@@ -5,6 +5,8 @@
 package logica;
 
 import dades.FamiliaDAO;
+import java.sql.SQLException;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Familia;
 
@@ -16,4 +18,18 @@ public class FamiliaLogic {
     FamiliaDAO dataLayer;
 
     ObservableList<Familia> llistaObservable;
+    
+    public FamiliaLogic() throws SQLException {
+        this.dataLayer = new FamiliaDAO();
+        this.llistaObservable = FXCollections.observableArrayList();
+        carregarFamilia();
+    }
+    
+    public void carregarFamilia() throws SQLException {
+        this.llistaObservable.setAll(dataLayer.getAll());
+    }
+    
+    public ObservableList<Familia> getListObservableFamilla() {
+        return llistaObservable;
+    }
 }

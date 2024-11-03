@@ -10,12 +10,15 @@ package presentacio;
  */
 
 import model.Familia;
+import logica.FamiliaLogic;
 import dades.FamiliaDAO;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -100,14 +103,43 @@ public class pantallaFamiliaController implements Initializable{
   
     private FamiliaDAO familiaDAO;
     
+    private FamiliaLogic familiaLogica;
+    
     private String rol;
 
      @Override
     public void initialize(URL url, ResourceBundle rb) {
-    
-        
-                 
-        
+        try {
+            this.familiaLogica = new FamiliaLogic();
+        } catch (SQLException ex) {
+            Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        this.tc_id.setCellValueFactory(new PropertyValueFactory<>("id_fam"));
+        this.tc_nom.setCellValueFactory(new PropertyValueFactory<>("nom_familia"));
+        this.tc_descripcio.setCellValueFactory(new PropertyValueFactory<>("descripcio"));
+        this.tc_dataAlta.setCellValueFactory(new PropertyValueFactory<>("data_alta_fam"));
+        this.tc_idProveidor.setCellValueFactory(new PropertyValueFactory<>("id_proveidor_fam"));
+        this.tc_observacions.setCellValueFactory(new PropertyValueFactory<>("observacions"));
+
+
+        // Obtener la lista de referencias desde ReferenciaDAO
+        this.tv_familia.setItems(familiaLogica.getListObservableFamilla());
+
+        // Añadir el listener a la tabla para que se actualicen los TextFields cuando cambie la selección
+        tv_familia.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                // Actualizar los TextFields con la información del elemento seleccionado
+
+                txt_nom.setText(newSelection.getNom_familia());
+                txt_id.setText(String.valueOf(newSelection.getId_fam()));
+                txt_idProveidor.setText(String.valueOf(newSelection.getId_proveidor_fam()));
+                txt_areaDescripcio.setText(newSelection.getDescripcio());
+                txt_dataAlta.setText(newSelection.getData_alta_fam().toString());
+                txt_areaObservacions.setText(newSelection.getObservacions());
+            }
+            configurarBotonesPorRol();
+        });
     }
      public void setRol(String rol) {
         this.rol = rol;

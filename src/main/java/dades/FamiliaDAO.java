@@ -23,17 +23,28 @@ public class FamiliaDAO implements DAOInterface<Familia>{
 
     @Override
     public List<Familia> getAll() throws SQLException {
+        //Crear una llista per poder obtenir totes les referencies existents a la base de dades
+        List<Familia> ret = new ArrayList<>();
+        //Fer la consulta
+        String select = "select * from families ";
+        PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(select);
+        ResultSet rs = sentencia.executeQuery();
+        //Mostrar los datos
+        while (rs.next()) {
+            Familia r = new Familia();
+            r.setId_fam(rs.getInt("id_familia"));
+            r.setNom_familia(rs.getString("nom_familia"));
+            r.setDescripcio(rs.getString("descripcio"));
+            r.setData_alta_fam(rs.getDate("data_alta"));
+            r.setId_proveidor_fam(rs.getInt("id_proveidor_defecte"));
+            r.setObservacions(rs.getString("observacions"));      
+
+            ret.add(r);
+
+        }
+        return ret;
         
        
-        return null;
-        
-       
-    }
-    
-     public boolean proveidorExiste(int idProveidor) {
-    
-        return false;
-    
     }
     
     @Override
