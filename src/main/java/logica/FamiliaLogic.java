@@ -37,4 +37,9 @@ public class FamiliaLogic {
         dataLayer.insert(fam);
         llistaObservable.add(fam);
     }
+    
+    public void eliminarReferencia(Familia fam) throws SQLException {
+        dataLayer.delete(fam);
+        llistaObservable.remove(fam);
+    }
 }

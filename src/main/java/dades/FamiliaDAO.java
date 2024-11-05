@@ -10,6 +10,7 @@ import model.Familia;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import static logica.Mensajes.mostrarMensaje;
 import static logica.Mensajes.mostrarMensajeError;
 
 /**
@@ -76,7 +77,23 @@ public class FamiliaDAO implements DAOInterface<Familia>{
 
     @Override
     public void delete(Familia t) throws SQLException {
-        
+        String delete = "DELETE FROM Families WHERE id_familia = ?";
+
+        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(delete)) {
+            // Configuramos el valor del id_referencia para eliminar
+            sentencia.setInt(1, t.getId_fam());
+
+            // Ejecutamos la eliminación
+            int rowsDeleted = sentencia.executeUpdate();
+            if (rowsDeleted > 0) {
+                mostrarMensaje("La Familia ha sido eliminada exitosamente.");
+            } else {
+                    mostrarMensajeError("No se encontró ninguna familia con el ID proporcionado.");
+            }
+        } catch (SQLException e) {
+            mostrarMensajeError("Error al eliminar la familia: " + e.getMessage());
+            throw e;
+        }
     }
 
     @Override

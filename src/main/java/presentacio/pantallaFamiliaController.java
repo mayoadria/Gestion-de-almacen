@@ -36,6 +36,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import static logica.Mensajes.mostrarMensaje;
+import static logica.Mensajes.mostrarMensajeError;
+import model.Referencia;
 
 public class pantallaFamiliaController implements Initializable{
     
@@ -196,7 +199,24 @@ public class pantallaFamiliaController implements Initializable{
 
     @FXML
     void eliminar(ActionEvent event) {
-       
+       Familia FamiliaSeleccionada = tv_familia.getSelectionModel().getSelectedItem();
+
+        if (FamiliaSeleccionada != null) {
+            try {
+
+                // Llamar al método delete en la referencia seleccionada
+                familiaLogica.eliminarReferencia(FamiliaSeleccionada);
+
+                // Remover la referencia eliminada de la tabla
+                tv_familia.getItems().remove(FamiliaSeleccionada);
+
+                mostrarMensaje("Familia eliminada exitosamente.");
+            } catch (SQLException ex) {
+                Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error al eliminar la Familia", ex);
+            }
+        } else {
+            mostrarMensajeError("No se ha seleccionado ninguna familia para eliminar.");
+        }
     }
    
     @FXML
