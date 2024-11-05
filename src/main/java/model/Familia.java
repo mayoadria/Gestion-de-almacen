@@ -17,7 +17,7 @@ public class Familia {
     private int id_fam;
     private String nom_familia;
     private String descripcio;
-    private Date data_alta_fam;
+    private String data_alta_fam;
     private int id_proveidor_fam;
     private String Observacions;
     
@@ -31,7 +31,7 @@ public class Familia {
      * @param id_proveidor_fam ID del proveedor asociado a la familia.
      * @param Observacions Observaciones adicionales sobre la familia.
      */
-    public Familia(int id_fam, String nom_familia, String descripcio, Date data_alta_fam, int id_proveidor_fam, String Observacions) {
+    public Familia(int id_fam, String nom_familia, String descripcio, String data_alta_fam, int id_proveidor_fam, String Observacions) {
         this.id_fam = id_fam;
         this.nom_familia = nom_familia;
         this.descripcio = descripcio;
@@ -77,7 +77,7 @@ public class Familia {
      * 
      * @param data_alta_fam Fecha de alta de la familia.
      */
-    public void setData_alta_fam(Date data_alta_fam) {
+    public void setData_alta_fam(String data_alta_fam) {
         this.data_alta_fam = data_alta_fam;
     }
     
@@ -132,7 +132,7 @@ public class Familia {
      * @return Fecha de alta de la familia.
      */
 
-    public Date getData_alta_fam() {
+    public String getData_alta_fam() {
         return data_alta_fam;
     }
     

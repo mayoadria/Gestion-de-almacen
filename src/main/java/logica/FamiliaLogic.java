@@ -32,4 +32,9 @@ public class FamiliaLogic {
     public ObservableList<Familia> getListObservableFamilla() {
         return llistaObservable;
     }
+    
+    public void afegirFamilia(Familia fam) throws SQLException {
+        dataLayer.insert(fam);
+        llistaObservable.add(fam);
+    }
 }
