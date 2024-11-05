@@ -119,7 +119,30 @@ public class FamiliaDAO implements DAOInterface<Familia>{
 
     @Override
     public Familia get(Familia t) throws SQLException {
-       return null;
+       //Metodo el cual, según la fila que este seleccionada muestra en los textFields la informacion de la base de datos
+        String select = "SELECT * FROM Families WHERE id_familia = ?";
+        Familia f = null; // Para almacenar la referencia encontrada
+
+        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(select)) {
+
+            try (ResultSet rs = sentencia.executeQuery()) {
+                if (rs.next()) {
+                    // Creamos el objeto Referencia y llenamos sus datos
+                    f = new Familia();
+                    f.setId_fam(rs.getInt("id_referencia"));
+                    f.setNom_familia(rs.getString("nom_producte"));
+                    f.setDescripcio(rs.getString("descripcio"));
+                    f.setData_alta_fam(rs.getString("data_alta"));
+                    f.setId_proveidor_fam(rs.getInt("id_proveidor_defecte"));
+                    f.setObservacions(rs.getString("observacions"));
+                }
+            }
+        } catch (SQLException e) {
+            mostrarMensajeError("Error al obtener la familia: " + e.getMessage());
+            throw e;
+        }
+
+        return f; // Devolver la referencia encontrada o null si no existe    }
     }
     
 }
