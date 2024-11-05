@@ -71,8 +71,29 @@ public class FamiliaDAO implements DAOInterface<Familia>{
 
     @Override
     public void update(Familia t) throws SQLException {
-        
-        
+        //Hacer la sentencia del update
+        String update = "UPDATE Families SET nom_familia = ?, descripcio = ?, data_alta = ?, id_proveidor_defecte = ?, observacions = ? WHERE id_familia = ?";
+
+        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(update)) {
+            //Hacer la conexion con la base y marcar de donde tienen que obtener los datos        
+            sentencia.setString(1, t.getNom_familia());
+            sentencia.setString(2, t.getDescripcio());
+            sentencia.setString(3, t.getData_alta_fam());
+            sentencia.setInt(4, (int)t.getId_proveidor_fam());
+            sentencia.setString(5, t.getObservacions());
+            sentencia.setInt(6, t.getId_fam());  // Condición para encontrar el registro a actualizar (id_referencia)
+
+            // Ejecutamos la sentencia
+            int rowsUpdated = sentencia.executeUpdate();
+            if (rowsUpdated > 0) {
+                mostrarMensaje("La familia ha sido actualizada exitosamente.");
+            } else {
+                mostrarMensajeError("No se encontró ninguna familia con el ID proporcionado.");
+            }
+        } catch (SQLException e) {
+            mostrarMensajeError("Error al actualizar la familia: " + e.getMessage());
+            throw e;
+        }
     }
 
     @Override

@@ -38,8 +38,12 @@ public class FamiliaLogic {
         llistaObservable.add(fam);
     }
     
-    public void eliminarReferencia(Familia fam) throws SQLException {
+    public void eliminarFamilia(Familia fam) throws SQLException {
         dataLayer.delete(fam);
         llistaObservable.remove(fam);
+    }
+    
+    public void modificarFamilia(Familia fam) throws SQLException {
+        dataLayer.update(fam);
     }
 }

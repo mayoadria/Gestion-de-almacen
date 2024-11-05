@@ -205,7 +205,7 @@ public class pantallaFamiliaController implements Initializable{
             try {
 
                 // Llamar al método delete en la referencia seleccionada
-                familiaLogica.eliminarReferencia(FamiliaSeleccionada);
+                familiaLogica.eliminarFamilia(FamiliaSeleccionada);
 
                 // Remover la referencia eliminada de la tabla
                 tv_familia.getItems().remove(FamiliaSeleccionada);
@@ -221,7 +221,20 @@ public class pantallaFamiliaController implements Initializable{
    
     @FXML
     void modificar(ActionEvent event) throws SQLException {
-        
+        Familia FamiliaSeleccionada = tv_familia.getSelectionModel().getSelectedItem();
+        if (FamiliaSeleccionada != null) {
+            FamiliaSeleccionada.setNom_familia(txt_nom.getText());
+            FamiliaSeleccionada.setDescripcio(txt_areaDescripcio.getText());
+            FamiliaSeleccionada.setData_alta_fam(txt_dataAlta.getText());
+            FamiliaSeleccionada.setId_proveidor_fam(Integer.parseInt(txt_idProveidor.getText()));  // Asegúrate de que esté en formato correcto
+            FamiliaSeleccionada.setObservacions(txt_areaObservacions.getText());
+
+            // Actualizar la tabla visualmente
+            tv_familia.refresh();
+            familiaLogica.modificarFamilia(FamiliaSeleccionada);
+        } else {
+            mostrarMensajeError("No se ha seleccionado ninguna familia.");
+        }
     }
 
     @FXML
