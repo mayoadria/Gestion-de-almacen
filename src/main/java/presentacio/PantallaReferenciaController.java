@@ -29,6 +29,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import logica.Mensajes;
 import logica.ReferenciaLogica;
+import logica.ValidarCamposInsertReferencia;
 
 /**
  * Controlador de la interfaz gráfica para gestionar referencias en una base de
@@ -303,21 +304,61 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
     @FXML
     void Modificar(ActionEvent event) throws SQLException {
         Referencia referenciaSeleccionada = tblReferencia.getSelectionModel().getSelectedItem();
+        referenciaDAO = new ReferenciaDAO();
         if (referenciaSeleccionada != null) {
-            referenciaSeleccionada.setNom(txtNom.getText());
-            referenciaSeleccionada.setQuantitat(Integer.parseInt(txtCantidad.getText()));
-            referenciaSeleccionada.setUnitat_mida(txtUnitatMida.getText());
-            referenciaSeleccionada.setData_alta(txtDataAlta.getText());  // Asegúrate de que esté en formato correcto
-            referenciaSeleccionada.setData_fabricacio(txtDataFabricacio.getText());
-            referenciaSeleccionada.setDescripcio(txtAreaDescripcio.getText());
-            referenciaSeleccionada.setPreu(txtPreu.getText());
-            referenciaSeleccionada.setUnitats_venudes(Integer.parseInt(txtUnitatVenudes.getText()));
-            referenciaSeleccionada.setId_fam(Integer.parseInt(txtIdFamilia.getText()));
-            referenciaSeleccionada.setId_proveidor(Integer.parseInt(txtIdProveidor.getText()));
+            try {
+                // Obtener los valores del formulario
+                String nom = txtNom.getText();
+                int quantitat = Integer.parseInt(txtCantidad.getText());
+                String unitatMida = txtUnitatMida.getText();
+                String dataAlta = txtDataAlta.getText();
+                String dataFabricacio = txtDataFabricacio.getText();
+                String descripcio = txtAreaDescripcio.getText();
+                String preu = txtPreu.getText();
+                int unitatsVenudes = Integer.parseInt(txtUnitatVenudes.getText());
+                int idFamilia = Integer.parseInt(txtIdFamilia.getText());
+                int idProveidor = Integer.parseInt(txtIdProveidor.getText());
 
-            // Actualizar la tabla visualmente
-            tblReferencia.refresh();
-            referenciaLogica.modificarReferencia(referenciaSeleccionada);
+                // Validar los datos antes de intentar actualizar en la base de datos
+                ValidarCamposInsertReferencia.validarDatos(
+                        referenciaDAO, unitatMida, dataAlta, dataFabricacio,
+                        preu, quantitat, idFamilia, idProveidor, unitatsVenudes
+                );
+
+                // Usar el método de confirmación para preguntar al usuario si está seguro de modificar
+            boolean confirmado = Mensajes.mostrarMensajeConfirmacion("¿Estás seguro de que quieres modificar esta referencia?");
+            
+            if (confirmado) {
+                // Si el usuario confirma, actualizar el objeto seleccionado
+                referenciaSeleccionada.setNom(nom);
+                referenciaSeleccionada.setQuantitat(quantitat);
+                referenciaSeleccionada.setUnitat_mida(unitatMida);
+                referenciaSeleccionada.setData_alta(dataAlta);
+                referenciaSeleccionada.setData_fabricacio(dataFabricacio);
+                referenciaSeleccionada.setDescripcio(descripcio);
+                referenciaSeleccionada.setPreu(preu);
+                referenciaSeleccionada.setUnitats_venudes(unitatsVenudes);
+                referenciaSeleccionada.setId_fam(idFamilia);
+                referenciaSeleccionada.setId_proveidor(idProveidor);
+
+                // Refrescar la tabla visualmente
+                tblReferencia.refresh();
+
+                // Llamar al método de lógica de negocio para guardar los cambios en la base de datos
+                referenciaLogica.modificarReferencia(referenciaSeleccionada);
+                mostrarMensaje("Referencia modificada correctamente.");
+            } else {
+                // Si el usuario no confirma, no hacer nada
+                mostrarMensaje("Modificación cancelada.");
+            }
+
+            } catch (NumberFormatException e) {
+                // Mensaje de error para valores que no pueden ser convertidos a enteros
+                mostrarMensajeError("Por favor, ingresa valores numéricos en los campos de cantidad, precio, etc.");
+            } catch (Exception e) {
+                // Captura de excepciones de validación y muestra el mensaje personalizado
+                mostrarMensajeError(e.getMessage());
+            }
         } else {
             mostrarMensajeError("No se ha seleccionado ninguna referencia.");
         }

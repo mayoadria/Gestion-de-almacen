@@ -123,10 +123,8 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
 
             // Ejecutamos la sentencia
             int rowsUpdated = sentencia.executeUpdate();
-            if (rowsUpdated > 0) {
-                mostrarMensaje("La referencia ha sido actualizada exitosamente.");
-            } else {
-                mostrarMensajeError("No se encontró ninguna referencia con el ID proporcionado.");
+            if (rowsUpdated < 0) {
+               mostrarMensajeError("No se encontró ninguna referencia con el ID proporcionado.");
             }
         } catch (SQLException e) {
             mostrarMensajeError("Error al actualizar la referencia: " + e.getMessage());

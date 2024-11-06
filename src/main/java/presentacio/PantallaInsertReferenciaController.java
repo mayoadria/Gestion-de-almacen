@@ -119,7 +119,7 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
             int idFamilia = Integer.parseInt(txtIdFam.getText());
             int idProveidor = Integer.parseInt(txtIdProv.getText());
 
-            ValidarCamposInsertReferencia.validarDatos(referenciaLogica, referenciaDAO, unitatMida, dataAlta, dataFabricacio, preu, quantitat, idFamilia, idProveidor);
+            ValidarCamposInsertReferencia.validarDatos(referenciaDAO, unitatMida, dataAlta, dataFabricacio, preu, quantitat, idFamilia, idProveidor,unitatsVenudes);
 
             // Crear una instancia de Referencia con los datos del formulario
             Referencia novaReferencia = new Referencia();
@@ -145,14 +145,9 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
             //Mensaje para saber si se ha hecho el insert
             mostrarMensaje("Referencia insertada correctamente.");
 
-        } catch (SQLException e) {
-            // Muestra un mensaje de error si hay problemas con la inserción de una nueva referencia
-            mostrarMensajeError("Error al insertar la referencia: " + e.getMessage());
-
         } catch (NumberFormatException e) {
-            //Comprovar si els camps a on s'han d'introduir numeros siguin correctes com per exemple 
-            //(como Quantitat, Preu, etc.)
-            mostrarMensajeError("Escribe de forma correcta los valores numerales: " + e.getMessage());
+        // Captura excepciones de conversión y muestra un mensaje específico para el usuario
+        mostrarMensajeError("Por favor, ingresa valores numéricos en los campos de cantidad, precio, etc.");
         } catch (Exception e) {
             // Capturar las excepciones propias (ValidacionException y DatabaseException)
             mostrarMensajeError(e.getMessage());

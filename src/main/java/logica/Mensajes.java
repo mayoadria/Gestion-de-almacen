@@ -4,7 +4,10 @@
  */
 package logica;
 
+import java.util.Optional;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
 
 /**
  * Clase utilitaria para mostrar mensajes de alerta en la interfaz gráfica.
@@ -42,4 +45,20 @@ public class Mensajes {
         alert.showAndWait();
 
     }
+    
+    public static boolean mostrarMensajeConfirmacion(String mensaje) {
+        // Crear una ventana de confirmación
+        Alert alertConfirmacio = new Alert(Alert.AlertType.CONFIRMATION);
+        alertConfirmacio.setTitle("Confirmació");
+        alertConfirmacio.setHeaderText(mensaje);
+        alertConfirmacio.setContentText("Estàs segur de que vols modificar les dades?");
+
+        // Mostrar el mensaje de confirmación
+        Optional<ButtonType> resultatConfirmacio = alertConfirmacio.showAndWait();
+        
+        // Devolver si el usuario ha confirmado la acción (OK)
+        return resultatConfirmacio.isPresent() && resultatConfirmacio.get() == ButtonType.OK;
+    }
+
+    
 }

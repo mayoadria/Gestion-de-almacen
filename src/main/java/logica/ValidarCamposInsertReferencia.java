@@ -3,76 +3,65 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package logica;
+
 import dades.ReferenciaDAO;
-import logica.Excepciones;
 
 /**
- * Clase encargada de validar los campos necesarios para la inserción de referencias.
- * Realiza verificaciones de formato y existencia en la base de datos para asegurar 
- * la validez de los datos ingresados.
- * 
+ * Clase encargada de validar los campos necesarios para la inserción de
+ * referencias. Realiza verificaciones de formato y existencia en la base de
+ * datos para asegurar la validez de los datos ingresados.
+ *
  * @author mayoa
  * @since 2024
  */
-public class ValidarCamposInsertReferencia extends Mensajes{
-    
+public class ValidarCamposInsertReferencia extends Mensajes {
+
     /**
-     * Valida los datos proporcionados para la inserción de una referencia. Verifica 
-     * el formato de los campos, así como la existencia de familia y proveedor en 
-     * la base de datos.
+     * Valida los datos proporcionados para la inserción de una referencia.
+     * Verifica el formato de los campos, así como la existencia de familia y
+     * proveedor en la base de datos.
      *
-     * @param referenciaLogica Instancia de {@link ReferenciaLogica} para realizar validaciones de lógica de negocio.
-     * @param referenciaDAO Instancia de {@link ReferenciaDAO} para realizar validaciones en la base de datos.
+     * @param referenciaLogica Instancia de {@link ReferenciaLogica} para
+     * realizar validaciones de lógica de negocio.
+     * @param referenciaDAO Instancia de {@link ReferenciaDAO} para realizar
+     * validaciones en la base de datos.
      * @param unitatMida Unidad de medida en formato de cadena.
      * @param dataAlta Fecha de alta en formato de cadena.
      * @param dataFabricacio Fecha de fabricación en formato de cadena.
      * @param preu Precio en formato de cadena.
      * @param quantitat Cantidad en formato entero.
      * @param idFamilia ID de la familia en formato entero.
+     * @param unitatsVenudes
      * @param idProveidor ID del proveedor en formato entero.
-     * 
-     * @throws Exception Si alguna validación falla, lanza una excepción con el mensaje correspondiente.
+     *
+     * @throws Exception Si alguna validación falla, lanza una excepción con el
+     * mensaje correspondiente.
      */
-    public static void validarDatos(ReferenciaLogica referenciaLogica, ReferenciaDAO referenciaDAO, String unitatMida, String dataAlta, 
-                                     String dataFabricacio, String preu, int quantitat, int idFamilia, int idProveidor) throws Exception {
-        // Validaciones
-        if (!referenciaLogica.unitatMidaValid(unitatMida)) {
-            mostrarMensajeError("La unitat de mida no es valida");
-            Excepciones.ValidacionException("La unitat de mida no es valida");
-            return;
+    public static void validarDatos(ReferenciaDAO referenciaDAO, String unitatMida, String dataAlta,
+            String dataFabricacio, String preu, int quantitat, int idFamilia, int idProveidor, int unitatsVenudes) throws Exception {
+        if (!ReferenciaLogica.unitatMidaValid(unitatMida)) {
+            throw new Exception("La unitat de mida no es válida");
         }
-        if (!referenciaLogica.FechaValida(dataAlta)) {
-            Excepciones.ValidacionException("La data d'alta no es valida");
-            mostrarMensajeError("La data d'alta no es valida");
-            return;
+        if (!ReferenciaLogica.FechaValida(dataAlta)) {
+            throw new Exception("La data d'alta no es válida");
         }
-        if (!referenciaLogica.FechaValida(dataFabricacio)) {
-            Excepciones.ValidacionException("La data de fabricació no es valida");
-            mostrarMensajeError("La data de fabricació no es valida");
-                return;
+        if (!ReferenciaLogica.FechaValida(dataFabricacio)) {
+            throw new Exception("La data de fabricación no es válida");
         }
-        if (!referenciaLogica.PreuValid(String.valueOf(preu))) {
-            Excepciones.ValidacionException("El preu no es valid");
-            mostrarMensajeError("La preu no es valid");
-                return;
+        if (!ReferenciaLogica.PreuValid(preu)) {
+            throw new Exception("El precio no es válido");
         }
-        if (!referenciaLogica.PreuValid(String.valueOf(quantitat))) {
-            Excepciones.ValidacionException("La quantitat no es valida");
-            mostrarMensajeError("La quantitat no es valida");
-                return;
+        if (!ReferenciaLogica.NumerosPositivos(String.valueOf(quantitat))) {
+            throw new Exception("La cantidad debe ser un número positivo y no contener letras.");
         }
-
-        // Validar que la familia existe en la base de datos
+        if (!ReferenciaLogica.NumerosPositivos(String.valueOf(unitatsVenudes))) {
+            throw new Exception("Las unidades vendidas deben ser un número positivo y no contener letras.");
+        }
         if (!referenciaDAO.existeFamilia(idFamilia)) {
-            Excepciones.DatabaseException("La familia introducida no existe.");mostrarMensajeError("La familia introducida no existe. Por favor, introduce un ID de familia válido.");
-                return; // Detener el flujo si la familia no existe
+            throw new Exception("La familia introducida no existe.");
         }
-
-        // Validar que el proveedor existe en la base de datos
         if (!referenciaDAO.existeProveedor(idProveidor)) {
-            Excepciones.DatabaseException("El proveedor introducido no existe.");
-            mostrarMensajeError("El proveedor introducido no existe. Por favor, introduce un ID de proveedor válido.");
-                return; // Detener el flujo si el proveedor no existe
+            throw new Exception("El proveedor introducido no existe.");
         }
     }
 }

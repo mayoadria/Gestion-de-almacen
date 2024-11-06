@@ -121,9 +121,8 @@ public class ReferenciaLogica {
      * @return {@code true} si el precio es válido; {@code false} en caso contrario.
      */
     public static boolean PreuValid(String preu) {
-        // Expresión regular para yyyy-MM-dd
         Boolean ret = false;
-        Pattern patronPreu = Pattern.compile("^\\d+(\\.\\d{1,2})?$");
+        Pattern patronPreu = Pattern.compile("^[1-9]\\d*(\\.\\d+)?$");
         // Crear patrón
         if (patronPreu.matcher(preu).find()) {ret = true;}
        
@@ -137,13 +136,18 @@ public class ReferenciaLogica {
      * @return {@code true} si la unidad es "unitats"; {@code false} en caso contrario.
      */
     public static boolean unitatMidaValid(String unitat) {
-        // Expresión regular para yyyy-MM-dd
         Boolean ret = false;
         Pattern patronPreu = Pattern.compile("^unitats$");
         // Crear patrón
         if (patronPreu.matcher(unitat).find()) {ret = true;}
        
         return ret;
+    }
+    
+    public static boolean NumerosPositivos(String unitat) {
+        Pattern patronPreu = Pattern.compile("^[1-9]\\d*$");
+        // Crear patrón
+        return patronPreu.matcher(unitat).matches();
     }
     
 
