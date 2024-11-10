@@ -2,9 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package logica;
+package Validaciones;
 
 import dades.ReferenciaDAO;
+import logica.Mensajes;
+import logica.ReferenciaLogica;
+import Validaciones.ValidacionesRegex;
 
 /**
  * Clase encargada de validar los campos necesarios para la inserción de
@@ -39,22 +42,22 @@ public class ValidarCamposInsertReferencia extends Mensajes {
      */
     public static void validarDatos(ReferenciaDAO referenciaDAO, String unitatMida, String dataAlta,
             String dataFabricacio, String preu, int quantitat, int idFamilia, int idProveidor, int unitatsVenudes) throws Exception {
-        if (!ReferenciaLogica.unitatMidaValid(unitatMida)) {
+        if (!ValidacionesRegex.unitatMidaValid(unitatMida)) {
             throw new Exception("La unitat de mida no es válida");
         }
-        if (!ReferenciaLogica.FechaValida(dataAlta)) {
+        if (!ValidacionesRegex.FechaValida(dataAlta)) {
             throw new Exception("La data d'alta no es válida");
         }
-        if (!ReferenciaLogica.FechaValida(dataFabricacio)) {
+        if (!ValidacionesRegex.FechaValida(dataFabricacio)) {
             throw new Exception("La data de fabricación no es válida");
         }
-        if (!ReferenciaLogica.PreuValid(preu)) {
+        if (!ValidacionesRegex.PreuValid(preu)) {
             throw new Exception("El precio no es válido");
         }
-        if (!ReferenciaLogica.NumerosPositivos(String.valueOf(quantitat))) {
+        if (!ValidacionesRegex.NumerosPositivos(String.valueOf(quantitat))) {
             throw new Exception("La cantidad debe ser un número positivo y no contener letras.");
         }
-        if (!ReferenciaLogica.NumerosPositivos(String.valueOf(unitatsVenudes))) {
+        if (!ValidacionesRegex.NumerosPositivos(String.valueOf(unitatsVenudes))) {
             throw new Exception("Las unidades vendidas deben ser un número positivo y no contener letras.");
         }
         if (!referenciaDAO.existeFamilia(idFamilia)) {

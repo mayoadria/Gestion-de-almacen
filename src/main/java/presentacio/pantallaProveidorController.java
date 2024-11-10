@@ -5,6 +5,7 @@
  */
 package presentacio;
 
+import Validaciones.ValidarCamposInsertProveidor;
 import dades.ProveidorDAO;
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,6 +39,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -47,6 +49,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logica.Mensajes;
+import static logica.Mensajes.*;
 import model.Proveidor;
 import logica.ProveidorLogic;
 
@@ -58,6 +61,8 @@ import logica.ProveidorLogic;
  */
 public class pantallaProveidorController implements Initializable {
 
+    @FXML
+    private CheckBox chkActiu;
     @FXML
     private TextField tf_motiuProv;
 
@@ -137,17 +142,17 @@ public class pantallaProveidorController implements Initializable {
     private TextField tf_EstatProv;
 
     private ProveidorDAO proveidorDAO;
-    private Mensajes mensajes = new Mensajes();
     private String rol;
+    private ProveidorLogic proveidorLogic;
 
-    /**
-     * Getter per la taula de proveïdors.
-     *
-     * @return la taula de proveïdors.
-     */
-    public TableView<Proveidor> getTb_prov() {
-        return tb_prov;
-    }
+//    /**
+//     * Getter per la taula de proveïdors.
+//     *
+//     * @return la taula de proveïdors.
+//     */
+//    public TableView<Proveidor> getTb_prov() {
+//        return tb_prov;
+//    }
 
     /**
      * Inicialitza la pantalla i carrega els proveïdors de la base de dades.
@@ -158,6 +163,11 @@ public class pantallaProveidorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        try {
+            this.proveidorLogic = new ProveidorLogic();
+        } catch (SQLException ex) {
+            Logger.getLogger(pantallaProveidorController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //Vinculem les columnes amb cada atribut de la classe proveïdor de la BBDD.
         this.col_idProv.setCellValueFactory(new PropertyValueFactory<>("id_proveidor"));
         this.col_nomProv.setCellValueFactory(new PropertyValueFactory<>("nom_proveidor"));
@@ -170,12 +180,28 @@ public class pantallaProveidorController implements Initializable {
         this.col_correuProv.setCellValueFactory(new PropertyValueFactory<>("correu_electronic"));
         this.col_renkingProv.setCellValueFactory(new PropertyValueFactory<>("rating_proveidor"));
         this.col_mesosProv.setCellValueFactory(new PropertyValueFactory<>("mesos_de_colaboracio"));
+        
+        // Obtener la lista de referencias desde ReferenciaDAO
+        this.tb_prov.setItems(proveidorLogic.getListObservableProveidor());
 
-        try {
-            cargarProveidors();  //Cridem les dades
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        // Añadir el listener a la tabla para que se actualicen los TextFields cuando cambie la selección
+        tb_prov.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                // Actualizar los TextFields con la información del elemento seleccionado
+
+                tf_nomProv.setText(newSelection.getNom_proveidor());
+                tf_idProv.setText(String.valueOf(newSelection.getId_proveidor()));
+                tf_cifProv.setText(newSelection.getCif());
+                chkActiu.setSelected(newSelection.isActiu());
+                tf_motiuProv.setText(newSelection.getMotiu_inactiu());
+                tf_creacioProv.setText(newSelection.getData_creacio());
+                tf_correuProv.setText(newSelection.getCorreu_electronic());
+                tf_valoracioProv.setText(String.valueOf(newSelection.getRating_proveidor()));
+                tf_colabProv.setText(String.valueOf(newSelection.getMesos_de_colaboracio()));
+            }
+            configurarBotonesPorRol();
+        });
+        
 
     }
 
@@ -195,7 +221,7 @@ public class pantallaProveidorController implements Initializable {
      */
     private void configurarBotonesPorRol() {
         if (rol != null) {
-            if (rol.equals("Venedor")) {
+            if (rol.equalsIgnoreCase("Venedor")) {
                 // Deshabilitar botons pels usuaris regulars.
                 btn_nouProv.setDisable(true);
                 btn_modProv.setDisable(true);
@@ -204,79 +230,6 @@ public class pantallaProveidorController implements Initializable {
                 btn_expProv.setDisable(true);
             }
         }
-    }
-
-    /**
-     * Recull les dades del proveïdor introduïdes a la interfície.
-     *
-     * @throws SQLException si hi ha un error en la connexió amb la base de
-     * dades.
-     */
-    private void recollirDadesProveidor() throws SQLException {
-
-        Proveidor p = new Proveidor();
-        p.setId_proveidor(Integer.parseInt(tf_idProv.getText()));
-        p.setNom_proveidor(tf_nomProv.getText());
-        p.setCif(tf_cifProv.getText());
-        String valorEstat = tf_estatProv.getText();
-
-        if (valorEstat.equals("ACTIU")) {
-            p.setActiu(true);
-        } else {
-            p.setActiu(false);
-        }
-
-        p.setMotiu_inactiu(tf_motiuProv.getText());
-        String data = tf_creacioProv.getText();
-
-        try {
-            java.sql.Date dataCreacio = java.sql.Date.valueOf(data);
-            p.setData_creacio(dataCreacio);
-        } catch (IllegalArgumentException e) {
-            System.out.println("El format de la data és incorrecte.");
-        }
-        p.setCorreu_electronic(tf_correuProv.getText());
-        p.setRating_proveidor(Float.parseFloat(tf_valoracioProv.getText()));
-        p.setMesos_de_colaboracio(Integer.parseInt(tf_colabProv.getText()));
-
-        ProveidorDAO dao = new ProveidorDAO();
-
-    }
-
-    /**
-     * Carrega els proveïdors des de la base de dades i els mostra a la taula.
-     *
-     * @throws SQLException si hi ha un error en obtenir les dades.
-     */
-    private void cargarProveidors() throws SQLException {
-        ProveidorDAO proveidorDAO = new ProveidorDAO();
-        List<Proveidor> proveidors = new ArrayList<>();
-
-        try {
-            proveidors = proveidorDAO.getAll();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        ObservableList<Proveidor> observableProveidors = FXCollections.observableArrayList(proveidors);
-        tb_prov.setItems(observableProveidors);
-
-        tb_prov.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-
-                //Aquí passem el contingut de les taules als camps inferiors.
-                tf_nomProv.setText(newSelection.getNom_proveidor());
-                tf_idProv.setText(String.valueOf(newSelection.getId_proveidor()));
-                tf_correuProv.setText(newSelection.getCorreu_electronic());
-                tf_valoracioProv.setText(String.valueOf(newSelection.getRating_proveidor()));
-                tf_cifProv.setText(newSelection.getCif());
-                tf_creacioProv.setText(newSelection.getData_creacio().toString());
-                tf_motiuProv.setText(newSelection.getMotiu_inactiu());
-                tf_colabProv.setText(String.valueOf(newSelection.getMesos_de_colaboracio()));
-                tf_EstatProv.setText(newSelection.isActiu() ? "Actiu" : "Inactiu");
-            }
-        });
-
     }
 
     /**
@@ -301,20 +254,10 @@ public class pantallaProveidorController implements Initializable {
      * @throws SQLException si hi ha un error en la base de dades.
      */
     @FXML
-    private void handlerButtonEsborrar(ActionEvent ev) throws SQLException {
+    private void handlerButtonEsborrar(ActionEvent ev) throws Exception {
 
-        //Primer seleccionem el proveïdor a esborrar.
+       //Primer seleccionem el proveïdor a esborrar.
         Proveidor proveidorSeleccionat = tb_prov.getSelectionModel().getSelectedItem();
-
-        if (proveidorSeleccionat == null) {
-            // Mostrar missatge d'error si no s'ha seleccionat cap proveïdor
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Selecció requerida");
-            alert.setHeaderText(null);
-            alert.setContentText("Selecciona un proveïdor per poder-lo esborrar");
-            alert.showAndWait();
-            return;
-        }
 
         // Demanem confirmació per a esborrar el proveïdor. 
         Alert alertConfirmacio = new Alert(Alert.AlertType.CONFIRMATION);
@@ -330,14 +273,9 @@ public class pantallaProveidorController implements Initializable {
                 //Cridem a la capa lògica per a que faci d'intermediària amb el DAO.
                 proveidorLogic.esborrarProveidor(proveidorSeleccionat);
                 //Actualitzaem la taula una vegada el proveïdor seleccionat ha estat esborrat.
-                tb_prov.refresh();
-
-            } catch (Exception e) {
-                Alert alertError = new Alert(Alert.AlertType.ERROR);
-                alertError.setTitle("Error");
-                alertError.setHeaderText(null);
-                alertError.setContentText("No es pot esborrar un proveïdor actiu.");
-                alertError.showAndWait();
+                tb_prov.getItems().remove(proveidorSeleccionat);
+            } catch (Exception ex) {
+                Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error al eliminar la referencia", ex);
             }
         }
 
@@ -350,38 +288,58 @@ public class pantallaProveidorController implements Initializable {
      */
     @FXML
     private void handlerButtonModificar() throws SQLException {
-
-        ProveidorLogic proveidorLogic = new ProveidorLogic();  // Instància de la lògica
-
+        // Obtener el proveedor seleccionado de la tabla
         Proveidor proveidorSeleccionat = tb_prov.getSelectionModel().getSelectedItem();
+        proveidorDAO = new ProveidorDAO();
 
-        proveidorSeleccionat.setNom_proveidor(tf_nomProv.getText());
-        //proveidorSeleccionat.setQuantitat(Integer.parseInt(txtCantidad.getText()));
-        proveidorSeleccionat.setCorreu_electronic(tf_correuProv.getText());
-        proveidorSeleccionat.setRating_proveidor(Float.parseFloat(tf_valoracioProv.getText()));
-        proveidorSeleccionat.setCif(tf_cifProv.getText());
-        proveidorSeleccionat.setData_creacio(Date.valueOf(tf_creacioProv.getText()));
-        proveidorSeleccionat.setMotiu_inactiu(tf_motiuProv.getText());
-        proveidorSeleccionat.setMesos_de_colaboracio(Integer.parseInt(tf_colabProv.getText()));
-        proveidorSeleccionat.setActiu(Boolean.parseBoolean(tf_EstatProv.getText()));
-
-        Alert alertConfirmacio = new Alert(Alert.AlertType.CONFIRMATION);
-        alertConfirmacio.setTitle("Confirmació de modificació");
-        alertConfirmacio.setHeaderText(null);
-        alertConfirmacio.setContentText("Segur que vols modificar el proveïdor seleccionat?");
-
-        Optional<ButtonType> resultatConfirmacio = alertConfirmacio.showAndWait();
-        if (resultatConfirmacio.isPresent() && resultatConfirmacio.get() == ButtonType.OK) {
+        if (proveidorSeleccionat != null) {
             try {
-                proveidorLogic.modificarProveidor(proveidorSeleccionat);  // Crida a la capa lògica
-                tb_prov.refresh();  // Refresca la taula amb les dades modificades
+                // Obtener los valores del formulario
+                String nomProveidor = tf_nomProv.getText();
+                String cif = tf_cifProv.getText();
+                String motiuInactiu = tf_motiuProv.getText();
+                String dataCreacio = tf_creacioProv.getText(); // Convierte de String a Date
+                String correuElectronic = tf_correuProv.getText();
+                float ratingProveidor = Float.parseFloat(tf_valoracioProv.getText());
+                int mesosColaboracio = Integer.parseInt(tf_colabProv.getText());
+                boolean actiu = chkActiu.isSelected(); // Obtiene el valor booleano del CheckBox
+
+                // Validar los datos antes de intentar actualizar en la base de datos (opcional)
+                ValidarCamposInsertProveidor.validarDatos(proveidorDAO, cif, dataCreacio, correuElectronic, ratingProveidor, mesosColaboracio);
+
+                // Confirmación de modificación
+                boolean confirmado = Mensajes.mostrarMensajeConfirmacion("¿Estás seguro de que quieres modificar este proveedor?");
+
+                if (confirmado) {
+                    // Actualizar el objeto seleccionado con los nuevos valores
+                    proveidorSeleccionat.setNom_proveidor(nomProveidor);
+                    proveidorSeleccionat.setCif(cif);
+                    proveidorSeleccionat.setMotiu_inactiu(motiuInactiu);
+                    proveidorSeleccionat.setData_creacio(dataCreacio);
+                    proveidorSeleccionat.setCorreu_electronic(correuElectronic);
+                    proveidorSeleccionat.setRating_proveidor(ratingProveidor);
+                    proveidorSeleccionat.setMesos_de_colaboracio(mesosColaboracio);
+                    proveidorSeleccionat.setActiu(actiu); // Asigna el valor booleano obtenido del CheckBox
+
+                    // Refrescar la tabla visualmente
+                    tb_prov.refresh();
+
+                    // Llamar al método de lógica de negocio para guardar los cambios en la base de datos
+                    proveidorLogic.modificarProveidor(proveidorSeleccionat);
+                    mostrarMensaje("Proveedor modificado correctamente.");
+                } else {
+                    mostrarMensaje("Modificación cancelada.");
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("Por favor, ingresa valores numéricos válidos en los campos de rating y meses de colaboración.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Formato de fecha incorrecto. Por favor, usa el formato AAAA-MM-DD.");
             } catch (Exception e) {
-                Alert alertError = new Alert(Alert.AlertType.ERROR);
-                alertError.setTitle("Error");
-                alertError.setHeaderText(null);
-                alertError.setContentText("Hi ha hagut un error en modificar el proveïdor.");
-                alertError.showAndWait();
+                System.out.println(e.getMessage());
             }
+        } else {
+            System.out.println("No se ha seleccionado ningún proveedor.");
         }
     }
 
@@ -454,13 +412,13 @@ public class pantallaProveidorController implements Initializable {
                 }
             }
 
-            mensajes.mostrarMensaje("L'exportació s'ha completat correctament. Fitxer: " + fileName);
+            mostrarMensaje("L'exportació s'ha completat correctament. Fitxer: " + fileName);
 
         } catch (IOException e) {
-            mensajes.mostrarMensajeError("Hi ha hagut un error en exportar les dades.");
+            mostrarMensajeError("Hi ha hagut un error en exportar les dades.");
             e.printStackTrace();
         } catch (SQLException e) {
-            mensajes.mostrarMensajeError("No s'ha pogut recuperar les dades de la base de dades.");
+            mostrarMensajeError("No s'ha pogut recuperar les dades de la base de dades.");
             e.printStackTrace();
         }
     }
@@ -482,7 +440,7 @@ public class pantallaProveidorController implements Initializable {
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if (selectedFile == null) {
-            mensajes.mostrarMensajeError("No s'ha seleccionat cap fitxer.");
+            mostrarMensajeError("No s'ha seleccionat cap fitxer.");
             return;
         }
 
@@ -498,7 +456,7 @@ public class pantallaProveidorController implements Initializable {
 
                 // Validar si el número de campos es correcto
                 if (data.length != 8) {
-                    mensajes.mostrarMensajeError("Format de fitxer incorrecte en la línia: " + line);
+                    mostrarMensajeError("Format de fitxer incorrecte en la línia: " + line);
                     continue;  // Continuar a la siguiente línea sin terminar el proceso
                 }
 
@@ -508,7 +466,7 @@ public class pantallaProveidorController implements Initializable {
                     String cif = data[2].trim();
                     boolean estat = data[3].trim().equalsIgnoreCase("Actiu");
                     String correu = data[4].trim();
-                    LocalDate dataCreacio = LocalDate.parse(data[5].trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    String dataCreacio = data[5].trim();
                     float rating = Float.parseFloat(data[6].trim());
                     int mesosColaboracio = Integer.parseInt(data[7].trim());
 
@@ -518,7 +476,7 @@ public class pantallaProveidorController implements Initializable {
                     proveidor.setCif(cif);
                     proveidor.setActiu(estat);
                     proveidor.setCorreu_electronic(correu);
-                    proveidor.setData_creacio(java.sql.Date.valueOf(dataCreacio));
+                    proveidor.setData_creacio(dataCreacio);
                     proveidor.setRating_proveidor(rating);
                     proveidor.setMesos_de_colaboracio(mesosColaboracio);
 
@@ -533,7 +491,7 @@ public class pantallaProveidorController implements Initializable {
 
                         if (result.isPresent() && result.get() == ButtonType.OK) {
                             proveidorLogic.modificarProveidor(proveidor);  // Reemplazar datos en la base de datos
-                            mensajes.mostrarMensaje("Les dades de l'proveïdor s'han modificat correctament.");
+                            mostrarMensaje("Les dades de l'proveïdor s'han modificat correctament.");
                         } else {
                             continue;  // Omitir esta entrada si no se quiere modificar
                         }
@@ -544,22 +502,22 @@ public class pantallaProveidorController implements Initializable {
                     }
 
                 } catch (NumberFormatException e) {
-                    mensajes.mostrarMensajeError("Format de nombre incorrecte en el fitxer a la línia: " + line + ". Verifica els valors numèrics.");
+                    mostrarMensajeError("Format de nombre incorrecte en el fitxer a la línia: " + line + ". Verifica els valors numèrics.");
                 } catch (DateTimeParseException e) {
-                    mensajes.mostrarMensajeError("Data incorrecta en el fitxer a la línia: " + line + ". Verifica els formats de les dates.");
+                    mostrarMensajeError("Data incorrecta en el fitxer a la línia: " + line + ". Verifica els formats de les dates.");
                 } catch (SQLException e) {
-                    mensajes.mostrarMensajeError("Error d'accés a la base de dades en la línia: " + line);
+                    mostrarMensajeError("Error d'accés a la base de dades en la línia: " + line);
                     e.printStackTrace();
                 } catch (Exception ex) {
                     Logger.getLogger(pantallaProveidorController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            mensajes.mostrarMensaje("Importació completada correctament.");
+            mostrarMensaje("Importació completada correctament.");
         } catch (IOException e) {
-            mensajes.mostrarMensajeError("Error al llegir el fitxer.");
+            mostrarMensajeError("Error al llegir el fitxer.");
             e.printStackTrace();
         } catch (SQLException e) {
-            mensajes.mostrarMensajeError("Error d'accés a la base de dades.");
+            mostrarMensajeError("Error d'accés a la base de dades.");
             e.printStackTrace();
         }
     }

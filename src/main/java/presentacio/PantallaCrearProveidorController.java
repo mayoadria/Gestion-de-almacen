@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Proveidor;
 import logica.ProveidorLogic;
+import Validaciones.ValidarCamposInsertProveidor;
 
 /**
  * Controlador per gestionar la creació de nous proveïdors.
@@ -131,6 +132,8 @@ public class PantallaCrearProveidorController {
         Float valoracio = Float.parseFloat(tf_valoracioNouProv.getText());
         int mesos = Integer.parseInt(tf_colabNouProv.getText());
 
+        ValidarCamposInsertProveidor.validarDatos(proveidorDAO, cif, creacio, correu, valoracio, mesos);
+        
         // Recollim les dades introduïdes en el formulari dins d'un objecte Proveidor
         Proveidor nouProveidor = new Proveidor();
 
@@ -147,7 +150,7 @@ public class PantallaCrearProveidorController {
         nouProveidor.setMotiu_inactiu(motiu);
 
         try {
-            nouProveidor.setData_creacio(Date.valueOf(creacio));
+            nouProveidor.setData_creacio(creacio);
         } catch (IllegalArgumentException e) {
             Alert alertError = new Alert(Alert.AlertType.ERROR);
             alertError.setTitle("Error de format");
@@ -175,7 +178,7 @@ public class PantallaCrearProveidorController {
                 proveidorLogic.afegirProveidor(nouProveidor);
 
                 //Actualitzem la taula.
-                pantallaProveidorController.getTb_prov().refresh();
+//                pantallaProveidorController.getTb_prov().refresh();
                 Stage stage = (Stage) btn_conNouProv.getScene().getWindow();
                 stage.close();
 

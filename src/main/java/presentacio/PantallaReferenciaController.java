@@ -29,7 +29,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import logica.Mensajes;
 import logica.ReferenciaLogica;
-import logica.ValidarCamposInsertReferencia;
+import Validaciones.ValidarCamposInsertReferencia;
 
 /**
  * Controlador de la interfaz gráfica para gestionar referencias en una base de
@@ -207,7 +207,7 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
      */
     private void configurarBotonesPorRol() {
         if (rol != null) {
-            if (rol.equals("Venedor")) {
+            if (rol.equalsIgnoreCase("Venedor")) {
                 // Deshabilitar botones para usuarios regulares
                 btnNovaReferencia.setDisable(true);
                 btnModificarReferencia.setDisable(true);

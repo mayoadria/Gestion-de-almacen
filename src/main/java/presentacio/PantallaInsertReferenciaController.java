@@ -20,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logica.Mensajes;
 import logica.ReferenciaLogica;
-import logica.ValidarCamposInsertReferencia;
+import Validaciones.ValidarCamposInsertReferencia;
 
 /**
  * Controlador de la pantalla para insertar referencias de producto.

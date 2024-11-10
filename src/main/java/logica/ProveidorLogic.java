@@ -21,7 +21,7 @@ import javafx.collections.ObservableList;
  */
 public class ProveidorLogic {
 
-    private ProveidorDAO proveidorDAO;
+    ProveidorDAO proveidorDAO;
     ObservableList<Proveidor> llistaObservable;
 
     /**
@@ -33,8 +33,21 @@ public class ProveidorLogic {
     public ProveidorLogic() throws SQLException {
         this.proveidorDAO = new ProveidorDAO();
         this.llistaObservable = FXCollections.observableArrayList();
+        carregarProveidor();
     }
 
+    
+    public void carregarProveidor() throws SQLException {
+        this.llistaObservable.setAll(proveidorDAO.getAll());
+    }
+    /**
+     * Obtiene la lista observable de referencias.
+     * 
+     * @return Lista observable de referencias.
+     */
+    public ObservableList<Proveidor> getListObservableProveidor() {
+        return llistaObservable;
+    }
     /**
      * Esborra un proveïdor proporcionat de la base de dades.
      *
@@ -43,11 +56,9 @@ public class ProveidorLogic {
      * un error durant l'operació.
      */
     public void esborrarProveidor(Proveidor proveidor) throws Exception {
-        if (proveidor == null) {
-            throw new Exception("El proveïdor no existeix");
-        }
         //Cridem al DAO per esborrar el proveïdor.
         proveidorDAO.delete(proveidor);
+        llistaObservable.remove(proveidor);
     }
 
     /**
@@ -59,23 +70,6 @@ public class ProveidorLogic {
      * un error en l'actualització.
      */
     public void modificarProveidor(Proveidor proveidor) throws Exception {
-
-        if (!ProveidorValidacions.validarCif(proveidor.getCif())) {
-            throw new Exception("Format de CIF invàlid");
-        }
-        if (!ProveidorValidacions.validarCorreu(proveidor.getCorreu_electronic())) {
-            throw new Exception("Format de correu electrònic invàlid");
-        }
-        if (!ProveidorValidacions.validarData(proveidor.getData_creacio().toString())) {
-            throw new Exception("Format de data invàlid");
-        }
-        if (!ProveidorValidacions.validarValoracio(String.valueOf(proveidor.getRating_proveidor()))) {
-            throw new Exception("Format de valoració invàlid.");
-        }
-        if (!ProveidorValidacions.validarMesos(String.valueOf(proveidor.getMesos_de_colaboracio()))) {
-            throw new Exception("Format de Mesos de col·laboració invàlid");
-        }
-
         proveidorDAO.update(proveidor);
     }
 
@@ -88,27 +82,12 @@ public class ProveidorLogic {
      * un error durant l'operació.
      */
     public void afegirProveidor(Proveidor proveidor) throws Exception {
-
-        if (!ProveidorValidacions.validarCif(proveidor.getCif())) {
-            throw new Exception("Format de CIF invàlid");
-        }
-        if (!ProveidorValidacions.validarCorreu(proveidor.getCorreu_electronic())) {
-            throw new Exception("Format de correu electrònic invàlid");
-        }
-        if (!ProveidorValidacions.validarData(proveidor.getData_creacio().toString())) {
-            throw new Exception("Format de data invàlid");
-        }
-        if (!ProveidorValidacions.validarValoracio(String.valueOf(proveidor.getRating_proveidor()))) {
-            throw new Exception("Format de valoració invàlid.");
-        }
-        if (!ProveidorValidacions.validarMesos(String.valueOf(proveidor.getMesos_de_colaboracio()))) {
-            throw new Exception("Format de Mesos de col·laboració invàlid");
-        }
-        llistaObservable.add(proveidor);
         // Inserir el proveïdor al DAO
         proveidorDAO.insert(proveidor);
+        llistaObservable.add(proveidor);
+        
+        
     }
-
     /**
      * Retorna una llista amb tots els proveïdors emmagatzemats a la base de
      * dades.
@@ -120,7 +99,6 @@ public class ProveidorLogic {
     public List<Proveidor> getAllProveidors() throws SQLException {
         return proveidorDAO.getAll();
     }
-
     /**
      * Retorna un conjunt de tots els identificadors (IDs) dels proveïdors
      * emmagatzemats a la base de dades.

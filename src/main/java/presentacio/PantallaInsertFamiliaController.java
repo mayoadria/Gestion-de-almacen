@@ -27,8 +27,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logica.FamiliaLogic;
 import logica.Mensajes;
-import logica.ReferenciaLogica;
-import logica.ValidarCamposInsertReferencia;
 
 public class PantallaInsertFamiliaController extends Mensajes implements Initializable{
 

@@ -19,7 +19,7 @@ public class Proveidor {
     private String cif;
     private int id_proveidor;
     private String motiu_inactiu;
-    private Date data_creacio;
+    private String data_creacio;
     private String correu_electronic;
     private float rating_proveidor;
     private int mesos_de_colaboracio;
@@ -31,22 +31,7 @@ public class Proveidor {
     public Proveidor() {
     }
 
-    /**
-     * Constructor que inicialitza un proveïdor amb els valors proporcionats.
-     *
-     * @param i Identificador del proveïdor.
-     * @param proveidor_Test Nom del proveïdor.
-     * @param proveidortestcom Correu electrònic del proveïdor.
-     * @param f Valoració del proveïdor.
-     * @param ciF123456 CIF del proveïdor.
-     * @param string Motiu d'inactivitat.
-     * @param actiu Estat actiu/inactiu del proveïdor.
-     * @param i0 Mesos de col·laboració del proveïdor.
-     * @param b Estat actiu/inactiu del proveïdor.
-     */
-    public Proveidor(int i, String proveidor_Test, String proveidortestcom, float f, String ciF123456, String string, String actiu, int i0, boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 
     /**
      * Obté l'identificador del proveïdor.
@@ -89,7 +74,7 @@ public class Proveidor {
      *
      * @return Data de creació del proveïdor.
      */
-    public Date getData_creacio() {
+    public String getData_creacio() {
         return data_creacio;
     }
 
@@ -98,7 +83,7 @@ public class Proveidor {
      *
      * @param data_creacio Data de creació del proveïdor.
      */
-    public void setData_creacio(Date data_creacio) {
+    public void setData_creacio(String data_creacio) {
         this.data_creacio = data_creacio;
     }
 
@@ -185,19 +170,14 @@ public class Proveidor {
         return "Proveidor{" + "nom_proveidor=" + nom_proveidor + ", cif=" + cif + ", id_proveidor=" + id_proveidor + ", motiu_inactiu=" + motiu_inactiu + ", data_creacio=" + data_creacio + ", correu_electronic=" + correu_electronic + ", rating_proveidor=" + rating_proveidor + ", mesos_de_colaboracio=" + mesos_de_colaboracio + ", actiu=" + actiu + '}';
     }
 
-    /**
-     * Enum que defineix els possibles estats d'un proveïdor (actiu o inactiu).
-     */
-    public enum EstatProveidor {
-        ACTIU, INACTIU
-    }
+    
 
     /**
      * Obté l'estat actiu/inactiu del proveïdor.
      *
      * @return true si el proveïdor és actiu, false si no ho és.
      */
-    public boolean isActiu() {
+    public boolean isActiu() {    
         return actiu;
     }
 
