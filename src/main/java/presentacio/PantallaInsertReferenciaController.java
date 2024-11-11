@@ -143,11 +143,11 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
             Stage stage = (Stage) btnSortir.getScene().getWindow();
             stage.close();
             //Mensaje para saber si se ha hecho el insert
-            mostrarMensaje("Referencia insertada correctamente.");
+            mostrarMensaje("Referència inserida correctament.");
 
         } catch (NumberFormatException e) {
         // Captura excepciones de conversión y muestra un mensaje específico para el usuario
-        mostrarMensajeError("Por favor, ingresa valores numéricos en los campos de cantidad, precio, etc.");
+        mostrarMensajeError("Si us plau, introduïu valors numèrics als camps de quantitat, preu, etc.");
         } catch (Exception e) {
             // Capturar las excepciones propias (ValidacionException y DatabaseException)
             mostrarMensajeError(e.getMessage());

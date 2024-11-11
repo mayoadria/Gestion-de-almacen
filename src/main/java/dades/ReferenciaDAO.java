@@ -91,7 +91,7 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
             sentencia.executeUpdate();  // Ejecutar la consulta
 
         } catch (SQLException e) {
-            mostrarMensajeError("Error al insertar la referencia: " + e.getMessage());
+            mostrarMensajeError("Error en inserir la referència: " + e.getMessage());
             throw e;
         }
     }
@@ -124,10 +124,10 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
             // Ejecutamos la sentencia
             int rowsUpdated = sentencia.executeUpdate();
             if (rowsUpdated < 0) {
-               mostrarMensajeError("No se encontró ninguna referencia con el ID proporcionado.");
+               mostrarMensajeError("No s'ha trobat cap referència a l'ID proporcionat.");
             }
         } catch (SQLException e) {
-            mostrarMensajeError("Error al actualizar la referencia: " + e.getMessage());
+            mostrarMensajeError("Error en actualitzar la referència:" + e.getMessage());
             throw e;
         }
     }
@@ -150,12 +150,12 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
             // Ejecutamos la eliminación
             int rowsDeleted = sentencia.executeUpdate();
             if (rowsDeleted > 0) {
-                mostrarMensaje("La referencia ha sido eliminada exitosamente.");
+                mostrarMensaje("La referència ha estat eliminada amb èxit.");
             } else {
-                mostrarMensajeError("No se encontró ninguna referencia con el ID proporcionado.");
+                mostrarMensajeError("No s'ha trobat cap referència a l'ID proporcionat.");
             }
         } catch (SQLException e) {
-            mostrarMensajeError("Error al eliminar la referencia: " + e.getMessage());
+            mostrarMensajeError("Error en eliminar la referència: " + e.getMessage());
             throw e;
         }
     }
@@ -193,7 +193,7 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
                 }
             }
         } catch (SQLException e) {
-            mostrarMensajeError("Error al obtener la referencia: " + e.getMessage());
+            mostrarMensajeError("Error en obtenir la referència:" + e.getMessage());
             throw e;
         }
 

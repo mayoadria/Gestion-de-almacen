@@ -53,7 +53,6 @@ public class ReferenciaLogica {
     /**
      * Agrega una nueva referencia a la base de datos y a la lista observable.
      * 
-     * @param t La referencia que se desea agregar.
      * @throws SQLException Si ocurre un error al acceder a la base de datos.
      */
     public void afegirReferencia(Referencia ref) throws SQLException {

@@ -100,15 +100,15 @@ public class PantallaInsertFamiliaController extends Mensajes implements Initial
             Stage stage = (Stage) btn_sortir_insfam.getScene().getWindow();
             stage.close();
             //Mensaje para saber si se ha hecho el insert
-            mostrarMensaje("Familia insertada correctamente.");
+            mostrarMensaje("Família inserida correctament.");
              } catch (SQLException e) {
             // Muestra un mensaje de error si hay problemas con la inserción de una nueva referencia
-            mostrarMensajeError("Error al insertar la familia: " + e.getMessage());
+            mostrarMensajeError("Error en inserir la família:" + e.getMessage());
 
         } catch (NumberFormatException e) {
             //Comprovar si els camps a on s'han d'introduir numeros siguin correctes com per exemple 
             //(como Quantitat, Preu, etc.)
-            mostrarMensajeError("Escribe de forma correcta los valores numerales: " + e.getMessage());
+            mostrarMensajeError("Escriu correctament els valors numerals:" + e.getMessage());
         } catch (Exception e) {
             // Capturar las excepciones propias (ValidacionException y DatabaseException)
             mostrarMensajeError(e.getMessage());

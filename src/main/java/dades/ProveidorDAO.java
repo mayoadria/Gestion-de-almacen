@@ -115,9 +115,9 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             //Executem l'insert, modificant les dades del nou proveïdor.
             int rowsUpdated = sentencia.executeUpdate();
             if (rowsUpdated > 0) {
-                throw new SQLException("S'ha actualitzat el proveïdor exitosament.");
+                mostrarMensaje("S'ha actualitzat el proveïdor exitosament.");
             } else {
-                throw new SQLException("No s'ha trobat cap proveïdor amb l'ID proporcionat.");
+                mostrarMensajeError("No s'ha trobat cap proveïdor amb l'ID proporcionat.");
             }
 
         } catch (SQLException e) {
@@ -139,10 +139,10 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             if (rowsDeleted > 0) {
                 mostrarMensaje("El Proveidor ha sido eliminada exitosamente.");
             } else {
-                mostrarMensajeError("No se encontró ningun proveidor con el ID proporcionado.");
+                mostrarMensajeError("No s'ha trobat cap proveïdor amb ID proporcionat.");
             }
         } catch (SQLException e) {
-            throw new SQLException("Error en esborrar el proveïdor: " + e.getMessage());
+            mostrarMensajeError("Error en esborrar el proveïdor:" + e.getMessage());
         }
     }
 
@@ -205,7 +205,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new SQLException("Error al obtenir els IDs dels proveïdors.");
+            throw new SQLException("Error en obtenir els ID dels proveïdors.");
         }
 
         return idsExistents;

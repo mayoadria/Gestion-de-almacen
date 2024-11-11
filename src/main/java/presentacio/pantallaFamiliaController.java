@@ -210,12 +210,12 @@ public class pantallaFamiliaController implements Initializable{
                 // Remover la referencia eliminada de la tabla
                 tv_familia.getItems().remove(FamiliaSeleccionada);
 
-                mostrarMensaje("Familia eliminada exitosamente.");
+                mostrarMensaje("Família eliminada amb èxit.");
             } catch (SQLException ex) {
                 Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error al eliminar la Familia", ex);
             }
         } else {
-            mostrarMensajeError("No se ha seleccionado ninguna familia para eliminar.");
+            mostrarMensajeError("No s'ha seleccionat cap família per suprimir.");
         }
     }
    
@@ -233,7 +233,7 @@ public class pantallaFamiliaController implements Initializable{
             tv_familia.refresh();
             familiaLogica.modificarFamilia(FamiliaSeleccionada);
         } else {
-            mostrarMensajeError("No se ha seleccionado ninguna familia.");
+            mostrarMensajeError("No s'ha seleccionat cap família.");
         }
     }
 

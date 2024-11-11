@@ -275,7 +275,7 @@ public class pantallaProveidorController implements Initializable {
                 //Actualitzaem la taula una vegada el proveïdor seleccionat ha estat esborrat.
                 tb_prov.getItems().remove(proveidorSeleccionat);
             } catch (Exception ex) {
-                Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error al eliminar la referencia", ex);
+                Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error en eliminar el proveïdor", ex);
             }
         }
 
@@ -308,7 +308,7 @@ public class pantallaProveidorController implements Initializable {
                 ValidarCamposInsertProveidor.validarDatos(proveidorDAO, cif, dataCreacio, correuElectronic, ratingProveidor, mesosColaboracio);
 
                 // Confirmación de modificación
-                boolean confirmado = Mensajes.mostrarMensajeConfirmacion("¿Estás seguro de que quieres modificar este proveedor?");
+                boolean confirmado = Mensajes.mostrarMensajeConfirmacion("Segur que vols modificar aquest proveïdor?");
 
                 if (confirmado) {
                     // Actualizar el objeto seleccionado con los nuevos valores
@@ -326,20 +326,20 @@ public class pantallaProveidorController implements Initializable {
 
                     // Llamar al método de lógica de negocio para guardar los cambios en la base de datos
                     proveidorLogic.modificarProveidor(proveidorSeleccionat);
-                    mostrarMensaje("Proveedor modificado correctamente.");
+                    mostrarMensaje("Proveïdor modificat correctament.");
                 } else {
-                    mostrarMensaje("Modificación cancelada.");
+                    mostrarMensaje("Modificació cancel·lada.");
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("Por favor, ingresa valores numéricos válidos en los campos de rating y meses de colaboración.");
+                System.out.println("Si us plau, ingresseu valors numèrics vàlids en els camps de rating i mesos de col·laboració.");
             } catch (IllegalArgumentException e) {
-                System.out.println("Formato de fecha incorrecto. Por favor, usa el formato AAAA-MM-DD.");
+                System.out.println("Format de data incorrecte. Si us plau, fes servir el format AAAA-MM-DD.");
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         } else {
-            System.out.println("No se ha seleccionado ningún proveedor.");
+            System.out.println("No s'ha seleccionat cap proveïdor.");
         }
     }
 

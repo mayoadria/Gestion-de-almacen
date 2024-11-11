@@ -43,28 +43,28 @@ public class ValidarCamposInsertReferencia extends Mensajes {
     public static void validarDatos(ReferenciaDAO referenciaDAO, String unitatMida, String dataAlta,
             String dataFabricacio, String preu, int quantitat, int idFamilia, int idProveidor, int unitatsVenudes) throws Exception {
         if (!ValidacionesRegex.unitatMidaValid(unitatMida)) {
-            throw new Exception("La unitat de mida no es válida");
+            throw new Exception("La unitat de mesura no és vàlida");
         }
         if (!ValidacionesRegex.FechaValida(dataAlta)) {
-            throw new Exception("La data d'alta no es válida");
+            throw new Exception("La data d'alta no és vàlida");
         }
         if (!ValidacionesRegex.FechaValida(dataFabricacio)) {
-            throw new Exception("La data de fabricación no es válida");
+            throw new Exception("La data de fabricació no és vàlida");
         }
         if (!ValidacionesRegex.PreuValid(preu)) {
-            throw new Exception("El precio no es válido");
+            throw new Exception("El preu no és vàlid");
         }
         if (!ValidacionesRegex.NumerosPositivos(String.valueOf(quantitat))) {
-            throw new Exception("La cantidad debe ser un número positivo y no contener letras.");
+            throw new Exception("La quantitat ha de ser un número positiu i no contenir lletres.");
         }
         if (!ValidacionesRegex.NumerosPositivos(String.valueOf(unitatsVenudes))) {
-            throw new Exception("Las unidades vendidas deben ser un número positivo y no contener letras.");
+            throw new Exception("Les unitats venudes han de ser un nombre positiu i no contenir lletres.");
         }
         if (!referenciaDAO.existeFamilia(idFamilia)) {
-            throw new Exception("La familia introducida no existe.");
+            throw new Exception("La família introduïda no existeix.");
         }
         if (!referenciaDAO.existeProveedor(idProveidor)) {
-            throw new Exception("El proveedor introducido no existe.");
+            throw new Exception("El proveïdor introduït no existeix.");
         }
     }
 }

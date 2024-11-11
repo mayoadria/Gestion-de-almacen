@@ -64,7 +64,7 @@ public class FamiliaDAO implements DAOInterface<Familia>{
             sentencia.executeUpdate();  // Ejecutar la consulta
 
         } catch (SQLException e) {
-            mostrarMensajeError("Error al insertar la referencia: " + e.getMessage());
+            mostrarMensajeError("Error en inserir la família:" + e.getMessage());
             throw e;
         }
     }
@@ -86,12 +86,12 @@ public class FamiliaDAO implements DAOInterface<Familia>{
             // Ejecutamos la sentencia
             int rowsUpdated = sentencia.executeUpdate();
             if (rowsUpdated > 0) {
-                mostrarMensaje("La familia ha sido actualizada exitosamente.");
+                mostrarMensaje("La família ha estat actualitzada amb èxit.");
             } else {
-                mostrarMensajeError("No se encontró ninguna familia con el ID proporcionado.");
+                mostrarMensajeError("No s'ha trobat cap família amb ID proporcionat.");
             }
         } catch (SQLException e) {
-            mostrarMensajeError("Error al actualizar la familia: " + e.getMessage());
+            mostrarMensajeError("Error en actualitzar la família:" + e.getMessage());
             throw e;
         }
     }
@@ -107,12 +107,12 @@ public class FamiliaDAO implements DAOInterface<Familia>{
             // Ejecutamos la eliminación
             int rowsDeleted = sentencia.executeUpdate();
             if (rowsDeleted > 0) {
-                mostrarMensaje("La Familia ha sido eliminada exitosamente.");
+                mostrarMensaje("La Família ha estat eliminada amb èxit.");
             } else {
-                    mostrarMensajeError("No se encontró ninguna familia con el ID proporcionado.");
+                    mostrarMensajeError("No s'ha trobat cap família amb ID proporcionat.");
             }
         } catch (SQLException e) {
-            mostrarMensajeError("Error al eliminar la familia: " + e.getMessage());
+            mostrarMensajeError("Error en eliminar la família:" + e.getMessage());
             throw e;
         }
     }
@@ -138,7 +138,7 @@ public class FamiliaDAO implements DAOInterface<Familia>{
                 }
             }
         } catch (SQLException e) {
-            mostrarMensajeError("Error al obtener la familia: " + e.getMessage());
+            mostrarMensajeError("Error en eliminar la família:" + e.getMessage());
             throw e;
         }
 

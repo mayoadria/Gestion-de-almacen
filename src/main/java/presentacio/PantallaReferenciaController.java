@@ -283,12 +283,12 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
                 // Remover la referencia eliminada de la tabla
                 tblReferencia.getItems().remove(referenciaSeleccionada);
 
-                mostrarMensaje("Referencia eliminada exitosamente.");
+                mostrarMensaje("Referència eliminada amb èxit.");
             } catch (SQLException ex) {
-                Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error al eliminar la referencia", ex);
+                Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error en eliminar la referència", ex);
             }
         } else {
-            mostrarMensajeError("No se ha seleccionado ninguna referencia para eliminar.");
+            mostrarMensajeError("No heu seleccionat cap referència per eliminar.");
         }
     }
 
@@ -326,7 +326,7 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
                 );
 
                 // Usar el método de confirmación para preguntar al usuario si está seguro de modificar
-            boolean confirmado = Mensajes.mostrarMensajeConfirmacion("¿Estás seguro de que quieres modificar esta referencia?");
+            boolean confirmado = Mensajes.mostrarMensajeConfirmacion("Segur que vols modificar aquesta referència?");
             
             if (confirmado) {
                 // Si el usuario confirma, actualizar el objeto seleccionado
@@ -346,21 +346,21 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
 
                 // Llamar al método de lógica de negocio para guardar los cambios en la base de datos
                 referenciaLogica.modificarReferencia(referenciaSeleccionada);
-                mostrarMensaje("Referencia modificada correctamente.");
+                mostrarMensaje("Referència modificada correctament.");
             } else {
                 // Si el usuario no confirma, no hacer nada
-                mostrarMensaje("Modificación cancelada.");
+                mostrarMensaje("Modificació cancel·lada.");
             }
 
             } catch (NumberFormatException e) {
                 // Mensaje de error para valores que no pueden ser convertidos a enteros
-                mostrarMensajeError("Por favor, ingresa valores numéricos en los campos de cantidad, precio, etc.");
+                mostrarMensajeError("Si us plau, introduïu valors numèrics als camps de quantitat, preu, etc.");
             } catch (Exception e) {
                 // Captura de excepciones de validación y muestra el mensaje personalizado
                 mostrarMensajeError(e.getMessage());
             }
         } else {
-            mostrarMensajeError("No se ha seleccionado ninguna referencia.");
+            mostrarMensajeError("No heu seleccionat cap referència.");
         }
 
     }
