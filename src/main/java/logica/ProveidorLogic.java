@@ -36,18 +36,19 @@ public class ProveidorLogic {
         carregarProveidor();
     }
 
-    
     public void carregarProveidor() throws SQLException {
         this.llistaObservable.setAll(proveidorDAO.getAll());
     }
+
     /**
      * Obtiene la lista observable de referencias.
-     * 
+     *
      * @return Lista observable de referencias.
      */
     public ObservableList<Proveidor> getListObservableProveidor() {
         return llistaObservable;
     }
+
     /**
      * Esborra un proveïdor proporcionat de la base de dades.
      *
@@ -81,13 +82,16 @@ public class ProveidorLogic {
      * @throws Exception Si qualsevol de les validacions falla o si es produeix
      * un error durant l'operació.
      */
-    public void afegirProveidor(Proveidor proveidor) throws Exception {
-        // Inserir el proveïdor al DAO
-        proveidorDAO.insert(proveidor);
-        llistaObservable.add(proveidor);
-        
-        
+    public int afegirProveidor(Proveidor p) throws SQLException {
+        // Llama al método insert en dataLayer que ahora retorna el ID generado
+        int generatedId = proveidorDAO.insert(p);
+        // Actualiza el ID de la referencia con el ID generado
+        p.setId_proveidor(generatedId);
+        // Añade la referencia con el ID a la lista observable
+        llistaObservable.add(p);
+        return generatedId; // Devuelve el ID generado
     }
+
     /**
      * Retorna una llista amb tots els proveïdors emmagatzemats a la base de
      * dades.
@@ -99,6 +103,7 @@ public class ProveidorLogic {
     public List<Proveidor> getAllProveidors() throws SQLException {
         return proveidorDAO.getAll();
     }
+
     /**
      * Retorna un conjunt de tots els identificadors (IDs) dels proveïdors
      * emmagatzemats a la base de dades.

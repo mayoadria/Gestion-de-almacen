@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import model.Familia;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import static logica.Mensajes.mostrarMensaje;
@@ -50,19 +51,31 @@ public class FamiliaDAO implements DAOInterface<Familia>{
     }
     
     @Override
-    public void insert(Familia t) throws SQLException {
+    public int insert(Familia t) throws SQLException {
         String insert = "INSERT INTO families (nom_familia, descripcio, data_alta, id_proveidor_defecte, observacions) VALUES (?, ?, ?, ?, ?)";
         //Hacer la conexion con la base y marcar de donde tienen que obtener los datos
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(insert)) {
+        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(insert,Statement.RETURN_GENERATED_KEYS)) {
             sentencia.setString(1, t.getNom_familia());
             sentencia.setString(2, t.getDescripcio());
             sentencia.setString(3, String.valueOf(t.getData_alta_fam()));
             sentencia.setInt(4, (int) t.getId_proveidor_fam());
             sentencia.setString(5, t.getObservacions());
             
-            //Ejecutar el insert
-            sentencia.executeUpdate();  // Ejecutar la consulta
 
+
+    // Ejecutar la inserción
+        int affectedRows = sentencia.executeUpdate();
+        if (affectedRows == 0) {
+            throw new SQLException("Error en inserir la família, no es va crear cap registre.");
+        }            
+            // Obtener el ID generado
+        try (ResultSet generatedKeys = sentencia.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1); // Retorna el ID generado
+            } else {
+                throw new SQLException("Error en inserir la família, no s'ha obtingut l'ID.");
+            }
+        }
         } catch (SQLException e) {
             mostrarMensajeError("Error en inserir la família:" + e.getMessage());
             throw e;

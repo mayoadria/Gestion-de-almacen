@@ -190,6 +190,7 @@ public class PantallaCrearProveidorController {
                 alertError.showAndWait();
             }
         }
+        pantallaProveidorController.actualizarTablaConNuevoProveedor(nouProveidor);
 
     }
 

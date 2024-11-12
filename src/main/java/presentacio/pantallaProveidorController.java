@@ -372,6 +372,11 @@ public class pantallaProveidorController implements Initializable {
             ex.printStackTrace();
         }
     }
+    
+    public void actualizarTablaConNuevoProveedor(Proveidor nuevoProveidor) {
+        tb_prov.getItems().add(nuevoProveidor);
+        tb_prov.refresh();  // Refrescar la tabla para que se vea la nueva entrada
+    }
 
     /**
      * Maneja la acción del botón de exportar proveedores. Se exporta la lista

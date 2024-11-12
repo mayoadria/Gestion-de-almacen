@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -66,7 +67,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
     }
 
     @Override
-    public void insert(Proveidor t) throws SQLException {
+    public int insert(Proveidor t) throws SQLException {
         //Aquest mètode crea un nou proveïdor.
 
         //Fem el mòdel de consulta per inserir nous proveïdors.
@@ -74,7 +75,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
                 + ",motiu_inactiu,data_creacio,correu_electronic,rating_proveidor,mesos_de_colaboracio) VALUES (?,?,?,?,?,?,?,?)";
 
         //Fem la connexió amb la BBDD.
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaInsert)) {
+        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaInsert,Statement.RETURN_GENERATED_KEYS)) {
 
             sentencia.setString(1, t.getNom_proveidor());
             sentencia.setString(2, t.getCif());
@@ -85,9 +86,19 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             sentencia.setFloat(7, t.getRating_proveidor());
             sentencia.setInt(8, t.getMesos_de_colaboracio());
 
-            //Executem l'insert, modificant les dades del nou proveïdor.
-            sentencia.executeUpdate();
-
+                // Ejecutar la inserción
+        int affectedRows = sentencia.executeUpdate();
+        if (affectedRows == 0) {
+            throw new SQLException("Error en inserir la referència, no es va crear cap registre.");
+        }
+            // Obtener el ID generado
+        try (ResultSet generatedKeys = sentencia.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1); // Retorna el ID generado
+            } else {
+                throw new SQLException("Error en inserir la referència, no s'ha obtingut l'ID.");
+            }
+        }
         } catch (SQLException e) {
             throw e;
         }

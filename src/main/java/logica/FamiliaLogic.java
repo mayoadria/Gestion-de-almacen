@@ -15,34 +15,40 @@ import model.Familia;
  * @author mayoa
  */
 public class FamiliaLogic {
+
     FamiliaDAO dataLayer;
 
     ObservableList<Familia> llistaObservable;
-    
+
     public FamiliaLogic() throws SQLException {
         this.dataLayer = new FamiliaDAO();
         this.llistaObservable = FXCollections.observableArrayList();
         carregarFamilia();
     }
-    
+
     public void carregarFamilia() throws SQLException {
         this.llistaObservable.setAll(dataLayer.getAll());
     }
-    
+
     public ObservableList<Familia> getListObservableFamilla() {
         return llistaObservable;
     }
-    
-    public void afegirFamilia(Familia fam) throws SQLException {
-        dataLayer.insert(fam);
-        llistaObservable.add(fam);
+
+    public int afegirFamilia(Familia f) throws SQLException {
+        // Llama al método insert en dataLayer que ahora retorna el ID generado
+        int generatedId = dataLayer.insert(f);
+        // Actualiza el ID de la referencia con el ID generado
+        f.setId_fam(generatedId);
+        // Añade la referencia con el ID a la lista observable
+        llistaObservable.add(f);
+        return generatedId; // Devuelve el ID generado
     }
-    
+
     public void eliminarFamilia(Familia fam) throws SQLException {
         dataLayer.delete(fam);
         llistaObservable.remove(fam);
     }
-    
+
     public void modificarFamilia(Familia fam) throws SQLException {
         dataLayer.update(fam);
     }
