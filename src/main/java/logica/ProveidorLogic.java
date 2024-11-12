@@ -78,8 +78,8 @@ public class ProveidorLogic {
      * Afegeix un nou proveïdor a la llista observable i a la base de dades
      * després de validar les seves dades.
      *
-     * @param proveidor El proveïdor que es vol afegir.
-     * @throws Exception Si qualsevol de les validacions falla o si es produeix
+     * @param p El proveïdor que es vol afegir.
+     * @throws SQLException Si qualsevol de les validacions falla o si es produeix
      * un error durant l'operació.
      */
     public int afegirProveidor(Proveidor p) throws SQLException {

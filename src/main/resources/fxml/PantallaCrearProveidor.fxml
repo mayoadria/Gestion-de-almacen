@@ -30,8 +30,6 @@
                            <VBox.margin>
                               <Insets left="35.0" top="5.0" />
                            </VBox.margin>
-                        </HBox>
-                        <HBox prefHeight="36.0" prefWidth="368.0" VBox.vgrow="ALWAYS">
                            <children>
                               <Label contentDisplay="CENTER" prefHeight="31.0" prefWidth="63.0" text="Nom" />
                               <TextField fx:id="tf_nomNouProv" prefHeight="25.0" prefWidth="267.0" HBox.hgrow="ALWAYS">
@@ -40,11 +38,11 @@
                                  </HBox.margin>
                               </TextField>
                            </children>
+                        </HBox>
+                        <HBox prefHeight="36.0" prefWidth="368.0" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets left="35.0" top="5.0" />
                            </VBox.margin>
-                        </HBox>
-                        <HBox prefHeight="36.0" prefWidth="308.0" VBox.vgrow="ALWAYS">
                            <children>
                               <Label fx:id="label_cifProv" contentDisplay="CENTER" prefHeight="31.0" prefWidth="63.0" text="CIF" />
                               <TextField fx:id="tf_cifNouProv" prefHeight="25.0" prefWidth="268.0" HBox.hgrow="ALWAYS">
@@ -53,20 +51,20 @@
                                  </HBox.margin>
                               </TextField>
                            </children>
-                           <VBox.margin>
-                              <Insets left="35.0" top="5.0" />
-                           </VBox.margin>
                         </HBox>
                         <HBox prefHeight="36.0" prefWidth="308.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="label_cifProv1" contentDisplay="CENTER" prefHeight="31.0" prefWidth="63.0" text="Estat" />
-                              <CheckBox fx:id="cb_estatNouProv" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="275.0" text="Actiu" textAlignment="CENTER" />
-                           </children>
                            <VBox.margin>
                               <Insets left="35.0" top="5.0" />
                            </VBox.margin>
+                           <children>
+                              <Label fx:id="label_cifProv1" contentDisplay="CENTER" prefHeight="31.0" prefWidth="63.0" text="Estat" />
+                              <CheckBox fx:id="cb_estatNouProv" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="275.0" textAlignment="CENTER" />
+                           </children>
                         </HBox>
-                        <HBox prefHeight="36.0" prefWidth="354.0" VBox.vgrow="ALWAYS">
+                        <HBox prefHeight="36.0" prefWidth="308.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets left="35.0" top="5.0" />
+                           </VBox.margin>
                            <children>
                               <Label fx:id="label_cifProv2" contentDisplay="CENTER" prefHeight="31.0" prefWidth="63.0" text="Motiu Inac." />
                               <TextField fx:id="tf_motiuNouProv" prefHeight="25.0" prefWidth="269.0" HBox.hgrow="ALWAYS">
@@ -75,6 +73,8 @@
                                  </HBox.margin>
                               </TextField>
                            </children>
+                        </HBox>
+                        <HBox prefHeight="36.0" prefWidth="354.0" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets left="35.0" top="5.0" />
                            </VBox.margin>
@@ -160,23 +160,21 @@
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="124.0" prefWidth="419.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button fx:id="btn_impProv" alignment="CENTER" mnemonicParsing="false" prefHeight="74.0" prefWidth="127.0" text="Importar" />
                   <VBox alignment="TOP_CENTER" prefHeight="99.0" prefWidth="191.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <Button fx:id="btn_expProv" alignment="CENTER" mnemonicParsing="false" prefHeight="54.0" prefWidth="127.0" text="Exportar" VBox.vgrow="ALWAYS" />
-                     </children>
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
+                     <children>
+                        <Button fx:id="btn_conNouProv" alignment="CENTER" mnemonicParsing="false" onAction="#CrearProveidorNou" prefHeight="73.0" prefWidth="127.0" text="Confirmar" VBox.vgrow="ALWAYS" />
+                     </children>
                   </VBox>
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="124.0" prefWidth="420.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button fx:id="btn_conNouProv" alignment="CENTER" mnemonicParsing="false" onAction="#CrearProveidorNou" prefHeight="73.0" prefWidth="127.0" text="Confirmar" VBox.vgrow="ALWAYS" />
                   <VBox alignment="TOP_CENTER" prefHeight="99.0" prefWidth="322.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Button fx:id="btn_canNouProv" alignment="CENTER" mnemonicParsing="false" onAction="#handlerButtonNouSortir" prefHeight="54.0" prefWidth="127.0" text="Cancel·lar" VBox.vgrow="ALWAYS">
+                        <Button fx:id="btn_canNouProv" alignment="CENTER" mnemonicParsing="false" onAction="#handlerButtonNouSortir" prefHeight="73.0" prefWidth="127.0" text="Cancel·lar" VBox.vgrow="ALWAYS">
                            <padding>
                               <Insets top="5.0" />
                            </padding>
