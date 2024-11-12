@@ -158,4 +158,22 @@ public class FamiliaDAO implements DAOInterface<Familia>{
         return f; // Devolver la referencia encontrada o null si no existe    }
     }
     
+    /**
+     * Comprueba si existe un proveedor con el ID especificado en la base de datos.
+     * 
+     * @param idProveedor ID del proveedor a verificar.
+     * @return true si existe el proveedor, false si no.
+     * @throws SQLException en caso de error al ejecutar la consulta.
+     */
+    public boolean existeProveedor(int idProveedor) throws SQLException {
+        String selectProveidor = "SELECT COUNT(*) FROM Proveidors WHERE id_proveidor = ?";
+        try (PreparedStatement stmt = MyDataSource.getConnection().prepareStatement(selectProveidor)) {
+            stmt.setInt(1, idProveedor);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Devuelve true si existe, false si no
+            }
+        }
+        return false;
+    }
 }

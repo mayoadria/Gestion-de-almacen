@@ -9,6 +9,7 @@ package presentacio;
  *
  * @author oriol
  */
+import Validaciones.ValidarCamposInsertFamilia;
 import presentacio.pantallaFamiliaController;
 import model.Familia;
 import dades.FamiliaDAO;
@@ -79,8 +80,8 @@ public class PantallaInsertFamiliaController extends Mensajes implements Initial
             int id_proveidor = Integer.parseInt(id_proveidor_insfam.getText());
             String observacions = (observacions_insfam.getText());
             
-            //Hacer esta classe
-            //ValidarCamposInsertReferencia.validarDatos(familiaLogica, familiaDAO, nomProducte, dataAlta, id_proveidor, Descripcio, observacions);
+
+            ValidarCamposInsertFamilia.validarDatos(familiaDAO, dataAlta, id_proveidor);
 
             // Crear una instancia de Referencia con los datos del formulario
             Familia novaReferencia = new Familia();
