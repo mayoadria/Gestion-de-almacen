@@ -9,11 +9,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javafx.collections.ObservableList;
+import static logica.Mensajes.mostrarMensaje;
+import static logica.Mensajes.mostrarMensajeError;
 
 /**
  * Classe per a gestionar les operacions CRUD (Crear, Llegir, Actualitzar,
@@ -26,28 +29,13 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
 
     ObservableList<Proveidor> llistaObservableProveidor;
 
-    /**
-     * Constructor que inicialitza la connexió a la BBDD i prepara les
-     * estructures de dades necessàries.
-     *
-     * @throws SQLException Si hi ha un error en la connexió a la BBDD.
-     */
     public ProveidorDAO() throws SQLException {
         //Aquest mètode recull els errors de connexió que es puguin donar en la connexió amb la BBDD.
-
         super();
     }
 
-    /**
-     * Obté una llista amb tots els proveïdors de la base de dades.
-     *
-     * @return Una llista de proveïdors.
-     * @throws SQLException Si hi ha un error en la connexió o l'execució de la
-     * consulta.
-     */
     @Override
     public List<Proveidor> getAll() throws SQLException {
-
         List<Proveidor> ret = new ArrayList<>();
 
         //Comanda en SQL per al select de tots els proveïdors.
@@ -64,32 +52,24 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
                 p.setCif(res.getString("cif"));
 
                 boolean estat = res.getBoolean("actiu"); //Agafem el valor de la BBDD en boolean.
-
-                if (estat == true) {
-                    p.setActiu(estat);
-                }
+                p.setActiu(estat);
 
                 p.setMotiu_inactiu(res.getString("motiu_inactiu"));
-                p.setData_creacio(res.getDate("data_creacio"));
+                p.setData_creacio(res.getString("data_creacio"));
                 p.setCorreu_electronic(res.getString("correu_electronic"));
                 p.setRating_proveidor(res.getFloat("rating_proveidor"));
                 p.setMesos_de_colaboracio(res.getInt("mesos_de_colaboracio"));
 
                 ret.add(p);
             }
+        } catch (SQLException e) {
+            throw e;
         }
         return ret;
     }
 
-    /**
-     * Insereix un nou proveïdor a la base de dades.
-     *
-     * @param t L'objecte Proveidor a inserir.
-     * @throws SQLException Si hi ha un error en la connexió o l'execució de la
-     * consulta.
-     */
     @Override
-    public void insert(Proveidor t) throws SQLException {
+    public int insert(Proveidor t) throws SQLException {
         //Aquest mètode crea un nou proveïdor.
 
         //Fem el mòdel de consulta per inserir nous proveïdors.
@@ -97,35 +77,37 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
                 + ",motiu_inactiu,data_creacio,correu_electronic,rating_proveidor,mesos_de_colaboracio) VALUES (?,?,?,?,?,?,?,?)";
 
         //Fem la connexió amb la BBDD.
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaInsert)) {
+        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaInsert, Statement.RETURN_GENERATED_KEYS)) {
 
             sentencia.setString(1, t.getNom_proveidor());
             sentencia.setString(2, t.getCif());
             sentencia.setBoolean(3, t.isActiu());  // Camp booleà 'actiu'
             sentencia.setString(4, t.getMotiu_inactiu());
-            sentencia.setDate(5, t.getData_creacio());
+            sentencia.setString(5, t.getData_creacio());
             sentencia.setString(6, t.getCorreu_electronic());
             sentencia.setFloat(7, t.getRating_proveidor());
             sentencia.setInt(8, t.getMesos_de_colaboracio());
 
-            //Executem l'insert, modificant les dades del nou proveïdor.
-            sentencia.executeUpdate();
-
+            // Ejecutar la inserción
+            int affectedRows = sentencia.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Error en inserir la referència, no es va crear cap registre.");
+            }
+            // Obtener el ID generado
+            try (ResultSet generatedKeys = sentencia.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1); // Retorna el ID generado
+                } else {
+                    throw new SQLException("Error en inserir la referència, no s'ha obtingut l'ID.");
+                }
+            }
         } catch (SQLException e) {
             throw e;
         }
     }
 
-    /**
-     * Actualitza un proveïdor existent a la BBDD.
-     *
-     * @param t L'objecte Proveidor amb les noves dades.
-     * @throws SQLException Si hi ha un error en la connexió o l'execució de la
-     * consulta.
-     */
     @Override
     public void update(Proveidor t) throws SQLException {
-
         //Fem el mòdel de consulta general per a modificar un proveïdor ja existent.
         String consultaUpdate = "UPDATE Proveidors SET  nom_proveidor = ?,cif = ?,actiu = ?"
                 + ",motiu_inactiu = ?,data_creacio = ?,correu_electronic = ?,rating_proveidor = ?,mesos_de_colaboracio = ? WHERE id_proveidor = ?";
@@ -137,7 +119,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             sentencia.setString(2, t.getCif());
             sentencia.setBoolean(3, t.isActiu());
             sentencia.setString(4, t.getMotiu_inactiu());
-            sentencia.setDate(5, t.getData_creacio());
+            sentencia.setString(5, t.getData_creacio());
             sentencia.setString(6, t.getCorreu_electronic());
             sentencia.setFloat(7, t.getRating_proveidor());
             sentencia.setInt(8, t.getMesos_de_colaboracio());
@@ -146,9 +128,9 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             //Executem l'insert, modificant les dades del nou proveïdor.
             int rowsUpdated = sentencia.executeUpdate();
             if (rowsUpdated > 0) {
-                throw new SQLException("S'ha actualitzat el proveïdor exitosament.");
+                mostrarMensaje("S'ha actualitzat el proveïdor exitosament.");
             } else {
-                throw new SQLException("No s'ha trobat cap proveïdor amb l'ID proporcionat.");
+                mostrarMensajeError("No s'ha trobat cap proveïdor amb l'ID proporcionat.");
             }
 
         } catch (SQLException e) {
@@ -156,13 +138,6 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
         }
     }
 
-    /**
-     * Esborra un proveïdor existent de la BBDD.
-     *
-     * @param t L'objecte Proveidor a esborrar.
-     * @throws SQLException Si hi ha un error en la connexió o l'execució de la
-     * consulta.
-     */
     @Override
     public void delete(Proveidor t) throws SQLException {
 
@@ -174,58 +149,38 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             sentencia.setInt(1, t.getId_proveidor());
 
             int rowsDeleted = sentencia.executeUpdate();
-            if (rowsDeleted == 0) {
-                throw new SQLException("No s'ha trobat cap proveïdor amb l'ID proporcionat.");
+            if (rowsDeleted > 0) {
+                mostrarMensaje("El Proveidor ha sido eliminada exitosamente.");
+            } else {
+                mostrarMensajeError("No s'ha trobat cap proveïdor amb ID proporcionat.");
             }
         } catch (SQLException e) {
-            throw new SQLException("Error en esborrar el proveïdor: " + e.getMessage());
+            mostrarMensajeError("Error en esborrar el proveïdor:" + e.getMessage());
         }
     }
 
-    /**
-     * Obté un proveïdor específic de la base de dades segons el seu
-     * identificador.
-     *
-     * @param t L'objecte Proveidor amb l'ID per buscar.
-     * @return El proveïdor corresponent o null si no existeix.
-     * @throws SQLException Si hi ha un error en la connexió o l'execució de la
-     * consulta.
-     */
     @Override
     public Proveidor get(Proveidor t) throws SQLException {
-
-        //Fem la consulta que ens permet seleccionar un proveïdor a partir d'un ID.
         String consultaSeleccionar = "SELECT * FROM Proveidors WHERE id_proveidor = ?";
-
-        // Inicialitzem un Proveidor p en null per tal de poder emmagatzemar les dades del proveïdor que volem seleccionar.
         Proveidor p = null;
 
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaSeleccionar)) {
+        // Usando try-with-resources para ResultSet
+        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaSeleccionar); ResultSet res = sentencia.executeQuery()) {
 
-            try (ResultSet res = sentencia.executeQuery()) {
-                if (res.next()) {
-                    //Creem el proveidor i les seves dades.
-                    p = new Proveidor();
-
-                    p.setId_proveidor(res.getInt("id_proveidor"));
-                    p.setNom_proveidor(res.getString("nom_proveidor"));
-                    p.setCif(res.getString("cif"));
-
-                    boolean estat = res.getBoolean("actiu"); //Agafem el valor de la BBDD en boolean.
-
-                    if (estat == true) {
-                        p.setActiu(estat);
-                    }
-
-                    p.setMotiu_inactiu(res.getString("motiu_inactiu"));
-                    p.setData_creacio(res.getDate("data_creacio"));
-                    p.setCorreu_electronic(res.getString("correu_electronic"));
-                    p.setRating_proveidor(res.getFloat("rating_proveidor"));
-                    p.setMesos_de_colaboracio(res.getInt("mesos_de_colaboracio"));
-                }
+            if (res.next()) {
+                p = new Proveidor();
+                p.setId_proveidor(res.getInt("id_proveidor"));
+                p.setNom_proveidor(res.getString("nom_proveidor"));
+                p.setCif(res.getString("cif"));
+                p.setActiu(res.getBoolean("actiu"));
+                p.setMotiu_inactiu(res.getString("motiu_inactiu"));
+                p.setData_creacio(res.getString("data_creacio"));
+                p.setCorreu_electronic(res.getString("correu_electronic"));
+                p.setRating_proveidor(res.getFloat("rating_proveidor"));
+                p.setMesos_de_colaboracio(res.getInt("mesos_de_colaboracio"));
             }
         } catch (SQLException e) {
-            throw new SQLException("Error en obtenir el proveïdor");
+            throw new SQLException("Error en obtenir el proveïdor", e);
         }
         return p;
     }
@@ -245,18 +200,17 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
      */
     public Set<Integer> getAllIds() throws SQLException {
         Set<Integer> idsExistents = new HashSet<>();
-        String sql = "SELECT id_proveidor FROM proveidors"; 
+        String sql = "SELECT id_proveidor FROM proveidors";
 
         try (Connection conn = MyDataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
 
-            
             // Itera sobre els resultats i afegeix els IDs.
             while (rs.next()) {
                 idsExistents.add(rs.getInt("id_proveidor"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new SQLException("Error al obtenir els IDs dels proveïdors.");
+            throw new SQLException("Error en obtenir els ID dels proveïdors.");
         }
 
         return idsExistents;

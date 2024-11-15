@@ -21,7 +21,7 @@ import javafx.collections.ObservableList;
  */
 public class ProveidorLogic {
 
-    private ProveidorDAO proveidorDAO;
+    ProveidorDAO proveidorDAO;
     ObservableList<Proveidor> llistaObservable;
 
     /**
@@ -33,6 +33,20 @@ public class ProveidorLogic {
     public ProveidorLogic() throws SQLException {
         this.proveidorDAO = new ProveidorDAO();
         this.llistaObservable = FXCollections.observableArrayList();
+        carregarProveidor();
+    }
+
+    public void carregarProveidor() throws SQLException {
+        this.llistaObservable.setAll(proveidorDAO.getAll());
+    }
+
+    /**
+     * Obtiene la lista observable de referencias.
+     *
+     * @return Lista observable de referencias.
+     */
+    public ObservableList<Proveidor> getListObservableProveidor() {
+        return llistaObservable;
     }
 
     /**
@@ -43,11 +57,9 @@ public class ProveidorLogic {
      * un error durant l'operació.
      */
     public void esborrarProveidor(Proveidor proveidor) throws Exception {
-        if (proveidor == null) {
-            throw new Exception("El proveïdor no existeix");
-        }
         //Cridem al DAO per esborrar el proveïdor.
         proveidorDAO.delete(proveidor);
+        llistaObservable.remove(proveidor);
     }
 
     /**
@@ -59,23 +71,6 @@ public class ProveidorLogic {
      * un error en l'actualització.
      */
     public void modificarProveidor(Proveidor proveidor) throws Exception {
-
-        if (!ProveidorValidacions.validarCif(proveidor.getCif())) {
-            throw new Exception("Format de CIF invàlid");
-        }
-        if (!ProveidorValidacions.validarCorreu(proveidor.getCorreu_electronic())) {
-            throw new Exception("Format de correu electrònic invàlid");
-        }
-        if (!ProveidorValidacions.validarData(proveidor.getData_creacio().toString())) {
-            throw new Exception("Format de data invàlid");
-        }
-        if (!ProveidorValidacions.validarValoracio(String.valueOf(proveidor.getRating_proveidor()))) {
-            throw new Exception("Format de valoració invàlid.");
-        }
-        if (!ProveidorValidacions.validarMesos(String.valueOf(proveidor.getMesos_de_colaboracio()))) {
-            throw new Exception("Format de Mesos de col·laboració invàlid");
-        }
-
         proveidorDAO.update(proveidor);
     }
 
@@ -83,30 +78,18 @@ public class ProveidorLogic {
      * Afegeix un nou proveïdor a la llista observable i a la base de dades
      * després de validar les seves dades.
      *
-     * @param proveidor El proveïdor que es vol afegir.
-     * @throws Exception Si qualsevol de les validacions falla o si es produeix
+     * @param p El proveïdor que es vol afegir.
+     * @throws SQLException Si qualsevol de les validacions falla o si es produeix
      * un error durant l'operació.
      */
-    public void afegirProveidor(Proveidor proveidor) throws Exception {
-
-        if (!ProveidorValidacions.validarCif(proveidor.getCif())) {
-            throw new Exception("Format de CIF invàlid");
-        }
-        if (!ProveidorValidacions.validarCorreu(proveidor.getCorreu_electronic())) {
-            throw new Exception("Format de correu electrònic invàlid");
-        }
-        if (!ProveidorValidacions.validarData(proveidor.getData_creacio().toString())) {
-            throw new Exception("Format de data invàlid");
-        }
-        if (!ProveidorValidacions.validarValoracio(String.valueOf(proveidor.getRating_proveidor()))) {
-            throw new Exception("Format de valoració invàlid.");
-        }
-        if (!ProveidorValidacions.validarMesos(String.valueOf(proveidor.getMesos_de_colaboracio()))) {
-            throw new Exception("Format de Mesos de col·laboració invàlid");
-        }
-        llistaObservable.add(proveidor);
-        // Inserir el proveïdor al DAO
-        proveidorDAO.insert(proveidor);
+    public int afegirProveidor(Proveidor p) throws SQLException {
+        // Llama al método insert en dataLayer que ahora retorna el ID generado
+        int generatedId = proveidorDAO.insert(p);
+        // Actualiza el ID de la referencia con el ID generado
+        p.setId_proveidor(generatedId);
+        // Añade la referencia con el ID a la lista observable
+        llistaObservable.add(p);
+        return generatedId; // Devuelve el ID generado
     }
 
     /**

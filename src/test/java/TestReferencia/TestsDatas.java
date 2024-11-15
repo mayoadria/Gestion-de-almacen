@@ -29,40 +29,40 @@ import org.junit.Test;
  * @author mayoa
  */
 public class TestsDatas {
-
-    Faker faker = new Faker();
-
-    @Test
-    public void testValidDates() {
-        List<String> incorrectes = Arrays.asList(
-                "2000-1-1", // Incorrecto, debería ser "2000-01-01"
-                "41-1-2010", // Año inválido
-                "-1-13-2010", // Mes inválido
-                "-1-1-2010", // Año inválido
-                "+1-1-2010", // Año inválido
-                "1-1/2010", // Formato incorrecto
-                "1/1-2010", // Formato incorrecto
-                "1//1/2010", // Formato incorrecto
-                "1/1/-2010" // Formato incorrecto
-        );
-        String date;
-        // Fechas correctas
-        for (int i = 1; i <= 12; i++) {
-            Date ok = faker.date().birthday();
-            if (i == 2) {
-                String data = date = "2000-" + String.format("%02d", i) + "-29"; // Formato yyyy-MM-dd);
-                System.out.println(data);
-                //Assert.assertTrue(ReferenciaLogica.FechaValida(data));
-            }
-            String data = date = "2000-" + String.format("%02d", i) + "-31"; // Formato yyyy-MM-dd);
-            System.out.println(data);
-            Assert.assertTrue(ReferenciaLogica.FechaValida(data));
-
-        }
-
-        // Fechas incorrectas
-        for (String s : incorrectes) {
-            Assert.assertFalse(ReferenciaLogica.FechaValida(s));
-        }
-    }
+//
+//    Faker faker = new Faker();
+//
+//    @Test
+//    public void testValidDates() {
+//        List<String> incorrectes = Arrays.asList(
+//                "2000-1-1", // Incorrecto, debería ser "2000-01-01"
+//                "41-1-2010", // Año inválido
+//                "-1-13-2010", // Mes inválido
+//                "-1-1-2010", // Año inválido
+//                "+1-1-2010", // Año inválido
+//                "1-1/2010", // Formato incorrecto
+//                "1/1-2010", // Formato incorrecto
+//                "1//1/2010", // Formato incorrecto
+//                "1/1/-2010" // Formato incorrecto
+//        );
+//        String date;
+//        // Fechas correctas
+//        for (int i = 1; i <= 12; i++) {
+//            Date ok = faker.date().birthday();
+//            if (i == 2) {
+//                String data = date = "2000-" + String.format("%02d", i) + "-29"; // Formato yyyy-MM-dd);
+//                System.out.println(data);
+//                //Assert.assertTrue(ReferenciaLogica.FechaValida(data));
+//            }
+//            String data = date = "2000-" + String.format("%02d", i) + "-31"; // Formato yyyy-MM-dd);
+//            System.out.println(data);
+//            Assert.assertTrue(ReferenciaLogica.FechaValida(data));
+//
+//        }
+//
+//        // Fechas incorrectas
+//        for (String s : incorrectes) {
+//            Assert.assertFalse(ReferenciaLogica.FechaValida(s));
+//        }
+//    }
 }

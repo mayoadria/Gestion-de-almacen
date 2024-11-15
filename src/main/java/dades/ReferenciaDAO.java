@@ -8,6 +8,7 @@ import model.Referencia;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.ArrayList;
 import logica.Mensajes;
@@ -71,11 +72,12 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
      * @throws SQLException en caso de error al ejecutar la sentencia SQL.
      */
     @Override
-    public void insert(Referencia t) throws SQLException {
+    public int insert(Referencia t) throws SQLException {
         //Hacer la sentencia del insert
         String insert = "INSERT INTO Referencies (nom_producte, quantitat, unitat_mida, data_alta, data_fabricacio, descripcio_producte, preu, unitats_venudes, id_familia, id_proveidor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
         //Hacer la conexion con la base y marcar de donde tienen que obtener los datos
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(insert)) {
+        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(insert,Statement.RETURN_GENERATED_KEYS)) {
             sentencia.setString(1, t.getNom());
             sentencia.setInt(2, (int) t.getQuantitat());
             sentencia.setString(3, t.getUnitat_mida());
@@ -86,12 +88,22 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
             sentencia.setInt(8, t.getUnitats_venudes());
             sentencia.setInt(9, t.getId_fam());
             sentencia.setInt(10, t.getId_proveidor());
-
-            //Ejecutar el insert
-            sentencia.executeUpdate();  // Ejecutar la consulta
-
+            
+            // Ejecutar la inserción
+        int affectedRows = sentencia.executeUpdate();
+        if (affectedRows == 0) {
+            throw new SQLException("Error en inserir la referència, no es va crear cap registre.");
+        }
+            // Obtener el ID generado
+        try (ResultSet generatedKeys = sentencia.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1); // Retorna el ID generado
+            } else {
+                throw new SQLException("Error al insertar la referencia, no se obtuvo el ID.");
+            }
+        }
         } catch (SQLException e) {
-            mostrarMensajeError("Error al insertar la referencia: " + e.getMessage());
+            mostrarMensajeError("Error en inserir la referència: " + e.getMessage());
             throw e;
         }
     }
@@ -123,13 +135,11 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
 
             // Ejecutamos la sentencia
             int rowsUpdated = sentencia.executeUpdate();
-            if (rowsUpdated > 0) {
-                mostrarMensaje("La referencia ha sido actualizada exitosamente.");
-            } else {
-                mostrarMensajeError("No se encontró ninguna referencia con el ID proporcionado.");
+            if (rowsUpdated < 0) {
+               mostrarMensajeError("No s'ha trobat cap referència a l'ID proporcionat.");
             }
         } catch (SQLException e) {
-            mostrarMensajeError("Error al actualizar la referencia: " + e.getMessage());
+            mostrarMensajeError("Error en actualitzar la referència:" + e.getMessage());
             throw e;
         }
     }
@@ -152,12 +162,12 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
             // Ejecutamos la eliminación
             int rowsDeleted = sentencia.executeUpdate();
             if (rowsDeleted > 0) {
-                mostrarMensaje("La referencia ha sido eliminada exitosamente.");
+                mostrarMensaje("La referència ha estat eliminada amb èxit.");
             } else {
-                mostrarMensajeError("No se encontró ninguna referencia con el ID proporcionado.");
+                mostrarMensajeError("No s'ha trobat cap referència a l'ID proporcionat.");
             }
         } catch (SQLException e) {
-            mostrarMensajeError("Error al eliminar la referencia: " + e.getMessage());
+            mostrarMensajeError("Error en eliminar la referència: " + e.getMessage());
             throw e;
         }
     }
@@ -195,7 +205,7 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
                 }
             }
         } catch (SQLException e) {
-            mostrarMensajeError("Error al obtener la referencia: " + e.getMessage());
+            mostrarMensajeError("Error en obtenir la referència:" + e.getMessage());
             throw e;
         }
 

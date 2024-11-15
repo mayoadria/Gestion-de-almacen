@@ -24,7 +24,7 @@ public interface DAOInterface<T> {
      * @return 
      * @throws java.sql.SQLException si l'element ja existeix
      */
-    public void insert(T t) throws SQLException;
+    public int insert(T t) throws SQLException;
     
     /***
      * Actualitza un element existent a la taula pel seu id

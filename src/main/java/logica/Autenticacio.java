@@ -52,7 +52,7 @@ public class Autenticacio extends Mensajes{
                 }
             }
         } catch (IOException e) {
-           mostrarMensajeError("Error al leer el archivo: " + e.getMessage());
+           mostrarMensajeError("Error en llegir el fitxer: " + e.getMessage());
         }
         
         return encontrado;

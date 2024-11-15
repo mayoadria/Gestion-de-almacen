@@ -56,7 +56,7 @@ public class Referencia {
      *
      * @return Nombre de la referencia.
      */
-    public String getNom() {
+    public String getNom() {    
         return nom;
     }
 
@@ -65,7 +65,7 @@ public class Referencia {
      *
      * @param nom Nombre de la referencia.
      */
-    public void setNom(String nom) {
+    public void setNom(String nom) {    
         this.nom = nom;
     }
 

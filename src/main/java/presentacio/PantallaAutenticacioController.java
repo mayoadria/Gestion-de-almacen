@@ -14,11 +14,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logica.Autenticacio;
-import logica.Excepciones;
 import logica.Mensajes;
 
 /**
@@ -45,7 +43,7 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
     public void initialize(URL url, ResourceBundle rb) {
     }
     
-    private Autenticacio autenticacio = new Autenticacio();
+    private final Autenticacio autenticacio = new Autenticacio();
     
 
     
@@ -116,7 +114,7 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
            
 
         } catch (IOException ex) {
-            Excepciones.Autenticacion(ex.getMessage());
+            //Excepciones.Autenticacion(ex.getMessage());
         }
     }
     
