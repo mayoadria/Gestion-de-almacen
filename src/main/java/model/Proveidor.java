@@ -4,8 +4,6 @@
  */
 package model;
 
-import java.sql.Date;
-
 /**
  * Classe que representa un proveïdor amb totes les seves propietats. Inclou
  * atributs per al nom, CIF, id, estat, data de creació, correu electrònic,

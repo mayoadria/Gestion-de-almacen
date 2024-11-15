@@ -7,7 +7,6 @@ package presentacio;
 import dades.ProveidorDAO;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -53,20 +52,14 @@ public class PantallaCrearProveidorController {
     @FXML
     private TextField tf_correuNouProv;
 
-    @FXML
-    private Button btn_expProv;
 
     @FXML
     private TextField tf_cifNouProv;
 
-    @FXML
-    private TextField tf_idNouProv;
 
     @FXML
     private TextField tf_nomNouProv;
 
-    @FXML
-    private Button btn_impProv;
 
     @FXML
     private TextField tf_valoracioNouProv;
@@ -129,7 +122,7 @@ public class PantallaCrearProveidorController {
         String motiu = tf_motiuNouProv.getText();
         String creacio = tf_creacioNouProv.getText();
         String correu = tf_correuNouProv.getText();
-        Float valoracio = Float.parseFloat(tf_valoracioNouProv.getText());
+        Float valoracio = Float.valueOf(tf_valoracioNouProv.getText());
         int mesos = Integer.parseInt(tf_colabNouProv.getText());
 
         ValidarCamposInsertProveidor.validarDatos(proveidorDAO, cif, creacio, correu, valoracio, mesos);

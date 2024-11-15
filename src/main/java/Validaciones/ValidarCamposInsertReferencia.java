@@ -24,8 +24,6 @@ public class ValidarCamposInsertReferencia extends Mensajes {
      * Verifica el formato de los campos, así como la existencia de familia y
      * proveedor en la base de datos.
      *
-     * @param referenciaLogica Instancia de {@link ReferenciaLogica} para
-     * realizar validaciones de lógica de negocio.
      * @param referenciaDAO Instancia de {@link ReferenciaDAO} para realizar
      * validaciones en la base de datos.
      * @param unitatMida Unidad de medida en formato de cadena.

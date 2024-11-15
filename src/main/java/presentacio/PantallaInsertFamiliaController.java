@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -29,7 +28,7 @@ import javafx.stage.Stage;
 import logica.FamiliaLogic;
 import logica.Mensajes;
 
-public class PantallaInsertFamiliaController extends Mensajes implements Initializable{
+public class PantallaInsertFamiliaController extends Mensajes implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -59,27 +58,31 @@ public class PantallaInsertFamiliaController extends Mensajes implements Initial
 
     @FXML
     private TextArea observacions_insfam;
-    
+
     private FamiliaDAO familiaDAO;
-    
+
     private pantallaFamiliaController familiaController;
-    
+
     private FamiliaLogic familiaLogica;
-    
+
     public void setFamiliaController(pantallaFamiliaController controller) {
         this.familiaController = controller;
     }
-    
+
     @FXML
     private void inserirFam(ActionEvent event) throws SQLException {
-          try {
+        try {
             familiaDAO = new FamiliaDAO();
             String nomProducte = nom_familia_insfam.getText();
             String Descripcio = descripcio_insfam.getText().toLowerCase();
             String dataAlta = (data_alta_insfam.getText());
-            int id_proveidor = Integer.parseInt(id_proveidor_insfam.getText());
+            int id_proveidor;
+            if (id_proveidor_insfam.getText() == null || id_proveidor_insfam.getText().trim().isEmpty()) {
+                id_proveidor = 0; // Valor por defecto
+            } else {
+                id_proveidor = Integer.parseInt(id_proveidor_insfam.getText());
+            }
             String observacions = (observacions_insfam.getText());
-            
 
             ValidarCamposInsertFamilia.validarDatos(familiaDAO, dataAlta, id_proveidor);
 
@@ -91,7 +94,6 @@ public class PantallaInsertFamiliaController extends Mensajes implements Initial
             novaReferencia.setId_proveidor_fam(id_proveidor);
             novaReferencia.setObservacions(observacions);
 
-
             //Llamar al método insert() del DAO para insertar la referencia en la base de datos
             familiaLogica.afegirFamilia(novaReferencia);
             // Actualizar la tabla en el controlador principal
@@ -102,20 +104,20 @@ public class PantallaInsertFamiliaController extends Mensajes implements Initial
             stage.close();
             //Mensaje para saber si se ha hecho el insert
             mostrarMensaje("Família inserida correctament.");
-             } catch (SQLException e) {
+        } catch (SQLException e) {
             // Muestra un mensaje de error si hay problemas con la inserción de una nueva referencia
-            mostrarMensajeError("Error en inserir la família:" + e.getMessage());
+            System.out.println("Error en inserir la família:" + e.getMessage());
 
         } catch (NumberFormatException e) {
             //Comprovar si els camps a on s'han d'introduir numeros siguin correctes com per exemple 
             //(como Quantitat, Preu, etc.)
-            mostrarMensajeError("Escriu correctament els valors numerals:" + e.getMessage());
+            System.out.println("Escriu correctament els valors numerals:" + e.getMessage());
         } catch (Exception e) {
             // Capturar las excepciones propias (ValidacionException y DatabaseException)
-            mostrarMensajeError(e.getMessage());
+           System.out.println(e.getMessage());
         }
     }
-    
+
     @FXML
     private void sortir(ActionEvent event) {
         Stage stage = (Stage) this.btn_sortir_insfam.getScene().getWindow();
@@ -124,5 +126,3 @@ public class PantallaInsertFamiliaController extends Mensajes implements Initial
     }
 
 }
-
-

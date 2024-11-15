@@ -7,7 +7,6 @@ package logica;
 import java.util.Optional;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.stage.Stage;
 
 /**
  * Clase utilitaria para mostrar mensajes de alerta en la interfaz gráfica.

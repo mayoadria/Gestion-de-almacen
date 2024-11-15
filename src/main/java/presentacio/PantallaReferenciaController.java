@@ -176,8 +176,8 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
                 txtReferencia.setText(String.valueOf(newSelection.getId()));
                 txtCantidad.setText(String.valueOf(newSelection.getQuantitat()));
                 txtUnitatMida.setText(newSelection.getUnitat_mida());
-                txtDataAlta.setText(newSelection.getData_alta().toString());
-                txtDataFabricacio.setText(newSelection.getData_fabricacio().toString());
+                txtDataAlta.setText(newSelection.getData_alta());
+                txtDataFabricacio.setText(newSelection.getData_fabricacio());
                 txtAreaDescripcio.setText(newSelection.getDescripcio());
                 txtPreu.setText(String.valueOf(newSelection.getPreu()));
                 txtUnitatVenudes.setText(String.valueOf(newSelection.getUnitats_venudes()));

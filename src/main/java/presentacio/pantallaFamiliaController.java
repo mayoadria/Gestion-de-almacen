@@ -56,12 +56,6 @@ public class pantallaFamiliaController implements Initializable{
     private Button btn_sortir;
 
     @FXML
-    private Label lb_descripcio;
-
-    @FXML
-    private Label lb_observacions;
-
-    @FXML
     private TableColumn<Familia, Date> tc_dataAlta;
 
     @FXML
@@ -136,7 +130,7 @@ public class pantallaFamiliaController implements Initializable{
                 txt_id.setText(String.valueOf(newSelection.getId_fam()));
                 txt_idProveidor.setText(String.valueOf(newSelection.getId_proveidor_fam()));
                 txt_areaDescripcio.setText(newSelection.getDescripcio());
-                txt_dataAlta.setText(newSelection.getData_alta_fam().toString());
+                txt_dataAlta.setText(newSelection.getData_alta_fam());
                 txt_areaObservacions.setText(newSelection.getObservacions());
             }
             configurarBotonesPorRol();

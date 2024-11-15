@@ -63,6 +63,11 @@ public class ValidacionesRegex {
         return patronPreu.matcher(unitat).matches();
     }
     
+    public static boolean IdProveidorDefecte(String unitat) {
+        Pattern patronPreu = Pattern.compile("^[0-9]\\d*$");
+        // Crear patrón
+        return patronPreu.matcher(unitat).matches();
+    }
     /**
      * Valida si el CIF compleix el format correcte.
      *

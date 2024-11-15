@@ -4,7 +4,6 @@
  */
 package model;
 
-import java.sql.Date;
 
 /**
  * Clase que representa una familia de productos en la base de datos.

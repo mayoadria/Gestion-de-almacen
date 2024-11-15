@@ -43,7 +43,7 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
     public void initialize(URL url, ResourceBundle rb) {
     }
     
-    private Autenticacio autenticacio = new Autenticacio();
+    private final Autenticacio autenticacio = new Autenticacio();
     
 
     

@@ -62,6 +62,8 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
 
                 ret.add(p);
             }
+        } catch (SQLException e) {
+            throw e;
         }
         return ret;
     }
@@ -75,7 +77,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
                 + ",motiu_inactiu,data_creacio,correu_electronic,rating_proveidor,mesos_de_colaboracio) VALUES (?,?,?,?,?,?,?,?)";
 
         //Fem la connexió amb la BBDD.
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaInsert,Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaInsert, Statement.RETURN_GENERATED_KEYS)) {
 
             sentencia.setString(1, t.getNom_proveidor());
             sentencia.setString(2, t.getCif());
@@ -86,19 +88,19 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
             sentencia.setFloat(7, t.getRating_proveidor());
             sentencia.setInt(8, t.getMesos_de_colaboracio());
 
-                // Ejecutar la inserción
-        int affectedRows = sentencia.executeUpdate();
-        if (affectedRows == 0) {
-            throw new SQLException("Error en inserir la referència, no es va crear cap registre.");
-        }
-            // Obtener el ID generado
-        try (ResultSet generatedKeys = sentencia.getGeneratedKeys()) {
-            if (generatedKeys.next()) {
-                return generatedKeys.getInt(1); // Retorna el ID generado
-            } else {
-                throw new SQLException("Error en inserir la referència, no s'ha obtingut l'ID.");
+            // Ejecutar la inserción
+            int affectedRows = sentencia.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Error en inserir la referència, no es va crear cap registre.");
             }
-        }
+            // Obtener el ID generado
+            try (ResultSet generatedKeys = sentencia.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1); // Retorna el ID generado
+                } else {
+                    throw new SQLException("Error en inserir la referència, no s'ha obtingut l'ID.");
+                }
+            }
         } catch (SQLException e) {
             throw e;
         }
@@ -159,34 +161,26 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
 
     @Override
     public Proveidor get(Proveidor t) throws SQLException {
-
-        //Fem la consulta que ens permet seleccionar un proveïdor a partir d'un ID.
         String consultaSeleccionar = "SELECT * FROM Proveidors WHERE id_proveidor = ?";
-
-        // Inicialitzem un Proveidor p en null per tal de poder emmagatzemar les dades del proveïdor que volem seleccionar.
         Proveidor p = null;
 
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaSeleccionar)) {
+        // Usando try-with-resources para ResultSet
+        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaSeleccionar); ResultSet res = sentencia.executeQuery()) {
 
-            try (ResultSet res = sentencia.executeQuery()) {
-                if (res.next()) {
-                    //Creem el proveidor i les seves dades.
-                    p = new Proveidor();
-
-                    p.setId_proveidor(res.getInt("id_proveidor"));
-                    p.setNom_proveidor(res.getString("nom_proveidor"));
-                    p.setCif(res.getString("cif"));
-                    boolean estat = res.getBoolean("actiu"); //Agafem el valor de la BBDD en boolean.
-                    p.setActiu(estat);
-                    p.setMotiu_inactiu(res.getString("motiu_inactiu"));
-                    p.setData_creacio(res.getString("data_creacio"));
-                    p.setCorreu_electronic(res.getString("correu_electronic"));
-                    p.setRating_proveidor(res.getFloat("rating_proveidor"));
-                    p.setMesos_de_colaboracio(res.getInt("mesos_de_colaboracio"));
-                }
+            if (res.next()) {
+                p = new Proveidor();
+                p.setId_proveidor(res.getInt("id_proveidor"));
+                p.setNom_proveidor(res.getString("nom_proveidor"));
+                p.setCif(res.getString("cif"));
+                p.setActiu(res.getBoolean("actiu"));
+                p.setMotiu_inactiu(res.getString("motiu_inactiu"));
+                p.setData_creacio(res.getString("data_creacio"));
+                p.setCorreu_electronic(res.getString("correu_electronic"));
+                p.setRating_proveidor(res.getFloat("rating_proveidor"));
+                p.setMesos_de_colaboracio(res.getInt("mesos_de_colaboracio"));
             }
         } catch (SQLException e) {
-            throw new SQLException("Error en obtenir el proveïdor");
+            throw new SQLException("Error en obtenir el proveïdor", e);
         }
         return p;
     }

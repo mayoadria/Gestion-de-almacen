@@ -7,7 +7,6 @@ package logica;
 import model.Referencia;
 import dades.ReferenciaDAO;
 import java.sql.SQLException;
-import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -51,6 +50,8 @@ public class ReferenciaLogica {
     /**
      * Agrega una nueva referencia a la base de datos y a la lista observable.
      *
+     * @param ref
+     * @return 
      * @throws SQLException Si ocurre un error al acceder a la base de datos.
      */
     public int afegirReferencia(Referencia ref) throws SQLException {
