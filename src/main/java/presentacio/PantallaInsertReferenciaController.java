@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import logica.Mensajes;
 import logica.ReferenciaLogica;
 import Validaciones.ValidarCamposInsertReferencia;
+import Validaciones.ValidarFecha;
 
 /**
  * Controlador de la pantalla para insertar referencias de producto.
@@ -120,7 +121,16 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
             int idProveidor = Integer.parseInt(txtIdProv.getText());
 
             ValidarCamposInsertReferencia.validarDatos(referenciaDAO, unitatMida, dataAlta, dataFabricacio, preu, quantitat, idFamilia, idProveidor,unitatsVenudes);
-
+            if (!ValidarFecha.validarFechaAlta(dataAlta)) {
+                // Si la fecha es inválida, mostrar un mensaje de error y no continuar
+                return; // Detener la inserción si la fecha es inválida
+            }
+            
+            if (!ValidarFecha.validarFechaAlta(dataFabricacio)) {
+                // Si la fecha es inválida, mostrar un mensaje de error y no continuar
+                return; // Detener la inserción si la fecha es inválida
+            }
+            
             // Crear una instancia de Referencia con los datos del formulario
             Referencia novaReferencia = new Referencia();
             novaReferencia.setNom(nomProducte);

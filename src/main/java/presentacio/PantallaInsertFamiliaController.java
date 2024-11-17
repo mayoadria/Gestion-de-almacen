@@ -10,6 +10,7 @@ package presentacio;
  * @author oriol
  */
 import Validaciones.ValidarCamposInsertFamilia;
+import Validaciones.ValidarFecha;
 import presentacio.pantallaFamiliaController;
 import model.Familia;
 import dades.FamiliaDAO;
@@ -85,6 +86,12 @@ public class PantallaInsertFamiliaController extends Mensajes implements Initial
             String observacions = (observacions_insfam.getText());
 
             ValidarCamposInsertFamilia.validarDatos(familiaDAO, dataAlta, id_proveidor);
+            // Validar la fecha de alta usando la clase FechaValidator
+            if (!ValidarFecha.validarFechaAlta(dataAlta)) {
+                // Si la fecha es inválida, mostrar un mensaje de error y no continuar
+                return; // Detener la inserción si la fecha es inválida
+            }
+            
 
             // Crear una instancia de Referencia con los datos del formulario
             Familia novaReferencia = new Familia();
@@ -124,5 +131,4 @@ public class PantallaInsertFamiliaController extends Mensajes implements Initial
         stage.close();
 
     }
-
 }

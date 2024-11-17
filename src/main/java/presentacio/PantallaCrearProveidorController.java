@@ -21,10 +21,11 @@ import javafx.stage.Stage;
 import model.Proveidor;
 import logica.ProveidorLogic;
 import Validaciones.ValidarCamposInsertProveidor;
+import Validaciones.ValidarFecha;
 
 /**
- * Controlador per gestionar la creació de nous proveïdors.
- * Aquest controlador maneja les accions relacionades amb la interfície de creació de proveïdors.
+ * Controlador per gestionar la creació de nous proveïdors. Aquest controlador
+ * maneja les accions relacionades amb la interfície de creació de proveïdors.
  *
  * @author Anna
  */
@@ -48,28 +49,23 @@ public class PantallaCrearProveidorController {
     @FXML
     private TextField tf_motiuNouProv;
 
-
     @FXML
     private TextField tf_correuNouProv;
-
 
     @FXML
     private TextField tf_cifNouProv;
 
-
     @FXML
     private TextField tf_nomNouProv;
 
-
     @FXML
     private TextField tf_valoracioNouProv;
-
 
     private pantallaProveidorController pantallaProveidorController;
 
     private ProveidorDAO proveidorDAO;
 
-   /**
+    /**
      * Obté el controlador de la pantalla de proveïdors.
      *
      * @return Retorna el controlador de la pantalla de proveïdors.
@@ -126,7 +122,11 @@ public class PantallaCrearProveidorController {
         int mesos = Integer.parseInt(tf_colabNouProv.getText());
 
         ValidarCamposInsertProveidor.validarDatos(proveidorDAO, cif, creacio, correu, valoracio, mesos);
-        
+
+        if (!ValidarFecha.validarFechaAlta(creacio)) {
+            // Si la fecha es inválida, mostrar un mensaje de error y no continuar
+            return; // Detener la inserción si la fecha es inválida
+        }
         // Recollim les dades introduïdes en el formulari dins d'un objecte Proveidor
         Proveidor nouProveidor = new Proveidor();
 
