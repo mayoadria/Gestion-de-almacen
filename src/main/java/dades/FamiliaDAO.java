@@ -29,7 +29,7 @@ public class FamiliaDAO implements DAOInterface<Familia> {
         //Crear una llista per poder obtenir totes les referencies existents a la base de dades
         List<Familia> ret = new ArrayList<>();
         //Fer la consulta
-        String select = "select * from families ";
+        String select = "select * from Families ";
         PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(select);
         ResultSet rs = sentencia.executeQuery();
         //Mostrar los datos
@@ -51,7 +51,7 @@ public class FamiliaDAO implements DAOInterface<Familia> {
 
     @Override
     public int insert(Familia t) throws SQLException {
-        String insert = "INSERT INTO families (nom_familia, descripcio, data_alta, id_proveidor_defecte, observacions) VALUES (?, ?, ?, ?, ?)";
+        String insert = "INSERT INTO Families (nom_familia, descripcio, data_alta, id_proveidor_defecte, observacions) VALUES (?, ?, ?, ?, ?)";
         //Hacer la conexion con la base y marcar de donde tienen que obtener los datos
         try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(insert, Statement.RETURN_GENERATED_KEYS)) {
             sentencia.setString(1, t.getNom_familia());

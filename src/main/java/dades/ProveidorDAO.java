@@ -39,7 +39,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
         List<Proveidor> ret = new ArrayList<>();
 
         //Comanda en SQL per al select de tots els proveïdors.
-        String consulta = "select * from proveidors";
+        String consulta = "select * from Proveidors";
         try (Connection conn = MyDataSource.getConnection(); PreparedStatement pstm = conn.prepareStatement(consulta)) {
             ResultSet res = pstm.executeQuery();
 
@@ -73,7 +73,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
         //Aquest mètode crea un nou proveïdor.
 
         //Fem el mòdel de consulta per inserir nous proveïdors.
-        String consultaInsert = "INSERT INTO proveidors(nom_proveidor,cif,actiu"
+        String consultaInsert = "INSERT INTO Proveidors(nom_proveidor,cif,actiu"
                 + ",motiu_inactiu,data_creacio,correu_electronic,rating_proveidor,mesos_de_colaboracio) VALUES (?,?,?,?,?,?,?,?)";
 
         //Fem la connexió amb la BBDD.

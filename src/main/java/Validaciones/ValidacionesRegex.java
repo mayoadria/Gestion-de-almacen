@@ -62,12 +62,6 @@ public class ValidacionesRegex {
         // Crear patrón
         return patronPreu.matcher(unitat).matches();
     }
-    
-    public static boolean IdProveidorDefecte(String unitat) {
-        Pattern patronPreu = Pattern.compile("^[0-9]\\d*$");
-        // Crear patrón
-        return patronPreu.matcher(unitat).matches();
-    }
     /**
      * Valida si el CIF compleix el format correcte.
      *
@@ -75,7 +69,7 @@ public class ValidacionesRegex {
      * @return true si el CIF compleix el format, false altrament.
      */
     public static boolean validarCif(String cif) {
-        String regex = "^[ABCDEFGHJKLMNPQRSUVW]\\d{7}[0-9A-J]$";
+        String regex = "^[A-Z][0-9]{7}[A-Z]$";
         return cif.matches(regex);
     }
 
