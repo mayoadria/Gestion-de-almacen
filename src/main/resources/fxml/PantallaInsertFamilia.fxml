@@ -62,7 +62,7 @@
                   <TextField fx:id="id_proveidor_insfam" />
                   <Label text="observacions" />
                   <TextArea fx:id="observacions_insfam" prefHeight="200.0" prefWidth="200.0" />
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0"> <!-- Añadido spacing aquí -->
                      <children>
                         <Button fx:id="btn_afegir_familia" mnemonicParsing="false" onAction="#inserirFam" prefHeight="38.0" prefWidth="150.0" text="afegir família">
                            <HBox.margin>

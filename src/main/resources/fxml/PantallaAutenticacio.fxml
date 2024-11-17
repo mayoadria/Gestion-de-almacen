@@ -3,47 +3,32 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacio.PantallaAutenticacioController">
-   <children>
-      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Label fx:id="lblAutenticacio" text="AUTENTICACIÓ" />
-         </children>
-         <padding>
-            <Insets top="45.0" />
-         </padding>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Label fx:id="lblUsuari" contentDisplay="CENTER" text="USUARI: " />
-            <TextField fx:id="txtUsuari" />
-         </children>
-         <padding>
-            <Insets left="100.0" />
-         </padding>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Label fx:id="lblRol" text="ROL:" />
-            <Separator orientation="VERTICAL" prefHeight="100.0" prefWidth="21.0" visible="false" />
-            <TextField fx:id="txtRol" />
-         </children>
-         <padding>
-            <Insets left="100.0" />
-         </padding>
-      </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Button fx:id="btnIniciarSessio" mnemonicParsing="false" onAction="#iniciarSessio" text="INICIAR SESSIÓ" />
-         </children>
-         <padding>
-            <Insets left="100.0" />
-         </padding>
-      </HBox>
-   </children>
+<VBox xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="presentacio.PantallaAutenticacioController"
+      prefHeight="400.0" prefWidth="600.0" 
+      alignment="CENTER" spacing="10">
+   
+   <!-- AUTENTICACIÓN LABEL -->
+   <Label fx:id="lblAutenticacio" text="AUTENTICACIÓ" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+   
+   <!-- USUARIO -->
+   <HBox spacing="10" alignment="CENTER">
+       <Label fx:id="lblUsuari" text="USUARI:" />
+       <TextField fx:id="txtUsuari" prefWidth="200" />
+   </HBox>
+
+   <!-- ROL -->
+   <HBox spacing="10" alignment="CENTER">
+       <Label fx:id="lblRol" text="ROL:" />
+       <TextField fx:id="txtRol" prefWidth="200" />
+   </HBox>
+
+   <!-- BOTÓN INICIAR SESIÓN -->
+   <Button fx:id="btnIniciarSessio" text="INICIAR SESSIÓ" 
+           onAction="#iniciarSessio" 
+           style="-fx-font-size: 14px; -fx-padding: 10;" />
 </VBox>

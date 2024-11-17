@@ -138,7 +138,7 @@ public class PantallaSeleccionarMenuController implements Initializable {
 
         } catch (Exception e) {
             // Si ocurre un error, muestra el mensaje de error en lugar de solo registrarlo
-            mostrarMensajeError(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
