@@ -61,7 +61,9 @@ public class ProveidorLogic {
         proveidorDAO.delete(proveidor);
         llistaObservable.remove(proveidor);
     }
-
+ public boolean tieneReferencias(Proveidor proveidor) throws SQLException {
+        return proveidorDAO.tieneReferencias(proveidor);
+    }
     /**
      * Modifica un proveïdor existent a la base de dades després de validar les
      * seves dades.

@@ -77,7 +77,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
                 + ",motiu_inactiu,data_creacio,correu_electronic,rating_proveidor,mesos_de_colaboracio) VALUES (?,?,?,?,?,?,?,?)";
 
         //Fem la connexió amb la BBDD.
-        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(consultaInsert, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement sentencia = conn.prepareStatement(consultaInsert, Statement.RETURN_GENERATED_KEYS)) {
 
             sentencia.setString(1, t.getNom_proveidor());
             sentencia.setString(2, t.getCif());
@@ -113,7 +113,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
                 + ",motiu_inactiu = ?,data_creacio = ?,correu_electronic = ?,rating_proveidor = ?,mesos_de_colaboracio = ? WHERE id_proveidor = ?";
 
         //Fem la connexió amb la BBDD.
-        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(consultaUpdate)) {
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement sentencia = conn.prepareStatement(consultaUpdate)) {
 
             sentencia.setString(1, t.getNom_proveidor());
             sentencia.setString(2, t.getCif());
@@ -144,7 +144,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
         //Fem el mòdel de consulta general per a esborrar un proveïdor ja existent.
         String consultaDelete = "Delete FROM Proveidors WHERE id_proveidor = ?";
 
-        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(consultaDelete)) {
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement sentencia = conn.prepareStatement(consultaDelete)) {
 
             sentencia.setInt(1, t.getId_proveidor());
 
@@ -159,13 +159,31 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
         }
     }
 
+    public boolean tieneReferencias(Proveidor proveidor) throws SQLException {
+        String query = "SELECT COUNT(*) FROM Referencies WHERE id_proveidor = ?";
+
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, proveidor.getId_proveidor());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0; // Retorna true si hay referencias asociadas
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al verificar referencias asociadas: " + e.getMessage(), e);
+        }
+        return false;
+    }
+
     @Override
     public Proveidor get(Proveidor t) throws SQLException {
         String consultaSeleccionar = "SELECT * FROM Proveidors WHERE id_proveidor = ?";
         Proveidor p = null;
 
         // Usando try-with-resources para ResultSet
-        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(consultaSeleccionar); ResultSet res = sentencia.executeQuery()) {
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement sentencia = conn.prepareStatement(consultaSeleccionar); ResultSet res = sentencia.executeQuery()) {
 
             if (res.next()) {
                 p = new Proveidor();

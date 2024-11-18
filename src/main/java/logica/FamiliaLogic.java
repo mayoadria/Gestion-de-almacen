@@ -48,6 +48,10 @@ public class FamiliaLogic {
         dataLayer.delete(fam);
         llistaObservable.remove(fam);
     }
+    
+    public boolean tieneReferencias(Familia familia) throws SQLException {
+        return dataLayer.tieneReferencias(familia);
+    }
 
     public void modificarFamilia(Familia fam) throws SQLException {
         dataLayer.update(fam);

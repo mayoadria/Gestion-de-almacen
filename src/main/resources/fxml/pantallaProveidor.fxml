@@ -122,7 +122,7 @@
                             <children>
                                 <HBox prefHeight="36.0" prefWidth="308.0" VBox.vgrow="ALWAYS">
                                     <children>
-                                        <Label contentDisplay="CENTER" prefHeight="31.0" prefWidth="63.0" text="Creació" />
+                                        <Label contentDisplay="CENTER" prefHeight="31.0" prefWidth="63.0" text="Data Alta" />
                                         <TextField fx:id="tf_creacioProv" prefHeight="25.0" prefWidth="263.0" HBox.hgrow="ALWAYS">
                                             <HBox.margin>
                                                 <Insets right="35.0" top="5.0" />

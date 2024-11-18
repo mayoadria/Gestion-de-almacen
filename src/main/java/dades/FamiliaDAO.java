@@ -131,6 +131,24 @@ public class FamiliaDAO implements DAOInterface<Familia> {
             throw e;
         }
     }
+     public boolean tieneReferencias(Familia familia) throws SQLException {
+        String query = "SELECT COUNT(*) FROM Referencies WHERE id_familia = ?";
+
+        try (Connection conn = MyDataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, familia.getId_fam());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0; // Retorna true si hay referencias asociadas
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al verificar referencias asociadas: " + e.getMessage(), e);
+        }
+        return false;
+    }
 
     @Override
     public Familia get(Familia t) throws SQLException {

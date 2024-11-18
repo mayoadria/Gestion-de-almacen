@@ -176,31 +176,47 @@ public class pantallaFamiliaController implements Initializable {
         tv_familia.refresh();
     }
 
-    @FXML
-    void eliminar(ActionEvent event) {
-        Familia FamiliaSeleccionada = tv_familia.getSelectionModel().getSelectedItem();
+@FXML
+void eliminar(ActionEvent event) {
+    Familia FamiliaSeleccionada = tv_familia.getSelectionModel().getSelectedItem();
 
-        if (FamiliaSeleccionada != null) {
-            try {
-                boolean continuar = mostrarMensajeConfirmacion("Segur que vols eliminar la familia?");
-                if (continuar) {
-                    // Llamar al método delete en la referencia seleccionada
-                    familiaLogica.eliminarFamilia(FamiliaSeleccionada);
+    if (FamiliaSeleccionada != null) {
+        try {
+            // Verificar si la familia tiene referencias asociadas
+            boolean tieneReferencias = familiaLogica.tieneReferencias(FamiliaSeleccionada);
 
-                    // Remover la referencia eliminada de la tabla
-                    tv_familia.getItems().remove(FamiliaSeleccionada);
-
-                } else {
-                    // Si el usuario cancela, no hace nada
-                    mostrarMensaje("Operación cancelada.");
+            if (tieneReferencias) {
+                // Mostrar confirmación si la familia tiene referencias asociadas
+                boolean continuarConReferencias = mostrarMensajeConfirmacion(
+                    "La família té referències associades. Segur que vols continuar amb l'eliminació?"
+                );
+                if (!continuarConReferencias) {
+                    mostrarMensaje("Operació cancel·lada per l'usuari.");
+                    return; // Salir si el usuario decide no continuar
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error al eliminar la Familia", ex);
             }
-        } else {
-            mostrarMensajeError("No s'ha seleccionat cap família per suprimir.");
+
+            // Confirmar eliminación
+            boolean continuar = mostrarMensajeConfirmacion("Segur que vols eliminar la família?");
+            if (continuar) {
+                // Llamar al método eliminarFamilia para eliminar
+                familiaLogica.eliminarFamilia(FamiliaSeleccionada);
+
+                // Remover la familia eliminada de la tabla
+                tv_familia.getItems().remove(FamiliaSeleccionada);
+                
+            } else {
+                mostrarMensaje("Operació cancel·lada.");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error al eliminar la Família", ex);
+            mostrarMensajeError("Error en eliminar la família: " + ex.getMessage());
         }
+    } else {
+        mostrarMensajeError("No s'ha seleccionat cap família per suprimir.");
     }
+}
+
 
     @FXML
     void modificar(ActionEvent event) throws SQLException {

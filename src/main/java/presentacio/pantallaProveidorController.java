@@ -6,6 +6,7 @@
 package presentacio;
 
 import Validaciones.ValidarCamposInsertProveidor;
+import dades.MyDataSource;
 import dades.ProveidorDAO;
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,6 +14,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -41,6 +45,7 @@ import logica.Mensajes;
 import static logica.Mensajes.*;
 import model.Proveidor;
 import logica.ProveidorLogic;
+import model.Familia;
 
 /**
  * Classe controladora per gestionar la pantalla de proveïdors. Implementa la
@@ -234,32 +239,49 @@ public class pantallaProveidorController implements Initializable {
      * @param ev l'event de l'acció.
      * @throws SQLException si hi ha un error en la base de dades.
      */
-    @FXML
-    private void handlerButtonEsborrar(ActionEvent ev) throws Exception {
+@FXML
+private void handlerButtonEsborrar(ActionEvent ev) throws Exception {
+    // Primer seleccionem el proveïdor a esborrar.
+    Proveidor proveidorSeleccionat = tb_prov.getSelectionModel().getSelectedItem();
 
-        //Primer seleccionem el proveïdor a esborrar.
-        Proveidor proveidorSeleccionat = tb_prov.getSelectionModel().getSelectedItem();
+    if (proveidorSeleccionat != null) {
+        try {
+            // Verificar si el proveïdor té referències associades
+            boolean tieneReferencias = proveidorLogico.tieneReferencias(proveidorSeleccionat);
 
-        // Demanem confirmació per a esborrar el proveïdor. 
-        // Confirmación de modificación
-        boolean confirmado = Mensajes.mostrarMensajeConfirmacion("Segur que vols esborrar aquest proveïdor?");
+            if (tieneReferencias) {
+                // Mostrar confirmació si té referències associades
+                boolean continuarConReferencias = Mensajes.mostrarMensajeConfirmacion(
+                    "El proveïdor té referències associades. Segur que vols continuar amb l'eliminació?"
+                );
 
-        if (confirmado) {
-
-            try {
-                //Cridem a la capa lògica per a que faci d'intermediària amb el DAO.
-                proveidorLogico.esborrarProveidor(proveidorSeleccionat);
-                //Actualitzaem la taula una vegada el proveïdor seleccionat ha estat esborrat.
-                tb_prov.getItems().remove(proveidorSeleccionat);
-            } catch (Exception ex) {
-                Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error en eliminar el proveïdor", ex);
+                if (!continuarConReferencias) {
+                    mostrarMensaje("Operació cancel·lada per l'usuari.");
+                    return; // Sortir si l'usuari decideix no continuar
+                }
             }
-        }else{
-            mostrarMensaje("Operació cancelada");
+
+            // Confirmació d'eliminació
+            boolean confirmado = Mensajes.mostrarMensajeConfirmacion("Segur que vols esborrar aquest proveïdor?");
+            if (confirmado) {
+                // Cridem a la capa lògica per a que faci d'intermediària amb el DAO.
+                proveidorLogico.esborrarProveidor(proveidorSeleccionat);
+
+                // Actualitzem la taula un cop el proveïdor seleccionat ha estat esborrat.
+                tb_prov.getItems().remove(proveidorSeleccionat);
+            } else {
+                mostrarMensaje("Operació cancel·lada.");
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error en eliminar el proveïdor", ex);
+            mostrarMensajeError("Error en eliminar el proveïdor: " + ex.getMessage());
         }
-
+    } else {
+        mostrarMensajeError("No s'ha seleccionat cap proveïdor per a esborrar.");
     }
-
+}
+    
     /**
      * Modifica el proveïdor seleccionat amb les noves dades introduïdes.
      *
