@@ -7,6 +7,7 @@ package logica;
 import model.Referencia;
 import dades.ReferenciaDAO;
 import java.sql.SQLException;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -101,4 +102,15 @@ public class ReferenciaLogica {
         return llistaObservable;
     }
 
+    /**
+ * Obtiene las referencias asociadas a una familia específica.
+ *
+ * @param idFamilia El ID de la familia para filtrar referencias.
+ * @return Lista de referencias que pertenecen a la familia.
+ * @throws SQLException Si ocurre un error al acceder a la base de datos.
+ */
+public ObservableList<Referencia> getReferenciasPorFamilia(int idFamilia) throws SQLException {
+    List<Referencia> referenciasFiltradas = dataLayer.getReferenciasPorFamilia(idFamilia);
+    return FXCollections.observableArrayList(referenciasFiltradas);
+}
 }

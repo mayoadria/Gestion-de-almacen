@@ -213,6 +213,39 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
         }
         return r;
     }
+    /**
+ * Obtiene las referencias de una familia específica desde la base de datos.
+ *
+ * @param idFamilia El ID de la familia para filtrar referencias.
+ * @return Lista de referencias que pertenecen a la familia.
+ * @throws SQLException Si ocurre un error al ejecutar la consulta.
+ */
+public List<Referencia> getReferenciasPorFamilia(int idFamilia) throws SQLException {
+    List<Referencia> ret = new ArrayList<>();
+    String select = "SELECT * FROM Referencies WHERE id_familia = ?";
+    try (Connection conn = MyDataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(select)) {
+        stmt.setInt(1, idFamilia);
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Referencia r = new Referencia();
+                r.setId(rs.getInt("id_referencia"));
+                r.setNom(rs.getString("nom_producte"));
+                r.setQuantitat((int) rs.getDouble("quantitat"));
+                r.setUnitat_mida(rs.getString("unitat_mida"));
+                r.setData_alta(rs.getString("data_alta"));
+                r.setData_fabricacio(rs.getString("data_fabricacio"));
+                r.setDescripcio(rs.getString("descripcio_producte"));
+                r.setPreu(rs.getString("preu"));
+                r.setUnitats_venudes(rs.getInt("unitats_venudes"));
+                r.setId_fam(rs.getInt("id_familia"));
+                r.setId_proveidor(rs.getInt("id_proveidor"));
+
+                ret.add(r);
+            }
+        }
+    }
+    return ret;
+}
 
     /**
      * Comprueba si existe una familia con el ID especificado en la base de

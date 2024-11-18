@@ -132,6 +132,10 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
 
     private ReferenciaLogica referenciaLogica;
     private String rol;
+    
+    
+    @FXML
+    private Button mostrarRef;
 
     /**
      * Inicializa la clase del controlador configurando la lógica de negocio, el
@@ -383,4 +387,17 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
         stage.close();
     }
 
+    @FXML
+    void mostrarReferencia() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MostrarReferenciaFamilia.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Referencias por Familia");
+        stage.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 }

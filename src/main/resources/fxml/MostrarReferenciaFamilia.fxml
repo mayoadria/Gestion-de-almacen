@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacio.ReferenciasPorFamiliaController" spacing="20" alignment="CENTER" prefWidth="800" prefHeight="600">
+    <!-- HBox para contener el ComboBox -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <!-- ComboBox para seleccionar la familia -->
+        <ComboBox fx:id="comboBoxFamilias" prefWidth="200"/>
+    </HBox>
+    
+    <!-- HBox para contener la TableView centrada con separación en ambos lados -->
+    <HBox spacing="20" alignment="CENTER" HBox.hgrow="ALWAYS">
+        <!-- ScrollPane que envuelve la TableView -->
+        <ScrollPane fitToHeight="true" fitToWidth="true" HBox.hgrow="ALWAYS">
+            <TableView fx:id="tableViewReferencias" prefWidth="750" prefHeight="500">
+                <columns>
+                    <!-- Columnas de la tabla -->
+                    <TableColumn fx:id="idReferencia" prefWidth="50" text="ID" />
+                    <TableColumn fx:id="nombre" prefWidth="150" text="NOM" />
+                    <TableColumn fx:id="cantidad" prefWidth="100" text="QUANTITAT" />
+                    <TableColumn fx:id="unitatMida" prefWidth="100" text="UNIT. MIDA" />
+                    <TableColumn fx:id="dataAlta" prefWidth="100" text="DATA ALTA" />
+                    <TableColumn fx:id="dataFab" prefWidth="100" text="DATA FAB" />
+                    <TableColumn fx:id="descripcio" prefWidth="200" text="DESCRIPCIO" />
+                    <TableColumn fx:id="preu" prefWidth="100" text="PREU" />
+                    <TableColumn fx:id="unitVen" prefWidth="100" text="UNIT VEN" />
+                    <TableColumn fx:id="idFam" prefWidth="100" text="ID FAM" />
+                    <TableColumn fx:id="idProv" prefWidth="100" text="ID PROV" />
+                </columns>
+            </TableView>
+        </ScrollPane>
+    </HBox>
+</VBox>

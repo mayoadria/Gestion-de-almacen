@@ -207,7 +207,9 @@
             <VBox alignment="CENTER" prefHeight="180.0" prefWidth="193.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" text="Descripcio" />
-                  <TextArea fx:id="txtAreaDescripcio" prefHeight="200.0" prefWidth="200.0" />
+                  <TextArea fx:id="txtAreaDescripcio" prefHeight="102.0" prefWidth="170.0" />
+                  <Separator prefHeight="14.0" prefWidth="170.0" visible="false" />
+                  <Button fx:id="mostrarRef" mnemonicParsing="false" onAction="#mostrarReferencia" text="Mostrar Referencias" />
                </children>
             </VBox>
          </children>
@@ -219,7 +221,7 @@
       <!-- Action Buttons -->
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <VBox prefHeight="50.0" prefWidth="314.0" HBox.hgrow="ALWAYS">
+            <VBox prefHeight="66.0" prefWidth="155.0" HBox.hgrow="ALWAYS">
                <children>
                   <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#VolverAtras" prefHeight="26.0" prefWidth="314.0" text="Sortir">
                      <VBox.margin>
@@ -235,7 +237,7 @@
             </VBox>
             <VBox prefHeight="50.0" prefWidth="324.0" HBox.hgrow="ALWAYS">
                <children>
-                  <VBox prefHeight="50.0" prefWidth="287.0">
+                  <VBox prefHeight="91.0" prefWidth="459.0">
                      <children>
                         <Button fx:id="btnEliminarReferencia" mnemonicParsing="false" onAction="#Eliminar" prefHeight="26.0" prefWidth="288.0" text="Eliminar">
                            <VBox.margin>
