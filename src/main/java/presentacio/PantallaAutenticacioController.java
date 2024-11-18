@@ -78,7 +78,7 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
             ((Stage) txtUsuari.getScene().getWindow()).close();
         } else {
             // Si el usuario cancela, no hace nada
-            mostrarMensaje("Operación cancelada.");
+            mostrarMensaje("Operació cancelada.");
         }
         } else {
             // Mostrar mensaje de error

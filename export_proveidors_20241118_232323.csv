@@ -1,0 +1,7 @@
+ID,Nom,CIF,Estat,Correu Electrònic,Data Creació,Rating,Mesos de Colaboració,Motiu Inactiu
+0,Proveidor per defecte,A12345678,Actiu,proveidorDefecte@gmail.com,2024-11-15,10,00,70,
+1,Mercedes-Benz,A1234567B,Actiu,contact@mercedes.com,2020-05-10,4,90,60,
+2,Ferrari S.p.Add,B9876542T,Actiu,info@ferrari.com,2021-02-18,5,00,24,
+3,Yamaha Motors,C4567801X,Actiu,sales@yamaha.com,2019-11-11,4,70,48,
+4,Lamborghini,D6543219I,Inactiu,support@lamborghini.com,2022-01-30,4,80,12,Fusió amb altra empresa
+5,sfcv,A1234567A,Actiu,sj@gmail.com,2024-11-18,1,00,1,

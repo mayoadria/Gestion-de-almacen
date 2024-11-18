@@ -289,8 +289,6 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
 
                     // Remover la referencia eliminada de la tabla
                     tblReferencia.getItems().remove(referenciaSeleccionada);
-
-                    mostrarMensaje("Referència eliminada amb èxit.");
                 } catch (SQLException ex) {
                     Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error en eliminar la referència", ex);
                 }

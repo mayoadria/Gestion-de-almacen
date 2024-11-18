@@ -126,11 +126,6 @@ public class PantallaInsertReferenciaController extends Mensajes implements Init
                 return; // Detener la inserción si la fecha es inválida
             }
             
-            if (!ValidarFecha.validarFechaAlta(dataFabricacio)) {
-                // Si la fecha es inválida, mostrar un mensaje de error y no continuar
-                return; // Detener la inserción si la fecha es inválida
-            }
-            
             // Crear una instancia de Referencia con los datos del formulario
             Referencia novaReferencia = new Referencia();
             novaReferencia.setNom(nomProducte);

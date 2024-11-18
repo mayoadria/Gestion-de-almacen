@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dades;
 
 import java.sql.Connection;
@@ -40,13 +36,13 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
      */
     @Override
     public List<Referencia> getAll() throws SQLException {
-        //Crear una llista per poder obtenir totes les referencies existents a la base de dades
+        // Crear una llista per poder obtenir totes les referències existents a la base de dades
         List<Referencia> ret = new ArrayList<>();
-        //Fer la consulta
+        // Fer la consulta
         String select = "select * from Referencies ";
         try (Connection conn = MyDataSource.getConnection(); PreparedStatement sentencia = conn.prepareStatement(select);) {
             ResultSet rs = sentencia.executeQuery();
-            //Mostrar los datos
+            // Mostrar los datos
             while (rs.next()) {
                 Referencia r = new Referencia();
                 r.setId(rs.getInt("id_referencia"));
@@ -77,11 +73,11 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
      */
     @Override
     public int insert(Referencia t) throws SQLException {
-        //Hacer la sentencia del insert
+        // Fer la sentència del insert
         String insert = "INSERT INTO Referencies (nom_producte, quantitat, unitat_mida, data_alta, data_fabricacio, descripcio_producte, preu, unitats_venudes, id_familia, id_proveidor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        //Hacer la conexion con la base y marcar de donde tienen que obtener los datos
-        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS)) {
+        // Fer la connexió amb la base i marcar d'on han d'obtenir les dades
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement sentencia = conn.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS)) {
             sentencia.setString(1, t.getNom());
             sentencia.setInt(2, (int) t.getQuantitat());
             sentencia.setString(3, t.getUnitat_mida());
@@ -93,17 +89,17 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
             sentencia.setInt(9, t.getId_fam());
             sentencia.setInt(10, t.getId_proveidor());
 
-            // Ejecutar la inserción
+            // Executar la inserció
             int affectedRows = sentencia.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Error en inserir la referència, no es va crear cap registre.");
             }
-            // Obtener el ID generado
+            // Obtenir l'ID generat
             try (ResultSet generatedKeys = sentencia.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1); // Retorna el ID generado
+                    return generatedKeys.getInt(1); // Retorna l'ID generat
                 } else {
-                    throw new SQLException("Error al insertar la referencia, no se obtuvo el ID.");
+                    throw new SQLException("Error al inserir la referència, no es va obtenir l'ID.");
                 }
             }
         } catch (SQLException e) {
@@ -120,11 +116,11 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
      */
     @Override
     public void update(Referencia t) throws SQLException {
-        //Hacer la sentencia del update
+        // Fer la sentència del update
         String update = "UPDATE Referencies SET nom_producte = ?, quantitat = ?, unitat_mida = ?, data_alta = ?, data_fabricacio = ?, descripcio_producte = ?, preu = ?, unitats_venudes = ?, id_familia = ?, id_proveidor = ? WHERE id_referencia = ?";
 
-        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(update)) {
-            //Hacer la conexion con la base y marcar de donde tienen que obtener los datos        
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement sentencia = conn.prepareStatement(update)) {
+            // Fer la connexió amb la base i marcar d'on han d'obtenir les dades        
             sentencia.setString(1, t.getNom());
             sentencia.setInt(2, (int) t.getQuantitat());
             sentencia.setString(3, t.getUnitat_mida());
@@ -135,9 +131,9 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
             sentencia.setInt(8, t.getUnitats_venudes());
             sentencia.setInt(9, t.getId_fam());
             sentencia.setInt(10, t.getId_proveidor());
-            sentencia.setInt(11, t.getId());  // Condición para encontrar el registro a actualizar (id_referencia)
+            sentencia.setInt(11, t.getId());  // Condició per trobar el registre a actualitzar (id_referencia)
 
-            // Ejecutamos la sentencia
+            // Executem la sentència
             int rowsUpdated = sentencia.executeUpdate();
             if (rowsUpdated < 0) {
                 mostrarMensajeError("No s'ha trobat cap referència a l'ID proporcionat.");
@@ -156,14 +152,14 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
      */
     @Override
     public void delete(Referencia t) throws SQLException {
-        //Hacer la conexion con la base y marcar de donde tienen que obtener los datos        
+        // Fer la connexió amb la base i marcar d'on han d'obtenir les dades        
         String delete = "DELETE FROM Referencies WHERE id_referencia = ?";
 
-        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(delete)) {
-            // Configuramos el valor del id_referencia para eliminar
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement sentencia = conn.prepareStatement(delete)) {
+            // Configurarem el valor de l'id_referencia per eliminar
             sentencia.setInt(1, t.getId());
 
-            // Ejecutamos la eliminación
+            // Executem l'eliminació
             int rowsDeleted = sentencia.executeUpdate();
             if (rowsDeleted > 0) {
                 mostrarMensaje("La referència ha estat eliminada amb èxit.");
@@ -188,7 +184,7 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
         String select = "SELECT * FROM Referencies WHERE id_referencia = ?";
         Referencia r = null;
 
-        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(select)) {
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement sentencia = conn.prepareStatement(select)) {
             // Configurar el parámetro antes de ejecutar la consulta
             sentencia.setInt(1, t.getId());
 
@@ -208,44 +204,45 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
                 }
             }
         } catch (SQLException e) {
-            mostrarMensajeError("Error en obtener la referencia: " + e.getMessage());
+            mostrarMensajeError("Error en obtenir la referència: " + e.getMessage());
             throw e;
         }
         return r;
     }
-    /**
- * Obtiene las referencias de una familia específica desde la base de datos.
- *
- * @param idFamilia El ID de la familia para filtrar referencias.
- * @return Lista de referencias que pertenecen a la familia.
- * @throws SQLException Si ocurre un error al ejecutar la consulta.
- */
-public List<Referencia> getReferenciasPorFamilia(int idFamilia) throws SQLException {
-    List<Referencia> ret = new ArrayList<>();
-    String select = "SELECT * FROM Referencies WHERE id_familia = ?";
-    try (Connection conn = MyDataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(select)) {
-        stmt.setInt(1, idFamilia);
-        try (ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                Referencia r = new Referencia();
-                r.setId(rs.getInt("id_referencia"));
-                r.setNom(rs.getString("nom_producte"));
-                r.setQuantitat((int) rs.getDouble("quantitat"));
-                r.setUnitat_mida(rs.getString("unitat_mida"));
-                r.setData_alta(rs.getString("data_alta"));
-                r.setData_fabricacio(rs.getString("data_fabricacio"));
-                r.setDescripcio(rs.getString("descripcio_producte"));
-                r.setPreu(rs.getString("preu"));
-                r.setUnitats_venudes(rs.getInt("unitats_venudes"));
-                r.setId_fam(rs.getInt("id_familia"));
-                r.setId_proveidor(rs.getInt("id_proveidor"));
 
-                ret.add(r);
+    /**
+     * Obtiene las referencias de una familia específica desde la base de datos.
+     *
+     * @param idFamilia El ID de la familia para filtrar referencias.
+     * @return Lista de referencias que pertenecen a la familia.
+     * @throws SQLException Si ocurre un error al ejecutar la consulta.
+     */
+    public List<Referencia> getReferenciasPorFamilia(int idFamilia) throws SQLException {
+        List<Referencia> ret = new ArrayList<>();
+        String select = "SELECT * FROM Referencies WHERE id_familia = ?";
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(select)) {
+            stmt.setInt(1, idFamilia);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Referencia r = new Referencia();
+                    r.setId(rs.getInt("id_referencia"));
+                    r.setNom(rs.getString("nom_producte"));
+                    r.setQuantitat((int) rs.getDouble("quantitat"));
+                    r.setUnitat_mida(rs.getString("unitat_mida"));
+                    r.setData_alta(rs.getString("data_alta"));
+                    r.setData_fabricacio(rs.getString("data_fabricacio"));
+                    r.setDescripcio(rs.getString("descripcio_producte"));
+                    r.setPreu(rs.getString("preu"));
+                    r.setUnitats_venudes(rs.getInt("unitats_venudes"));
+                    r.setId_fam(rs.getInt("id_familia"));
+                    r.setId_proveidor(rs.getInt("id_proveidor"));
+
+                    ret.add(r);
+                }
             }
         }
+        return ret;
     }
-    return ret;
-}
 
     /**
      * Comprueba si existe una familia con el ID especificado en la base de
@@ -257,11 +254,11 @@ public List<Referencia> getReferenciasPorFamilia(int idFamilia) throws SQLExcept
      */
     public boolean existeFamilia(int idFamilia) throws SQLException {
         String selectFamilia = "SELECT COUNT(*) FROM Families WHERE id_familia = ?";
-        try (Connection conn = MyDataSource.getConnection();PreparedStatement stmt =conn.prepareStatement(selectFamilia)) {
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(selectFamilia)) {
             stmt.setInt(1, idFamilia);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getInt(1) > 0; // Devuelve true si existe, false si no
+                return rs.getInt(1) > 0; // Retorna true si existeix, false si no
             }
         }
         return false;
@@ -277,11 +274,11 @@ public List<Referencia> getReferenciasPorFamilia(int idFamilia) throws SQLExcept
      */
     public boolean existeProveedor(int idProveedor) throws SQLException {
         String selectProveidor = "SELECT COUNT(*) FROM Proveidors WHERE id_proveidor = ?";
-        try (Connection conn = MyDataSource.getConnection();PreparedStatement stmt =conn.prepareStatement(selectProveidor)) {
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(selectProveidor)) {
             stmt.setInt(1, idProveedor);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getInt(1) > 0; // Devuelve true si existe, false si no
+                return rs.getInt(1) > 0; // Retorna true si existeix, false si no
             }
         }
         return false;

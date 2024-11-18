@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.ScrollPane?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacio.ReferenciasPorFamiliaController" spacing="20" alignment="CENTER" prefWidth="800" prefHeight="600">
+<VBox alignment="CENTER" prefHeight="600" prefWidth="800" spacing="20" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacio.ReferenciasPorFamiliaController">
     <!-- HBox para contener el ComboBox -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
+    <HBox alignment="CENTER_LEFT" spacing="10">
         <!-- ComboBox para seleccionar la familia -->
-        <ComboBox fx:id="comboBoxFamilias" prefWidth="200"/>
+        <ComboBox fx:id="comboBoxFamilias" prefWidth="200" />
     </HBox>
     
     <!-- HBox para contener la TableView centrada con separación en ambos lados -->
-    <HBox spacing="20" alignment="CENTER" HBox.hgrow="ALWAYS">
+    <HBox alignment="CENTER" spacing="20" HBox.hgrow="ALWAYS">
         <!-- ScrollPane que envuelve la TableView -->
         <ScrollPane fitToHeight="true" fitToWidth="true" HBox.hgrow="ALWAYS">
-            <TableView fx:id="tableViewReferencias" prefWidth="750" prefHeight="500">
+            <TableView fx:id="tableViewReferencias" prefHeight="500" prefWidth="750">
                 <columns>
                     <!-- Columnas de la tabla -->
                     <TableColumn fx:id="idReferencia" prefWidth="50" text="ID" />
