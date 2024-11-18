@@ -4,6 +4,7 @@
  */
 package dades;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import model.Familia;
@@ -30,30 +31,34 @@ public class FamiliaDAO implements DAOInterface<Familia> {
         List<Familia> ret = new ArrayList<>();
         //Fer la consulta
         String select = "select * from Families ";
-        PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(select);
-        ResultSet rs = sentencia.executeQuery();
-        //Mostrar los datos
-        while (rs.next()) {
-            Familia r = new Familia();
-            r.setId_fam(rs.getInt("id_familia"));
-            r.setNom_familia(rs.getString("nom_familia"));
-            r.setDescripcio(rs.getString("descripcio"));
-            r.setData_alta_fam(rs.getString("data_alta"));
-            r.setId_proveidor_fam(rs.getInt("id_proveidor_defecte"));
-            r.setObservacions(rs.getString("observacions"));
+        try (Connection conn = MyDataSource.getConnection(); PreparedStatement sentencia = conn.prepareStatement(select)) {
 
-            ret.add(r);
+            ResultSet rs = sentencia.executeQuery();
+            //Mostrar los datos
+            while (rs.next()) {
+                Familia r = new Familia();
+                r.setId_fam(rs.getInt("id_familia"));
+                r.setNom_familia(rs.getString("nom_familia"));
+                r.setDescripcio(rs.getString("descripcio"));
+                r.setData_alta_fam(rs.getString("data_alta"));
+                r.setId_proveidor_fam(rs.getInt("id_proveidor_defecte"));
+                r.setObservacions(rs.getString("observacions"));
 
+                ret.add(r);
+
+            }
+
+        } catch (SQLException e) {
+            throw e;
         }
         return ret;
-
     }
 
     @Override
     public int insert(Familia t) throws SQLException {
         String insert = "INSERT INTO Families (nom_familia, descripcio, data_alta, id_proveidor_defecte, observacions) VALUES (?, ?, ?, ?, ?)";
         //Hacer la conexion con la base y marcar de donde tienen que obtener los datos
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(insert, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia = conn.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS)) {
             sentencia.setString(1, t.getNom_familia());
             sentencia.setString(2, t.getDescripcio());
             sentencia.setString(3, String.valueOf(t.getData_alta_fam()));
@@ -84,7 +89,7 @@ public class FamiliaDAO implements DAOInterface<Familia> {
         //Hacer la sentencia del update
         String update = "UPDATE Families SET nom_familia = ?, descripcio = ?, data_alta = ?, id_proveidor_defecte = ?, observacions = ? WHERE id_familia = ?";
 
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(update)) {
+        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(update)) {
             //Hacer la conexion con la base y marcar de donde tienen que obtener los datos        
             sentencia.setString(1, t.getNom_familia());
             sentencia.setString(2, t.getDescripcio());
@@ -110,7 +115,7 @@ public class FamiliaDAO implements DAOInterface<Familia> {
     public void delete(Familia t) throws SQLException {
         String delete = "DELETE FROM Families WHERE id_familia = ?";
 
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(delete)) {
+        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(delete)) {
             // Configuramos el valor del id_referencia para eliminar
             sentencia.setInt(1, t.getId_fam());
 
@@ -132,16 +137,22 @@ public class FamiliaDAO implements DAOInterface<Familia> {
         String select = "SELECT * FROM Families WHERE id_familia = ?";
         Familia f = null;
 
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(select); ResultSet rs = sentencia.executeQuery()) {
-
-            if (rs.next()) {
-                f = new Familia();
-                f.setId_fam(rs.getInt("id_familia"));  // Asegúrate de que las columnas tengan nombres correctos
-                f.setNom_familia(rs.getString("nom_familia"));
-                f.setDescripcio(rs.getString("descripcio"));
-                f.setData_alta_fam(rs.getString("data_alta"));
-                f.setId_proveidor_fam(rs.getInt("id_proveidor_defecte"));
-                f.setObservacions(rs.getString("observacions"));
+        // Uso correcto de try-with-resources para PreparedStatement y ResultSet
+        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(select)) {
+            sentencia.setInt(1, t.getId_fam());
+            try (ResultSet rs = sentencia.executeQuery()) {
+                if (rs.next()) {
+                    f = new Familia();
+                    f.setId_fam(rs.getInt("id_familia"));
+                    f.setNom_familia(rs.getString("nom_familia"));
+                    f.setDescripcio(rs.getString("descripcio"));
+                    f.setData_alta_fam(rs.getString("data_alta"));
+                    f.setId_proveidor_fam(rs.getInt("id_proveidor_defecte"));
+                    f.setObservacions(rs.getString("observacions"));
+                }
+            } catch (SQLException e) {
+                mostrarMensajeError("Error al obtener la familia:" + e.getMessage());
+                throw e;
             }
         } catch (SQLException e) {
             mostrarMensajeError("Error al obtener la familia:" + e.getMessage());

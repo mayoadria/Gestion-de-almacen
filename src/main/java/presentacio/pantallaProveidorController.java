@@ -126,7 +126,7 @@ public class pantallaProveidorController implements Initializable {
 
     private ProveidorDAO proveidorDAO;
     private String rol;
-    private ProveidorLogic proveidorLogic;
+    private ProveidorLogic proveidorLogico;
 
 //    /**
 //     * Getter per la taula de proveïdors.
@@ -146,7 +146,7 @@ public class pantallaProveidorController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         try {
-            this.proveidorLogic = new ProveidorLogic();
+            this.proveidorLogico = new ProveidorLogic();
         } catch (SQLException ex) {
             Logger.getLogger(pantallaProveidorController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -164,7 +164,7 @@ public class pantallaProveidorController implements Initializable {
         this.col_mesosProv.setCellValueFactory(new PropertyValueFactory<>("mesos_de_colaboracio"));
 
         // Obtener la lista de referencias desde ReferenciaDAO
-        this.tb_prov.setItems(proveidorLogic.getListObservableProveidor());
+        this.tb_prov.setItems(proveidorLogico.getListObservableProveidor());
 
         // Añadir el listener a la tabla para que se actualicen los TextFields cuando cambie la selección
         tb_prov.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -306,7 +306,7 @@ public class pantallaProveidorController implements Initializable {
                     tb_prov.refresh();
 
                     // Llamar al método de lógica de negocio para guardar los cambios en la base de datos
-                    proveidorLogic.modificarProveidor(proveidorSeleccionat);
+                    proveidorLogico.modificarProveidor(proveidorSeleccionat);
                     mostrarMensaje("Proveïdor modificat correctament.");
                 } else {
                     mostrarMensaje("Modificació cancel·lada.");
@@ -350,7 +350,6 @@ public class pantallaProveidorController implements Initializable {
 
         } catch (IOException ex) {
             Logger.getLogger(PantallaSeleccionarMenuController.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
         }
     }
 
@@ -383,14 +382,13 @@ public class pantallaProveidorController implements Initializable {
                 writer.append("ID,Nom,CIF,Estat,Correu Electrònic,Data Creació,Rating,Mesos de Colaboració,Motiu Inactiu\n");
 
                 for (Proveidor proveidor : proveidors) {
-                    writer.append(String.format(
-                            "%d,%s,%s,%s,%s,%s,%.2f,%d,%s\n",
+                    writer.append(String.format("%d,%s,%s,%s,%s,%s,%.2f,%d,%s\n",
                             proveidor.getId_proveidor(),
                             proveidor.getNom_proveidor(),
                             proveidor.getCif(),
                             proveidor.isActiu() ? "Actiu" : "Inactiu",
                             proveidor.getCorreu_electronic(),
-                            proveidor.getData_creacio().toString(),
+                            proveidor.getData_creacio(),
                             proveidor.getRating_proveidor(),
                             proveidor.getMesos_de_colaboracio(),
                             proveidor.getMotiu_inactiu() != null ? proveidor.getMotiu_inactiu() : ""
@@ -402,10 +400,8 @@ public class pantallaProveidorController implements Initializable {
 
         } catch (IOException e) {
             mostrarMensajeError("Hi ha hagut un error en exportar les dades.");
-            e.printStackTrace();
         } catch (SQLException e) {
             mostrarMensajeError("No s'ha pogut recuperar les dades de la base de dades.");
-            e.printStackTrace();
         }
     }
 
@@ -457,7 +453,7 @@ public class pantallaProveidorController implements Initializable {
                     proveidor.setMotiu_inactiu(fields[8].trim().isEmpty() ? null : fields[8].trim());
 
                     // Añadir el proveedor a la base de datos y a la tabla
-                    proveidorLogic.afegirProveidor(proveidor);
+                    proveidorLogico.afegirProveidor(proveidor);
                 }
 
                 tb_prov.refresh();
@@ -465,13 +461,10 @@ public class pantallaProveidorController implements Initializable {
 
             } catch (IOException e) {
                 mostrarMensajeError("Error en llegir el fitxer CSV.");
-                e.printStackTrace();
             } catch (SQLException e) {
                 mostrarMensajeError("Error en guardar el proveïdor a la base de dades.");
-                e.printStackTrace();
             } catch (NumberFormatException e) {
                 mostrarMensajeError("Error en el format de dades numèriques.");
-                e.printStackTrace();
             }
         }
     }

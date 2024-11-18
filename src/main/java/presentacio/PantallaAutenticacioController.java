@@ -71,15 +71,14 @@ public class PantallaAutenticacioController extends Mensajes implements Initiali
 
         // Verificar autenticación
         if (autenticacio.verificarUsuario(usuario, rol)) {
-            // Abrir la nueva pantalla si la autenticación es correcta
-            mostrarMensaje("Usuari verificat correctament.");
-            try {
-            abrirNuevaPantalla(txtRol.getText());
-            // Cerrar la pantalla de autenticación
+             boolean continuar = mostrarMensajeConfirmacion("Usuari verificat correctament. ¿Desea continuar?");
+        if (continuar) {
+            // Solo abre la nueva pantalla si el usuario confirma
+            abrirNuevaPantalla(rol);
             ((Stage) txtUsuari.getScene().getWindow()).close();
-        } catch (IOException e) {
-            // Manejo de la excepción si ocurre al abrir la nueva pantalla
-            mostrarMensajeError(e.getMessage());
+        } else {
+            // Si el usuario cancela, no hace nada
+            mostrarMensaje("Operación cancelada.");
         }
         } else {
             // Mostrar mensaje de error

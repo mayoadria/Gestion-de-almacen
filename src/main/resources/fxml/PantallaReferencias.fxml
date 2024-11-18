@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -86,7 +87,7 @@
                         <Insets bottom="10.0" left="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox prefHeight="26.0" prefWidth="378.0">
                      <children>
                         <Label text="Quantitat" HBox.hgrow="ALWAYS">
                            <HBox.margin>
@@ -130,7 +131,7 @@
                   <Insets left="30.0" />
                </padding>
             </VBox>
-            <VBox prefHeight="180.0" prefWidth="273.0" HBox.hgrow="ALWAYS">
+            <VBox prefHeight="180.0" prefWidth="416.0" HBox.hgrow="ALWAYS">
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -158,7 +159,7 @@
                         <Insets bottom="10.0" left="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox prefHeight="26.0" prefWidth="402.0">
+                  <HBox prefHeight="26.0" prefWidth="300.0">
                      <children>
                         <Label text="Unitats venudes" HBox.hgrow="ALWAYS">
                            <HBox.margin>
@@ -201,6 +202,12 @@
                         <Insets bottom="10.0" left="10.0" />
                      </VBox.margin>
                   </HBox>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="180.0" prefWidth="193.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Descripcio" />
+                  <TextArea fx:id="txtAreaDescripcio" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
          </children>

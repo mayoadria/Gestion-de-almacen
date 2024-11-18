@@ -4,6 +4,7 @@
  */
 package presentacio;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -69,7 +70,7 @@ public class PantallaSeleccionarMenuController implements Initializable {
             stage.setScene(scene);
             stage.show();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             // Si ocurre un error, muestra el mensaje de error en lugar de solo registrarlo
             mostrarMensajeError(e.getMessage());
         }
@@ -101,7 +102,7 @@ public class PantallaSeleccionarMenuController implements Initializable {
             stage.setScene(scene);
             stage.show();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             // Si ocurre un error, muestra el mensaje de error en lugar de solo registrarlo
             mostrarMensajeError(e.getMessage());
         }
@@ -136,7 +137,7 @@ public class PantallaSeleccionarMenuController implements Initializable {
             stage.setScene(scene);
             stage.show();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             // Si ocurre un error, muestra el mensaje de error en lugar de solo registrarlo
             mostrarMensajeError(e.getMessage());
         }

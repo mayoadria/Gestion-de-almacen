@@ -50,13 +50,17 @@ public class Mensajes {
         Alert alertConfirmacio = new Alert(Alert.AlertType.CONFIRMATION);
         alertConfirmacio.setTitle("Confirmació");
         alertConfirmacio.setHeaderText(mensaje);
-        alertConfirmacio.setContentText("Estàs segur de que vols modificar les dades?");
 
+        // Añadir botones personalizados
+        ButtonType btnAceptar = new ButtonType("Aceptar");
+        ButtonType btnCancelar = new ButtonType("Cancelar");
+
+        alertConfirmacio.getButtonTypes().setAll(btnAceptar, btnCancelar);
         // Mostrar el mensaje de confirmación
         Optional<ButtonType> resultatConfirmacio = alertConfirmacio.showAndWait();
         
         // Devolver si el usuario ha confirmado la acción (OK)
-        return resultatConfirmacio.isPresent() && resultatConfirmacio.get() == ButtonType.OK;
+        return resultatConfirmacio.isPresent() && resultatConfirmacio.get() == btnAceptar;
     }
 
     
