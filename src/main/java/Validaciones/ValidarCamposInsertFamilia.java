@@ -35,7 +35,7 @@ public class ValidarCamposInsertFamilia extends Mensajes {
         }
 
         // Validación del ID de proveedor
-        if (id_proveidor != 0 && !familiaDao.existeProveidor(id_proveidor)) {
+        if (id_proveidor != 0 && !familiaDao.existeProveedor(id_proveidor)) {
             throw new Exception("El Id de proveidor ha de ser un nombre positiu i no contenir lletres, a part ha d'existir a la base de dades.");
         }
     }

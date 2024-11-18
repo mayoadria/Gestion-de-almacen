@@ -1,5 +1,13 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package presentacio;
 
+/**
+ *
+ * @author oriol
+ */
 import Validaciones.ValidarCamposInsertFamilia;
 import model.Familia;
 import logica.FamiliaLogic;
@@ -80,7 +88,9 @@ public class pantallaFamiliaController implements Initializable {
     private TextField txt_nom;
 
     private FamiliaDAO familiaDAO;
+
     private FamiliaLogic familiaLogica;
+
     private String rol;
 
     @Override
@@ -91,7 +101,6 @@ public class pantallaFamiliaController implements Initializable {
             Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // Configuración de las columnas de la tabla
         this.tc_id.setCellValueFactory(new PropertyValueFactory<>("id_fam"));
         this.tc_nom.setCellValueFactory(new PropertyValueFactory<>("nom_familia"));
         this.tc_descripcio.setCellValueFactory(new PropertyValueFactory<>("descripcio"));
@@ -99,13 +108,14 @@ public class pantallaFamiliaController implements Initializable {
         this.tc_idProveidor.setCellValueFactory(new PropertyValueFactory<>("id_proveidor_fam"));
         this.tc_observacions.setCellValueFactory(new PropertyValueFactory<>("observacions"));
 
-        // Cargar la lista de familias
+        // Obtener la lista de referencias desde ReferenciaDAO
         this.tv_familia.setItems(familiaLogica.getListObservableFamilla());
 
-        // Listener para actualizar los TextFields cuando se selecciona una familia
+        // Añadir el listener a la tabla para que se actualicen los TextFields cuando cambie la selección
         tv_familia.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                // Actualizar los campos con la información de la familia seleccionada
+                // Actualizar los TextFields con la información del elemento seleccionado
+
                 txt_nom.setText(newSelection.getNom_familia());
                 txt_id.setText(String.valueOf(newSelection.getId_fam()));
                 txt_idProveidor.setText(String.valueOf(newSelection.getId_proveidor_fam()));
@@ -117,122 +127,139 @@ public class pantallaFamiliaController implements Initializable {
         });
     }
 
-    // Método para configurar los botones según el rol
     public void setRol(String rol) {
         this.rol = rol;
         configurarBotonesPorRol(); // Llamar para aplicar la configuración de botones al establecer el rol
     }
 
+    // Método para habilitar o deshabilitar botones según el rol
     private void configurarBotonesPorRol() {
-        if (rol != null && rol.equalsIgnoreCase("Venedor")) {
-            // Deshabilitar botones para usuarios con rol "Venedor"
-            btn_nova.setDisable(true);
-            btn_eliminar.setDisable(true);
-            btn_modificar.setDisable(true);
+        if (rol != null) {
+            if (rol.equalsIgnoreCase("Venedor")) {
+                // Deshabilitar botones para usuarios regulares
+                btn_nova.setDisable(true);
+                btn_eliminar.setDisable(true);
+                btn_modificar.setDisable(true);
+            }
         }
     }
 
-    // Agregar nueva familia
     @FXML
     void afegirFamilia(ActionEvent event) {
         try {
+            // Cargo la vista
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PantallaInsertFamilia.fxml"));
+
+            // Cargo el padre
             Parent root = loader.load();
 
             // Obtengo el controlador de la nueva ventana
             PantallaInsertFamiliaController controladorInsert = loader.getController();
 
-            // Paso la referencia del controlador actual a la nueva pantalla
+            // Paso la referencia de la tabla y de la lista observable al controlador de la nueva ventana
             controladorInsert.setFamiliaController(this);
-
-            // Crear una nueva escena y mostrarla en un nuevo stage
+            // Creo la scene y el stage
             Scene scene = new Scene(root);
             Stage stage = new Stage();
+
+            // Asocio el stage con el scene
             stage.setScene(scene);
             stage.show();
+
         } catch (IOException ex) {
-            Logger.getLogger(pantallaFamiliaController.class.getName()).log(Level.SEVERE, "Error al abrir la ventana de inserción de familia", ex);
+            System.out.println("");
         }
     }
 
-    // Método para actualizar la tabla cuando se agrega una nueva familia
     public void actualizarTaulaFamilia(Familia novaFamilia) {
         tv_familia.getItems().add(novaFamilia);
         tv_familia.refresh();
     }
 
-    // Eliminar una familia seleccionada
-    @FXML
-    void eliminar(ActionEvent event) {
-        Familia familiaSeleccionada = tv_familia.getSelectionModel().getSelectedItem();
+@FXML
+void eliminar(ActionEvent event) {
+    Familia FamiliaSeleccionada = tv_familia.getSelectionModel().getSelectedItem();
 
-        if (familiaSeleccionada != null) {
-            try {
-                boolean tieneReferencias = familiaLogica.tieneReferencias(familiaSeleccionada);
-                if (tieneReferencias) {
-                    boolean continuar = mostrarMensajeConfirmacion(
-                        "La família té referències associades. Segur que vols continuar amb l'eliminació?"
-                    );
-                    if (!continuar) {
-                        mostrarMensaje("Operació cancel·lada per l'usuari.");
-                        return;
-                    }
-                }
+    if (FamiliaSeleccionada != null) {
+        try {
+            // Verificar si la familia tiene referencias asociadas
+            boolean tieneReferencias = familiaLogica.tieneReferencias(FamiliaSeleccionada);
 
-                boolean continuarEliminacion = mostrarMensajeConfirmacion("Segur que vols eliminar la família?");
-                if (continuarEliminacion) {
-                    familiaLogica.eliminarFamilia(familiaSeleccionada);
-                    tv_familia.getItems().remove(familiaSeleccionada);
-                } else {
-                    mostrarMensaje("Operació cancel·lada.");
+            if (tieneReferencias) {
+                // Mostrar confirmación si la familia tiene referencias asociadas
+                boolean continuarConReferencias = mostrarMensajeConfirmacion(
+                    "La família té referències associades. Segur que vols continuar amb l'eliminació?"
+                );
+                if (!continuarConReferencias) {
+                    mostrarMensaje("Operació cancel·lada per l'usuari.");
+                    return; // Salir si el usuario decide no continuar
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error al eliminar la Família", ex);
-                mostrarMensajeError("Error en eliminar la família: " + ex.getMessage());
             }
-        } else {
-            mostrarMensajeError("No s'ha seleccionat cap família per suprimir.");
-        }
-    }
 
-    // Modificar los datos de una familia seleccionada
+            // Confirmar eliminación
+            boolean continuar = mostrarMensajeConfirmacion("Segur que vols eliminar la família?");
+            if (continuar) {
+                // Llamar al método eliminarFamilia para eliminar
+                familiaLogica.eliminarFamilia(FamiliaSeleccionada);
+
+                // Remover la familia eliminada de la tabla
+                tv_familia.getItems().remove(FamiliaSeleccionada);
+                
+            } else {
+                mostrarMensaje("Operació cancel·lada.");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error al eliminar la Família", ex);
+            mostrarMensajeError("Error en eliminar la família: " + ex.getMessage());
+        }
+    } else {
+        mostrarMensajeError("No s'ha seleccionat cap família per suprimir.");
+    }
+}
+
+
     @FXML
-    void modificar(ActionEvent event) {
+    void modificar(ActionEvent event) throws SQLException {
         Familia familiaSeleccionada = tv_familia.getSelectionModel().getSelectedItem();
+        familiaDAO = new FamiliaDAO();
 
         if (familiaSeleccionada != null) {
             try {
-                // Obtener datos desde los campos
+                // Obtener los valores del formulario
                 String nom = txt_nom.getText();
                 int idProveidor = Integer.parseInt(txt_idProveidor.getText());
                 String dataAlta = txt_dataAlta.getText();
                 String descripcio = txt_areaDescripcio.getText();
                 String observacions = txt_areaObservacions.getText();
 
-                // Validar los datos antes de realizar la modificación
+                // Validar los datos antes de intentar actualizar en la base de datos
                 ValidarCamposInsertFamilia.validarDatos(familiaDAO, dataAlta, idProveidor);
 
-                // Confirmar con el usuario antes de modificar
+                // Confirmar modificación con el usuario
                 boolean confirmado = mostrarMensajeConfirmacion("¿Seguro que deseas modificar esta familia?");
                 if (confirmado) {
-                    // Actualizar los datos de la familia seleccionada
+                    // Si el usuario confirma, actualizar el objeto seleccionado
                     familiaSeleccionada.setNom_familia(nom);
                     familiaSeleccionada.setId_proveidor_fam(idProveidor);
                     familiaSeleccionada.setData_alta_fam(dataAlta);
                     familiaSeleccionada.setDescripcio(descripcio);
                     familiaSeleccionada.setObservacions(observacions);
 
-                    // Actualizar la tabla
+                    // Refrescar la tabla visualmente
                     tv_familia.refresh();
 
-                    // Guardar cambios en la base de datos
+                    // Llamar al método de lógica de negocio para guardar los cambios en la base de datos
                     familiaLogica.modificarFamilia(familiaSeleccionada);
                 } else {
+                    // Si el usuario no confirma, no hacer nada
                     mostrarMensaje("Modificación cancelada.");
                 }
+
             } catch (NumberFormatException e) {
+                // Mensaje de error para valores que no pueden ser convertidos a enteros
                 mostrarMensajeError("Por favor, introduzca valores numéricos en los campos de ID de proveedor.");
             } catch (Exception e) {
+                // Captura de excepciones de validación y muestra el mensaje personalizado
                 mostrarMensajeError(e.getMessage());
             }
         } else {
@@ -240,10 +267,11 @@ public class pantallaFamiliaController implements Initializable {
         }
     }
 
-    // Cerrar la pantalla
     @FXML
     void sortir(ActionEvent event) {
         Stage stage = (Stage) this.btn_sortir.getScene().getWindow();
         stage.close();
+
     }
+
 }
