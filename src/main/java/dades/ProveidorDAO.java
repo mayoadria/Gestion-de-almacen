@@ -77,7 +77,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
                 + ",motiu_inactiu,data_creacio,correu_electronic,rating_proveidor,mesos_de_colaboracio) VALUES (?,?,?,?,?,?,?,?)";
 
         //Fem la connexió amb la BBDD.
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaInsert, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(consultaInsert, Statement.RETURN_GENERATED_KEYS)) {
 
             sentencia.setString(1, t.getNom_proveidor());
             sentencia.setString(2, t.getCif());
@@ -113,7 +113,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
                 + ",motiu_inactiu = ?,data_creacio = ?,correu_electronic = ?,rating_proveidor = ?,mesos_de_colaboracio = ? WHERE id_proveidor = ?";
 
         //Fem la connexió amb la BBDD.
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaUpdate)) {
+        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(consultaUpdate)) {
 
             sentencia.setString(1, t.getNom_proveidor());
             sentencia.setString(2, t.getCif());
@@ -144,7 +144,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
         //Fem el mòdel de consulta general per a esborrar un proveïdor ja existent.
         String consultaDelete = "Delete FROM Proveidors WHERE id_proveidor = ?";
 
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaDelete)) {
+        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(consultaDelete)) {
 
             sentencia.setInt(1, t.getId_proveidor());
 
@@ -165,7 +165,7 @@ public class ProveidorDAO implements DAOInterface<Proveidor> {
         Proveidor p = null;
 
         // Usando try-with-resources para ResultSet
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(consultaSeleccionar); ResultSet res = sentencia.executeQuery()) {
+        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(consultaSeleccionar); ResultSet res = sentencia.executeQuery()) {
 
             if (res.next()) {
                 p = new Proveidor();

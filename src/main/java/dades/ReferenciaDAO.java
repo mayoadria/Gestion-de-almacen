@@ -188,7 +188,7 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
         String select = "SELECT * FROM Referencies WHERE id_referencia = ?";
         Referencia r = null;
 
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(select)) {
+        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(select)) {
             // Configurar el parámetro antes de ejecutar la consulta
             sentencia.setInt(1, t.getId());
 
@@ -224,7 +224,7 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
      */
     public boolean existeFamilia(int idFamilia) throws SQLException {
         String selectFamilia = "SELECT COUNT(*) FROM Families WHERE id_familia = ?";
-        try (PreparedStatement stmt = MyDataSource.getConnection().prepareStatement(selectFamilia)) {
+        try (Connection conn = MyDataSource.getConnection();PreparedStatement stmt =conn.prepareStatement(selectFamilia)) {
             stmt.setInt(1, idFamilia);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -244,7 +244,7 @@ public class ReferenciaDAO extends Mensajes implements DAOInterface<Referencia> 
      */
     public boolean existeProveedor(int idProveedor) throws SQLException {
         String selectProveidor = "SELECT COUNT(*) FROM Proveidors WHERE id_proveidor = ?";
-        try (PreparedStatement stmt = MyDataSource.getConnection().prepareStatement(selectProveidor)) {
+        try (Connection conn = MyDataSource.getConnection();PreparedStatement stmt =conn.prepareStatement(selectProveidor)) {
             stmt.setInt(1, idProveedor);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {

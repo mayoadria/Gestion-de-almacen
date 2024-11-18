@@ -275,17 +275,23 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
         Referencia referenciaSeleccionada = tblReferencia.getSelectionModel().getSelectedItem();
 
         if (referenciaSeleccionada != null) {
-            try {
+            boolean confirmado = Mensajes.mostrarMensajeConfirmacion("Segur que vols esborrar aquesta referència?");
 
-                // Llamar al método delete en la referencia seleccionada
-                referenciaLogica.eliminarReferencia(referenciaSeleccionada);
+            if (confirmado) {
+                try {
 
-                // Remover la referencia eliminada de la tabla
-                tblReferencia.getItems().remove(referenciaSeleccionada);
+                    // Llamar al método delete en la referencia seleccionada
+                    referenciaLogica.eliminarReferencia(referenciaSeleccionada);
 
-                mostrarMensaje("Referència eliminada amb èxit.");
-            } catch (SQLException ex) {
-                Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error en eliminar la referència", ex);
+                    // Remover la referencia eliminada de la tabla
+                    tblReferencia.getItems().remove(referenciaSeleccionada);
+
+                    mostrarMensaje("Referència eliminada amb èxit.");
+                } catch (SQLException ex) {
+                    Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error en eliminar la referència", ex);
+                }
+            } else {
+                mostrarMensaje("Operació cancelada");
             }
         } else {
             mostrarMensajeError("No heu seleccionat cap referència per eliminar.");
@@ -326,31 +332,31 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
                 );
 
                 // Usar el método de confirmación para preguntar al usuario si está seguro de modificar
-            boolean confirmado = Mensajes.mostrarMensajeConfirmacion("Segur que vols modificar aquesta referència?");
-            
-            if (confirmado) {
-                // Si el usuario confirma, actualizar el objeto seleccionado
-                referenciaSeleccionada.setNom(nom);
-                referenciaSeleccionada.setQuantitat(quantitat);
-                referenciaSeleccionada.setUnitat_mida(unitatMida);
-                referenciaSeleccionada.setData_alta(dataAlta);
-                referenciaSeleccionada.setData_fabricacio(dataFabricacio);
-                referenciaSeleccionada.setDescripcio(descripcio);
-                referenciaSeleccionada.setPreu(preu);
-                referenciaSeleccionada.setUnitats_venudes(unitatsVenudes);
-                referenciaSeleccionada.setId_fam(idFamilia);
-                referenciaSeleccionada.setId_proveidor(idProveidor);
+                boolean confirmado = Mensajes.mostrarMensajeConfirmacion("Segur que vols modificar aquesta referència?");
 
-                // Refrescar la tabla visualmente
-                tblReferencia.refresh();
+                if (confirmado) {
+                    // Si el usuario confirma, actualizar el objeto seleccionado
+                    referenciaSeleccionada.setNom(nom);
+                    referenciaSeleccionada.setQuantitat(quantitat);
+                    referenciaSeleccionada.setUnitat_mida(unitatMida);
+                    referenciaSeleccionada.setData_alta(dataAlta);
+                    referenciaSeleccionada.setData_fabricacio(dataFabricacio);
+                    referenciaSeleccionada.setDescripcio(descripcio);
+                    referenciaSeleccionada.setPreu(preu);
+                    referenciaSeleccionada.setUnitats_venudes(unitatsVenudes);
+                    referenciaSeleccionada.setId_fam(idFamilia);
+                    referenciaSeleccionada.setId_proveidor(idProveidor);
 
-                // Llamar al método de lógica de negocio para guardar los cambios en la base de datos
-                referenciaLogica.modificarReferencia(referenciaSeleccionada);
-                mostrarMensaje("Referència modificada correctament.");
-            } else {
-                // Si el usuario no confirma, no hacer nada
-                mostrarMensaje("Modificació cancel·lada.");
-            }
+                    // Refrescar la tabla visualmente
+                    tblReferencia.refresh();
+
+                    // Llamar al método de lógica de negocio para guardar los cambios en la base de datos
+                    referenciaLogica.modificarReferencia(referenciaSeleccionada);
+                    mostrarMensaje("Referència modificada correctament.");
+                } else {
+                    // Si el usuario no confirma, no hacer nada
+                    mostrarMensaje("Modificació cancel·lada.");
+                }
 
             } catch (NumberFormatException e) {
                 // Mensaje de error para valores que no pueden ser convertidos a enteros
@@ -378,4 +384,3 @@ public class PantallaReferenciaController extends Mensajes implements Initializa
     }
 
 }
-

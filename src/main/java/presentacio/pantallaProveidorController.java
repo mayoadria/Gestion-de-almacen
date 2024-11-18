@@ -241,23 +241,21 @@ public class pantallaProveidorController implements Initializable {
         Proveidor proveidorSeleccionat = tb_prov.getSelectionModel().getSelectedItem();
 
         // Demanem confirmació per a esborrar el proveïdor. 
-        Alert alertConfirmacio = new Alert(Alert.AlertType.CONFIRMATION);
-        alertConfirmacio.setTitle("Confirmació d'esborrat");
-        alertConfirmacio.setHeaderText(null);
-        alertConfirmacio.setContentText("Segur que vols esborrar el proveïdor seleccionat?");
-        ProveidorLogic proveidorLogic = new ProveidorLogic();
+        // Confirmación de modificación
+        boolean confirmado = Mensajes.mostrarMensajeConfirmacion("Segur que vols esborrar aquest proveïdor?");
 
-        Optional<ButtonType> resultat = alertConfirmacio.showAndWait();
-        if (resultat.isPresent() && resultat.get() == ButtonType.OK) {
+        if (confirmado) {
+
             try {
-
                 //Cridem a la capa lògica per a que faci d'intermediària amb el DAO.
-                proveidorLogic.esborrarProveidor(proveidorSeleccionat);
+                proveidorLogico.esborrarProveidor(proveidorSeleccionat);
                 //Actualitzaem la taula una vegada el proveïdor seleccionat ha estat esborrat.
                 tb_prov.getItems().remove(proveidorSeleccionat);
             } catch (Exception ex) {
                 Logger.getLogger(PantallaReferenciaController.class.getName()).log(Level.SEVERE, "Error en eliminar el proveïdor", ex);
             }
+        }else{
+            mostrarMensaje("Operació cancelada");
         }
 
     }
@@ -307,7 +305,7 @@ public class pantallaProveidorController implements Initializable {
 
                     // Llamar al método de lógica de negocio para guardar los cambios en la base de datos
                     proveidorLogico.modificarProveidor(proveidorSeleccionat);
-                    mostrarMensaje("Proveïdor modificat correctament.");
+
                 } else {
                     mostrarMensaje("Modificació cancel·lada.");
                 }

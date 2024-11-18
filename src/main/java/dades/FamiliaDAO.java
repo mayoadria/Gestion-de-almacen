@@ -138,7 +138,7 @@ public class FamiliaDAO implements DAOInterface<Familia> {
         Familia f = null;
 
         // Uso correcto de try-with-resources para PreparedStatement y ResultSet
-        try (PreparedStatement sentencia = MyDataSource.getConnection().prepareStatement(select)) {
+        try (Connection conn = MyDataSource.getConnection();PreparedStatement sentencia =conn.prepareStatement(select)) {
             sentencia.setInt(1, t.getId_fam());
             try (ResultSet rs = sentencia.executeQuery()) {
                 if (rs.next()) {
@@ -175,7 +175,7 @@ public class FamiliaDAO implements DAOInterface<Familia> {
             return true; // 0 es válido como valor predeterminado
         }
         String selectProveidor = "SELECT COUNT(*) FROM Proveidors WHERE id_proveidor = ?";
-        try (PreparedStatement stmt = MyDataSource.getConnection().prepareStatement(selectProveidor)) {
+        try (Connection conn = MyDataSource.getConnection();PreparedStatement stmt =conn.prepareStatement(selectProveidor)) {
             stmt.setInt(1, idProveedor);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
